@@ -44,7 +44,7 @@
             android:textSize="20sp"
             android:textColor="@color/black"
             android:lineSpacingExtra="3sp"
-            android:gravity="center_horizontal|center_vertical"
+            android:gravity="center_horizontal|center_vertical" />
 
     </RelativeLayout>
 
@@ -52,6 +52,8 @@
         android:id="@+id/RVImages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cameraHeader" />
+        android:layout_below="@id/cameraHeader"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3" />
 
 </RelativeLayout>

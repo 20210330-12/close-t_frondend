@@ -70,36 +70,36 @@
 
         <TextView
             android:id="@+id/idFirstHashtag"
-            android:layout_width="46dp"
-            android:layout_height="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="20dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="25dp"
             android:background="@drawable/hashtag_rectangle"
-            android:text="@string/styles[0]"
+            android:text="styles[0]"
             android:textAppearance="@style/hashtag"
             android:gravity="center_horizontal|center" />
 
         <TextView
             android:id="@+id/idSecondHashtag"
-            android:layout_width="46dp"
-            android:layout_height="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="20dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="25dp"
             android:background="@drawable/hashtag_rectangle"
-            android:text="@string/styles[1]"
+            android:text="@styles[1]"
             android:textAppearance="@style/hashtag"
             android:gravity="center_horizontal|center" />
 
         <TextView
             android:id="@+id/idThirdHashtag"
-            android:layout_width="46dp"
-            android:layout_height="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="20dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="25dp"
             android:background="@drawable/hashtag_rectangle"
