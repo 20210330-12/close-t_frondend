@@ -36,31 +36,39 @@
                     android:layout_marginStart="20dp"
                     android:text="상의"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/tab1TopLike"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="20dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/empty_heart"
+                    android:background="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTab1Top"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:overScrollMode="never"
-                tools:listitem=""/>
+                android:layout_height="120dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTab1Top"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/my_closet_recyclerview"/>
+            </LinearLayout>
 
 
             <!--      하의      -->
@@ -80,31 +88,40 @@
                     android:layout_marginStart="20dp"
                     android:text="하의"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/tab1BottomLike"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="20dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/empty_heart"
+                    android:background="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTab1Bottom"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:overScrollMode="never"
-                tools:listitem=""/>
+                android:layout_height="120dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTab1Bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/my_closet_recyclerview"/>
+            </LinearLayout>
 
 
             <!--      아우터      -->
@@ -124,31 +141,39 @@
                     android:layout_marginStart="20dp"
                     android:text="아우터"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/tab1OuterLike"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="20dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/empty_heart"
+                    android:background="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTab1Outer"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:overScrollMode="never"
-                tools:listitem=""/>
+                android:layout_height="120dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTab1Outer"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/my_closet_recyclerview"/>
+            </LinearLayout>
 
 
             <!--      원피스      -->
@@ -168,31 +193,39 @@
                     android:layout_marginStart="20dp"
                     android:text="원피스"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/tab1OnepieceLike"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="20dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/empty_heart"
+                    android:background="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTab1Onepiece"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:overScrollMode="never"
-                tools:listitem=""/>
+                android:layout_height="120dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTab1Onepiece"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/my_closet_recyclerview"/>
+            </LinearLayout>
 
 
             <!--      신발      -->
@@ -212,31 +245,39 @@
                     android:layout_marginStart="20dp"
                     android:text="신발"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/tab1ShoesLike"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="20dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/empty_heart"
+                    android:background="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTab1Shoes"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:overScrollMode="never"
-                tools:listitem=""/>
+                android:layout_height="120dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTab1Shoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/my_closet_recyclerview"/>
+            </LinearLayout>
 
 
             <!--      가방      -->
@@ -256,31 +297,39 @@
                     android:layout_marginStart="20dp"
                     android:text="가방"
                     android:textAlignment="center"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/tab1BagLike"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="20dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/empty_heart"
+                    android:background="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTab1Bag"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:overScrollMode="never"
-                tools:listitem=""/>
+                android:layout_height="120dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTab1Bag"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/my_closet_recyclerview"/>
+            </LinearLayout>
 
         </LinearLayout>
     </FrameLayout>

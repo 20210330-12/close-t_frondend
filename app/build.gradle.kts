@@ -63,4 +63,8 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.0")
     // 새로고침을 위한 implementation
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    // 이미지 url을 위한 implementation
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
 }
