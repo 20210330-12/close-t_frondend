@@ -5,6 +5,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <application
         android:name=".InitKakaoSdk"
@@ -17,6 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CloseTFrontEnd"
         tools:targetApi="31">
+        <activity
+            android:name=".AddPhotoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LookBookDetailViewActivity"
+            android:exported="false" />
         <activity
             android:name=".AfterLoginActivity"
             android:exported="false" />

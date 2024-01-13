@@ -1,10 +1,17 @@
 package com.example.closetfrontend
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,8 +25,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class LookBookFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var lookBookAdapter: LookBookAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +41,30 @@ class LookBookFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_look_book, container, false)
+        val view = inflater.inflate(R.layout.fragment_look_book, container, false)
+
+        recyclerView = view.findViewById(R.id.idLookBooks)
+        recyclerView.layoutManager = GridLayoutManager(context, 3)
+
+        val lookBookDataList: List<MyLookBookDataModel>
+
+        lookBookAdapter = LookBookAdapter(lookBookDataList)
+        recyclerView.adapter = lookBookAdapter
+
+        return view
+    }
+
+    public fun showDetailViewPopup() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.activity_look_book_detail_view)
+
+        val imageView = dialog.findViewById<ImageView>(R.id.idDetailImage)
+        val heartIcon = dialog.findViewById<ImageView>(R.id.idHeartIcon)
+        val commentText = dialog.findViewById<TextView>(R.id.idCommentText)
+        val hashtagsContainer = dialog.findViewById<LinearLayout>(R.id.idHashTagContainer)
+
+        dialog.show()
     }
 
     companion object {

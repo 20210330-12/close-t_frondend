@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".LookBookFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ImageButton
+        android:id="@+id/idHeartButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="326dp"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerInside"
+        android:background="@drawable/heart_icon" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/idLookBooks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="LookBook Fragment" />
+        android:layout_below="@id/idHeartButton" />
 
-</FrameLayout>
+</RelativeLayout>
