@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
 
     private Context context;
     private ArrayList<String> imagePathArrayList;
+    private OnItemClickListener listener;
 
     public GalleryAdapter(Context context, ArrayList<String> imagePathArrayList) {
         this.context = context;
@@ -42,10 +44,20 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ImagesVi
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(context, )
+                    if (listener != null) {
+                        listener.onItemClick(position);
+                    }
                 }
             });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @Override

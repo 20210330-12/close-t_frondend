@@ -11,4 +11,6 @@ public class LookBookDetailViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_look_book_detail_view);
     }
+
+    private void getSelectedCodi()
 }

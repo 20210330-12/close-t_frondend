@@ -8,6 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -20,6 +21,21 @@ interface RetrofitInterface {
     @GET("/user/{userId}/check")
     fun getUserCheck(@Path("userId") userId: String): Call<JsonObject>
 
+    @POST("/{userId}/clothes/add")
+    fun postAddClothes(
+        @Path("userId") userId: String,
+        @Field("category") category: String,
+        @Field("styles") styles: List<String>,
+        @Field("tag") tag: List<String>?,
+        @Field("imageUrl") imageUrl: String,
+        @Field("link") link: String?,
+    ): Call<JsonObject>
+
+    @GET("/{userId}/codi")
+    fun getAllCodies(@Path("userId") userId: String): Call<JsonObject>
+
+    @GET("/{userId}/codi/{codiId}/view")
+    fun getSelectedCodi(@Path("userId") userId: String, @Path("codiId") codiId: String): Call<JsonObject>
 
 //    // 전 주에 했었던 예시들 보여줄겡
 //    // 만약 위에처럼 path에 parameter이 들어가는게 아니라, 그냥 parameter만 전달하는 거라면 이런 식으로!

@@ -10,7 +10,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class LookBookAdapter(private val context: Context, private val dataSet: List<MyLookBookDataModel>):
+class LookBookAdapter(private val context: Context, private val dataSet: List<MyLookBookDataModel>, private val itemClickLIstener: (Int) -> Unit):
     RecyclerView.Adapter<LookBookAdapter.LookBookViewHolder> () {
 
     override fun onCreateViewHolder(
@@ -24,13 +24,14 @@ class LookBookAdapter(private val context: Context, private val dataSet: List<My
     override fun onBindViewHolder(holder: LookBookAdapter.LookBookViewHolder, position: Int) {
         val currentItem = dataSet[position]
 
-        Picasso.get().load(currentItem.imageURL).into(holder.imageIV)
+        Picasso.get().load(currentItem.clothesImages).into(holder.imageIV)
+        //여러 clothesImages을 다 한꺼번에 어떻게 보여줄지 상의!!!
 
         holder.itemView.setOnClickListener {
-            (context as? LookBookFragment)?.showDetailViewPopup()
+            itemClickLIstener.invoke(position)
         }
 
-        if (currentItem.isLiked) {
+        if (currentItem.like == "like") {
             holder.emptyHeart.visibility = View.GONE
             holder.filledHeart.visibility = View.VISIBLE
         } else {

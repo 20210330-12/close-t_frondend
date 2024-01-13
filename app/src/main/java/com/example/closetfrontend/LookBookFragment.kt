@@ -1,7 +1,10 @@
 package com.example.closetfrontend
 
 import android.app.Dialog
+import android.content.ContentValues
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +15,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,14 +35,9 @@ class LookBookFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var recyclerView: RecyclerView
     private lateinit var lookBookAdapter: LookBookAdapter
+    private lateinit var userId: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    val api = RetrofitInterface.create()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +49,11 @@ class LookBookFragment : Fragment() {
         recyclerView = view.findViewById(R.id.idLookBooks)
         recyclerView.layoutManager = GridLayoutManager(context, 3)
 
+        val sharedPref = requireContext().getSharedPreferences("userId", Context.MODE_PRIVATE)
+        userId = sharedPref.getString("userId", "")!!
+
+        fetchAllCodies(userId)
+
         val lookBookDataList: List<MyLookBookDataModel>
 
         lookBookAdapter = LookBookAdapter(lookBookDataList)
@@ -54,7 +62,56 @@ class LookBookFragment : Fragment() {
         return view
     }
 
-    public fun showDetailViewPopup() {
+    private fun fetchAllCodies(userId: String) {
+        api.getAllCodies(userId).enqueue(object: Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful) {
+                    val codiData = response.body()
+                    Log.e(ContentValues.TAG, "result: $codiData")
+                    val lookBookDataList: List<MyLookBookDataModel> = parseCodiData(codiData)
+                    lookBookAdapter = LookBookAdapter(requireContext(), lookBookDataList) { position ->
+                        showDetailViewPopup(lookBookDataList[position].codiId)
+                    }
+                    recyclerView.adapter = lookBookAdapter
+                } else {
+                    // HTTP 요청이 실패한 경우의 처리
+                    Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
+            }
+        })
+    }
+
+    private fun parseCodiData(codiData: JsonObject?): List<MyLookBookDataModel> {
+        val lookBookDataList = mutableListOf<MyLookBookDataModel>()
+
+        codiData?.getAsJsonArray("codies")?.forEach { codi ->
+            val codiObject = codi.asJsonObject
+            val codiId = codiObject.get("codiId").asString
+            val styles = parseJsonArray(codiObject.getAsJsonArray("styles"))
+            val clothesImages = parseJsonArray(codiObject.getAsJsonArray("clothesImages"))
+            val comment = codiObject.get("comment").asString
+            val like = codiObject.get("like").asBoolean
+
+            val lookBookDataModel = MyLookBookDataModel(codiId, styles, clothesImages, comment, like)
+            lookBookDataList.add(lookBookDataModel)
+        }
+
+        return lookBookDataList
+    }
+
+    private fun parseJsonArray(jsonArray: JsonArray?): List<String> {
+        val resultList = mutableListOf<String>()
+        jsonArray?.forEach { element ->
+            resultList.add(element.asString)
+        }
+        return resultList
+    }
+
+    public fun showDetailViewPopup(codiId: String) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.activity_look_book_detail_view)
@@ -64,26 +121,27 @@ class LookBookFragment : Fragment() {
         val commentText = dialog.findViewById<TextView>(R.id.idCommentText)
         val hashtagsContainer = dialog.findViewById<LinearLayout>(R.id.idHashTagContainer)
 
+        getSelectedCodi(codiId)
+
         dialog.show()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LookBookFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LookBookFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun getSelectedCodi(codiId: String) {
+        api.getSelectedCodi(userId, codiId).enqueue(object: Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful) {
+                    val selectedCodiData = response.body()
+                    Log.e(ContentValues.TAG, "result: $selectedCodiData")
+                    //파싱을 통해 얻은 데이터 처리 해야함!!!
+                } else {
+                    // HTTP 요청이 실패한 경우의 처리
+                    Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
                 }
             }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
+            }
+        })
     }
 }
