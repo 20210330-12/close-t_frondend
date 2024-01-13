@@ -1,6 +1,7 @@
 package com.example.closetfrontend
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -69,14 +70,14 @@ suspend fun UserApiClient.Companion.loginWithKakaoAccount(context: Context): OAu
                         Log.e(Constants.TAG, "사용자 정보 요청 실패 $error")
                     } else if (user != null) {
                         Log.e(Constants.TAG, "로그인 성공")
-                        val userId = user.id.toString()
-                        val userName = user.properties!!["nickname"].toString()
-                        val userPic = user.properties!!["profile_image"].toString()
-                        val userEmail = user.kakaoAccount!!.email.toString()
-                        Log.e(Constants.TAG, "userid: $userId")
-                        Log.e(Constants.TAG, "userName: $userName")
-                        Log.e(Constants.TAG, "userPic: $userPic")
-                        Log.e(Constants.TAG, "userEmail: $userEmail")
+//                        val userId = user.id.toString()
+//                        val userName = user.properties!!["nickname"].toString()
+//                        val userPic = user.properties!!["profile_image"].toString()
+//                        val userEmail = user.kakaoAccount!!.email.toString()
+//                        Log.e(Constants.TAG, "userid: $userId")
+//                        Log.e(Constants.TAG, "userName: $userName")
+//                        Log.e(Constants.TAG, "userPic: $userPic")
+//                        Log.e(Constants.TAG, "userEmail: $userEmail")
                     }
                 }
             } else {
