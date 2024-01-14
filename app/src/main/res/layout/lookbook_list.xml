@@ -13,12 +13,78 @@
         android:elevation="8dp"
         app:cardCornerRadius="2dp">
 
-        <ImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/idIVImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:scaleType="centerCrop"
-            android:background="#FD81AE" />
+            android:background="#FD81AE" >
+
+            <ImageView
+                android:id="@+id/lookbookOuter"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="-10dp"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toStartOf="@+id/lookbookTop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
+
+            <ImageView
+                android:id="@+id/lookbookTop"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="-30dp"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/lookbookBottom"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="-40dp"
+                android:layout_marginTop="-25dp"
+                android:scaleType="centerInside"
+                app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+                app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+            <ImageView
+                android:id="@+id/lookbookOnepiece"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="-10dp"
+                android:layout_marginTop="-30dp"
+                android:scaleType="centerInside"
+                app:layout_constraintStart_toStartOf="@+id/lookbookTop"
+                app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+            <ImageView
+                android:id="@+id/lookbookShoes"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="-10dp"
+                android:layout_marginTop="-10dp"
+                android:scaleType="centerInside"
+                app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+                app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+            <ImageView
+                android:id="@+id/lookbookBag"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="-20dp"
+                android:scaleType="centerInside"
+                app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+                app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/idEmptyHeart"

@@ -9,9 +9,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -28,6 +33,7 @@ public class AddPhotoActivity extends AppCompatActivity {
 
     private ArrayList<String> imagePathArrayList;
     private GalleryAdapter myAdapter;
+    private Uri capturedImageUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,10 @@ public class AddPhotoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openCamera();
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("capturedImageUri", capturedImageUri.toString());
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
             }
         });
 
@@ -60,6 +70,45 @@ public class AddPhotoActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        refreshGallery();
+    }
+
+    private void openCamera() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, TAKE_PICTURE_REQUEST_CODE);
+            }
+        }
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera");
+        capturedImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            startActivityForResult(takePictureIntent, TAKE_PICTURE_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TAKE_PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Add the new image to the gallery
+            refreshGallery();
+
+            // Set result and finish
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("capturedImageUri", capturedImageUri.toString());
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        }
     }
 
     private void requestPermissions() {

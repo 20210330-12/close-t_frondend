@@ -15,6 +15,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,10 +51,12 @@ public class AddClothesActivity extends AppCompatActivity {
     private TextView trashText;
     private TextView noneText;
     private ToggleButton wishToggle;
+    private EditText urlEditText;
 
     private String imageUrl;
     private ArrayList<String> selectedTags = new ArrayList<>();
     private ArrayList<String> selectedStyles = new ArrayList<>();
+    private TextView selectedCategoryKeyword;
 
     private RetrofitInterface retrofitInterface;
 
@@ -109,12 +112,14 @@ public class AddClothesActivity extends AppCompatActivity {
         });
 
         wishToggle = findViewById(R.id.idWishToggle);
+        urlEditText = findViewById(R.id.urlEditText);
         wishToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     wishToggle.setBackgroundResource(R.drawable.toggle_on);
                     selectedTags.add("wish");
+                    urlEditText.setEnabled(isChecked);
                 } else {
                     wishToggle.setBackgroundResource(R.drawable.toggle_off);
                 }
@@ -139,6 +144,20 @@ public class AddClothesActivity extends AppCompatActivity {
         setStyleClickListener(romanticStyleTextView, "로맨틱럭셔리");
         setStyleClickListener(comfortableStyleTextView, "꾸안꾸");
 
+        TextView topCategoryTextView = findViewById(R.id.idTopCategory);
+        TextView bottomCategoryTextView = findViewById(R.id.idBottomCategory);
+        TextView outerCategoryTextView = findViewById(R.id.idOuterCategory);
+        TextView onePieceCategoryTextView = findViewById(R.id.idOnePieceCategory);
+        TextView shoesCategoryTextView = findViewById(R.id.idShoesCategory);
+        TextView bagCategoryTextView = findViewById(R.id.idBagCategory);
+
+        setCategoryClickListener(topCategoryTextView, "상의");
+        setCategoryClickListener(bottomCategoryTextView, "하의");
+        setCategoryClickListener(outerCategoryTextView, "아우터");
+        setCategoryClickListener(onePieceCategoryTextView, "원피스");
+        setCategoryClickListener(shoesCategoryTextView, "신발");
+        setCategoryClickListener(bagCategoryTextView, "가방");
+
         retrofitInterface = RetrofitInterface.Companion.create();
 
         findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
@@ -152,10 +171,10 @@ public class AddClothesActivity extends AppCompatActivity {
     private void addClothes() {
         SharedPreferences sharedPreferences = getSharedPreferences("userId", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "");
-        String category = ''    //지금 카테고리 셀렉하는 부분을 구현 안해놨다 (추가해야함)
-        String link = ''    //위시일때 link받아오기 추가해야함.
+        String category = selectedCategoryKeyword.getText().toString();    //지금 카테고리 셀렉하는 부분을 구현 안해놨다 (추가해야함)
+        String enteredLink = urlEditText.getText().toString();    //위시일때 link받아오기 추가해야함.
 
-        retrofitInterface.postAddClothes(userId, category, selectedStyles, selectedTags, imageUrl, link)
+        retrofitInterface.postAddClothes(userId, category, selectedStyles, selectedTags, imageUrl, enteredLink)
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -171,6 +190,43 @@ public class AddClothesActivity extends AppCompatActivity {
                         Toast.makeText(AddClothesActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void setCategoryClickListener(TextView clickedTextView, String keyword) {
+        clickedTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedCategoryKeyword != null) {
+                    switch (selectedCategoryKeyword.getText().toString()) {
+                        case "상의":
+                        case "하의":
+                        case "신발":
+                        case "가방":
+                            selectedCategoryKeyword.setBackgroundResource(R.drawable.short_category_rectangle);
+                            selectedCategoryKeyword.setTypeface(null, Typeface.NORMAL);
+                        case "아우터":
+                        case "원피스":
+                            selectedCategoryKeyword.setBackgroundResource(R.drawable.long_catgory_rectangle);
+                            selectedCategoryKeyword.setTypeface(null, Typeface.NORMAL);
+                    }
+                }
+
+                switch (clickedTextView.getText().toString()) {
+                    case "상의":
+                    case "하의":
+                    case "신발":
+                    case "가방":
+                        selectedCategoryKeyword.setBackgroundResource(R.drawable.short_category_rectangle_gray);
+                        selectedCategoryKeyword.setTypeface(null, Typeface.BOLD);
+                    case "아우터":
+                    case "원피스":
+                        selectedCategoryKeyword.setBackgroundResource(R.drawable.long_category_rectangle_gray);
+                        selectedCategoryKeyword.setTypeface(null, Typeface.BOLD);
+                }
+
+                selectedCategoryKeyword = clickedTextView;
+            }
+        });
     }
 
     private void setStyleClickListener(final TextView styleTextView, String styleKeyword) {

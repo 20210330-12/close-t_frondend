@@ -5,6 +5,7 @@
     android:height="24dp"
     android:viewportWidth="72"
     android:viewportHeight="24"
+    android:background="@android:color/transparent"
     >
     <group>
         <clip-path

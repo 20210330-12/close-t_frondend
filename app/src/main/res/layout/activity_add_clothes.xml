@@ -1,374 +1,547 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".AddClothesActivity">
+    tools:context=".AddClothesActivity" >
 
-    <ImageView
-        android:id="@+id/backIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="9dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/back_icon" />
-    
-    <ImageView
-        android:id="@+id/idIVImage"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="63dp"
-        android:background="#D9D9D9" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <View
-        android:id="@+id/separatorLine"
-        android:layout_width="360dp"
-        android:layout_height="1dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="381dp"
-        android:background="@drawable/image_detail_line" />
-
-    <LinearLayout
-        android:id="@+id/idTagSelect"
-        android:layout_width="300dp"
-        android:layout_height="64dp"
-        android:layout_below="@id/separatorLine"
-        android:layout_marginLeft="30dp"
-        android:orientation="horizontal" >
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/backIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="9dp"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/back_icon" />
 
-            android:textAlignment="center" >
+        <ImageView
+            android:id="@+id/idIVImage"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="63dp"
+            android:background="#D9D9D9" />
 
-            <ImageView
-                android:id="@+id/heartIcon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/heart_icon_gray"
-                />
+        <View
+            android:id="@+id/separatorLine"
+            android:layout_width="360dp"
+            android:layout_height="1dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="381dp"
+            android:background="@drawable/image_detail_line" />
+
+        <LinearLayout
+            android:id="@+id/idTagSelect"
+            android:layout_width="300dp"
+            android:layout_height="64dp"
+            android:layout_below="@id/separatorLine"
+            android:layout_marginLeft="30dp"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="40dp"
+                android:layout_alignParentTop="true"
+
+                android:textAlignment="center" >
+
+                <ImageView
+                    android:id="@+id/heartIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/heart_icon_gray"
+                    />
+
+                <TextView
+                    android:id="@+id/heartText"
+                    android:layout_width="49dp"
+                    android:layout_height="20dp"
+                    android:layout_below="@id/heartIcon"
+                    android:text="즐겨찾는 옷"
+                    android:textColor="#9B9B9B"
+                    android:lineSpacingExtra="12sp"
+                    android:textSize="10sp"
+                    android:gravity="center_horizontal|center_vertical"  />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="40dp"
+                android:layout_alignParentTop="true"
+
+                android:textAlignment="center" >
+
+                <ImageView
+                    android:id="@+id/trashIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/trash_icon_gray"
+                    />
+
+                <TextView
+                    android:id="@+id/trashText"
+                    android:layout_width="49dp"
+                    android:layout_height="20dp"
+                    android:layout_below="@id/trashIcon"
+                    android:text="안 입는 옷"
+                    android:textColor="#9B9B9B"
+                    android:lineSpacingExtra="12sp"
+                    android:textSize="10sp"
+                    android:gravity="center_horizontal|center_vertical"  />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="40dp"
+                android:layout_alignParentTop="true"
+
+                android:textAlignment="center" >
+
+                <ImageView
+                    android:id="@+id/noneButton"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/exit_icon_gray"
+                    />
+
+                <TextView
+                    android:id="@+id/noneText"
+                    android:layout_width="49dp"
+                    android:layout_height="28dp"
+                    android:layout_below="@id/noneButton"
+                    android:text="선택 안함"
+                    android:textColor="#9B9B9B"
+                    android:lineSpacingExtra="12sp"
+                    android:textSize="10sp"
+                    android:gravity="center_horizontal|center_vertical"  />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/separatorLineBottom"
+            android:layout_width="360dp"
+            android:layout_height="1dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="445dp"
+            android:background="@drawable/image_detail_line" />
+
+        <LinearLayout
+            android:id="@+id/idWishSelect"
+            android:layout_width="300dp"
+            android:layout_height="37dp"
+            android:layout_below="@id/separatorLineBottom"
+            android:layout_marginLeft="30dp"
+            android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/heartText"
-                android:layout_width="49dp"
-                android:layout_height="20dp"
-                android:layout_below="@id/heartIcon"
-                android:text="즐겨찾는 옷"
-                android:textColor="#9B9B9B"
-                android:lineSpacingExtra="12sp"
-                android:textSize="10sp"
-                android:gravity="center_horizontal|center_vertical"  />
+                android:id="@+id/idWishText"
+                android:layout_width="40dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="44dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="6dp"
+                android:text="Wish"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:gravity="center_horizontal|center_vertical" />
 
-        </RelativeLayout>
+            <ToggleButton
+                android:id="@+id/idWishToggle"
+                android:layout_width="50dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="135dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:textOff=""
+                android:textOn=""
+                android:background="@drawable/custom_toggle_background" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="40dp"
-            android:layout_alignParentTop="true"
+        </LinearLayout>
 
-            android:textAlignment="center" >
-
-            <ImageView
-                android:id="@+id/trashIcon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/trash_icon_gray"
-                />
-
-            <TextView
-                android:id="@+id/trashText"
-                android:layout_width="49dp"
-                android:layout_height="20dp"
-                android:layout_below="@id/trashIcon"
-                android:text="안 입는 옷"
-                android:textColor="#9B9B9B"
-                android:lineSpacingExtra="12sp"
-                android:textSize="10sp"
-                android:gravity="center_horizontal|center_vertical"  />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="40dp"
-            android:layout_alignParentTop="true"
-
-            android:textAlignment="center" >
-
-            <ImageView
-                android:id="@+id/noneButton"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/exit_icon_gray"
-                />
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/idWishSelect"
+            android:layout_marginLeft="30dp"
+            android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/noneText"
-                android:layout_width="49dp"
-                android:layout_height="28dp"
-                android:layout_below="@id/noneButton"
-                android:text="선택 안함"
-                android:textColor="#9B9B9B"
-                android:lineSpacingExtra="12sp"
-                android:textSize="10sp"
-                android:gravity="center_horizontal|center_vertical"  />
+                android:id="@+id/idUrlText"
+                android:layout_width="40dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="42dp"
+                android:layout_alignParentTop="true"
+                android:text="URL: "
+                android:textSize="12sp"
+                android:textColor="#626262"
+                android:gravity="center_horizontal|center_vertical" />
 
-        </RelativeLayout>
+            <EditText
+                android:id="@+id/urlEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri"
+                android:textSize="12sp"
+                android:background="@android:color/transparent" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <View
-        android:id="@+id/separatorLineBottom"
-        android:layout_width="360dp"
-        android:layout_height="1dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="445dp"
-        android:background="@drawable/image_detail_line" />
+        <View
+            android:layout_width="205dp"
+            android:layout_height="1dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="502dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="110dp"
+            android:background="@drawable/url_line" />
 
-    <LinearLayout
-        android:id="@+id/idWishSelect"
-        android:layout_width="300dp"
-        android:layout_height="37dp"
-        android:layout_below="@id/separatorLineBottom"
-        android:layout_marginLeft="30dp"
-        android:orientation="horizontal" >
+        <View
+            android:id="@+id/wishBottomLine"
+            android:layout_width="360dp"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="513dp"
+            android:background="@drawable/image_detail_line" />
 
         <TextView
-            android:id="@+id/idWishText"
-            android:layout_width="40dp"
+            android:layout_width="153dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="44dp"
+            android:layout_marginLeft="103dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="6dp"
-            android:text="Wish"
-            android:textSize="18sp"
+            android:layout_marginTop="518dp"
+            android:text="원하는 태그를 모두 선택하세요"
+            android:textSize="12sp"
             android:textColor="@color/black"
             android:gravity="center_horizontal|center_vertical" />
 
-        <ToggleButton
-            android:id="@+id/idWishToggle"
-            android:layout_width="50dp"
-            android:layout_height="24dp"
+        <LinearLayout
+            android:id="@+id/idStyleSelect"
+            android:layout_width="360dp"
+            android:layout_height="98dp"
+            android:layout_below="@id/wishBottomLine"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/idCasualStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="35dp"
+                    android:background="@drawable/styles_rectangle"
+                    android:text="# 캐주얼"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/idLovelyStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="35dp"
+                    android:background="@drawable/styles_rectangle"
+                    android:text="# 러블리"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/idModernChicStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="35dp"
+                    android:background="@drawable/modern_chic_rectangle"
+                    android:text="# 모던시크"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/idFormalStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="35dp"
+                    android:background="@drawable/formal_style_rectangle"
+                    android:text="# 포멀/오피스룩"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/idSportyStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/styles_rectangle"
+                    android:text="# 스포티"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/idSimpleBasicStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/simple_basic_style"
+                    android:text="# 심플베이직"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/idRomanticStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/romantic_luxury_style"
+                    android:text="# 로맨틱럭셔리"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/idComfortableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/styles_rectangle"
+                    android:text="# 꾸안꾸"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/stylesBottomLine"
+            android:layout_width="360dp"
+            android:layout_height="1dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="135dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="5dp"
-            android:textOff=""
-            android:textOn=""
-            android:background="@drawable/custom_toggle_background" />
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/wishBottomLine"
-        android:layout_width="360dp"
-        android:layout_height="1dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="483dp"
-        android:background="@drawable/image_detail_line" />
-
-    <TextView
-        android:layout_width="153dp"
-        android:layout_height="24dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="103dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="488dp"
-        android:text="원하는 태그를 모두 선택하세요"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-        android:gravity="center_horizontal|center_vertical" />
-
-    <LinearLayout
-        android:id="@+id/idStyleSelect"
-        android:layout_width="360dp"
-        android:layout_height="98dp"
-        android:layout_below="@id/wishBottomLine"
-        android:orientation="vertical" >
+            android:layout_marginTop="610dp"
+            android:background="@drawable/image_detail_line" />
 
         <LinearLayout
+            android:id="@+id/idCategorySelect"
             android:layout_width="360dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_height="69dp"
+            android:layout_below="@id/stylesBottomLine"
+            android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/idCasualStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="161dp"
+                android:layout_height="24dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="103dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/styles_rectangle"
-                android:text="# 캐주얼"
+                android:layout_marginTop="610dp"
+                android:text="해당하는 카테고리를 선택하세요"
                 android:textSize="12sp"
                 android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:clickable="true" />
+                android:gravity="center_horizontal|center_vertical" />
 
-            <TextView
-                android:id="@+id/idLovelyStyle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/styles_rectangle"
-                android:text="# 러블리"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:clickable="true" />
+                android:layout_below="@id/stylesBottomLine"
+                android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/idModernChicStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/modern_chic_rectangle"
-                android:text="# 모던시크"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:clickable="true" />
+                <TextView
+                    android:id="@+id/idTopCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="38dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/short_category_rectangle"
+                    android:text="상의"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
 
-            <TextView
-                android:id="@+id/idFormalStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/formal_style_rectangle"
-                android:text="# 포멀/오피스룩"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:clickable="true" />
+                <TextView
+                    android:id="@+id/idBottomCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/short_category_rectangle"
+                    android:text="하의"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/idOuterCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/long_catgory_rectangle"
+                    android:text="아우터"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/idOnePieceCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/long_catgory_rectangle"
+                    android:text="원피스"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/idShoesCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/short_category_rectangle"
+                    android:text="신발"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/idBagCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/short_category_rectangle"
+                    android:text="가방"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:clickable="true" />
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
+        <View
+            android:id="@+id/categoryBottomLine"
             android:layout_width="360dp"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="669dp"
+            android:background="@drawable/image_detail_line" />
+
+        <TextView
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="155dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="685dp"
+            android:layout_marginBottom="20dp"
+            android:text="SAVE"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:background="@drawable/save_rectangle"
+            android:clickable="true" />
 
-            <TextView
-                android:id="@+id/idSportyStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="25dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/styles_rectangle"
-                android:text="# 스포티"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:clickable="true" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/idSimpleBasicStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/simple_basic_style"
-                android:text="# 심플베이직"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:clickable="true" />
+</ScrollView>
 
-            <TextView
-                android:id="@+id/idRomanticStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/romantic_luxury_style"
-                android:text="# 로맨틱럭셔리"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:clickable="true" />
-
-            <TextView
-                android:id="@+id/idComfortableStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="5dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/styles_rectangle"
-                android:text="# 꾸안꾸"
-                android:textSize="12sp"
-                android:textColor="@color/black"
-                android:gravity="center_horizontal|center_vertical"
-                android:clickable="true" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/stylesBottomLine"
-        android:layout_width="360dp"
-        android:layout_height="1dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="580dp"
-        android:background="@drawable/image_detail_line" />
-    
-    <TextView
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="155dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="596dp"
-        android:text="SAVE"
-        android:gravity="center_horizontal|center_vertical"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:background="@drawable/save_rectangle"
-        android:clickable="true" />
-    
-</RelativeLayout>
