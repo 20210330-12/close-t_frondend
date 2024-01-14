@@ -1,5 +1,6 @@
 package com.example.closetfrontend
 
+import androidx.browser.customtabs.CustomTabsService.FilePurpose
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -21,6 +22,23 @@ interface RetrofitInterface {
 
     @GET("/user/{userId}/check")
     fun getUserCheck(@Path("userId") userId: String): Call<JsonObject>
+
+    @FormUrlEncoded
+    @POST("/user/create")
+    fun createUser(
+        @Field("id") id: String,
+        @Field("name") name: String,
+        @Field("gender") gender: String,
+        @Field("email") email: String,
+        @Field("profileImage") profileImage: String,
+        @Field("age") age: Int?,
+        @Field("height") height: Int?,
+        @Field("bodyType") bodyType: String?,
+        @Field("styles") styles: ArrayList<String>?
+    ): Call<Void>
+
+    @GET("/user/{userId}/profile")
+    fun getUser(@Path("userId") userId: String): Call<JsonObject>
 
     @GET("/user/{userId}/clothes")
     fun getCategoryClothes(@Path("userId") userId: String, @Query("category") category: String): Call<ClothesResponse>
@@ -45,6 +63,17 @@ interface RetrofitInterface {
 
     @DELETE("/{userId}/clothes/{clothesId}/remove")
     fun deleteCloth(@Path("userId") userId: String, @Path("clothesId") clothesId: String): Call<JsonObject>
+
+    @FormUrlEncoded
+    @POST("/{userId}/codi/save")
+    fun saveCodi(
+        @Path("userId") userId: String,
+        @Field("styles") styles: ArrayList<String>,
+        @Field("like") like: String,
+        @Field("clothesIds") clothesIds: ArrayList<String>,
+        @Field("clothesImages") clothesImages: ArrayList<String>,
+        @Field("comment") comment: String?
+    ): Call<JsonObject>
 
 //    // 전 주에 했었던 예시들 보여줄겡
 //    // 만약 위에처럼 path에 parameter이 들어가는게 아니라, 그냥 parameter만 전달하는 거라면 이런 식으로!

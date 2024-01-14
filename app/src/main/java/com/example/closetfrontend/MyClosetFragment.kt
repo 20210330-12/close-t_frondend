@@ -2,6 +2,7 @@ package com.example.closetfrontend
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -73,6 +74,19 @@ class MyClosetFragment : BottomSheetDialogFragment() {
     private lateinit var tab1ShoesLike: ImageButton
     private lateinit var tab1BagLike: ImageButton
 
+    // 코디 save 버튼
+    private lateinit var codiSaveBtn: ImageButton
+
+    // 코디로 선택한 옷들의 clothId
+    private lateinit var clothIdTop: String
+    private lateinit var clothIdBottom: String
+    private lateinit var clothIdOuter: String
+    private lateinit var clothIdOnepiece: String
+    private lateinit var clothIdShoes: String
+    private lateinit var clothIdBag: String
+
+
+
     // 서버에서 불러오기
     private val api = RetrofitInterface.create()
 
@@ -101,8 +115,9 @@ class MyClosetFragment : BottomSheetDialogFragment() {
         showOnlyLikes() // 하트 누르면 like된 애들만 빼오기
         // clickHeart() // 각 항목 하트 누르면 like-unlike 실행 -> 이건 adapter에서 함
         // goTrash() // 길게 누르면 trash 항목으로 이동 -> 이건 adapter에서 함
-        makeLookbook() // Make a New Lookbook 버튼 누르면 각 옷 선택됨 + 같은 카테고리의 다른 옷들 선택 못하게 됨 + lookbook에 사진 띄워짐
+        // makeLookbook() // Make a New Lookbook 버튼 누르면 각 옷 선택됨 + 같은 카테고리의 다른 옷들 선택 못하게 됨 + lookbook에 사진 띄워짐 -> 이건 adapter에서 함
         addNewCloth() // +버튼 누르면 add하는 activity로 넘어감
+        addNewCodi() // save 버튼 누르면 코디 저장됨
 
         return binding.root
     }
@@ -165,6 +180,9 @@ class MyClosetFragment : BottomSheetDialogFragment() {
         tab1ShoesLike = binding.tab1ShoesLike
         tab1BagLike = binding.tab1BagLike
 
+        // 코디 save 버튼
+        codiSaveBtn = binding.saveCodiBtn
+
         // bottom sheet behavior
         val bottomSheetView = binding.bottomSheet
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView)
@@ -225,7 +243,13 @@ class MyClosetFragment : BottomSheetDialogFragment() {
                 }
             })
         }
-        topList.add(Clothes("1", "상의", listOf("꾸안꾸"), listOf("Like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+        topList.add(Clothes("1", "상의", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+        bottomList.add(Clothes("2", "하의", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+        outerList.add(Clothes("3", "아우터", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+        onepieceList.add(Clothes("4", "원피스", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+        shoeList.add(Clothes("5", "신발", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+        bagList.add(Clothes("6", "가방", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+
         topAdapter.notifyDataSetChanged()
         bottomAdapter.notifyDataSetChanged()
         outerAdapter.notifyDataSetChanged()
@@ -304,12 +328,100 @@ class MyClosetFragment : BottomSheetDialogFragment() {
         bagAdapter.notifyDataSetChanged()
     }
 
-    private fun makeLookbook() {
-        // Make a New Lookbook 버튼 누르면 각 옷 선택됨 + 같은 카테고리의 다른 옷들 선택 못하게 됨 + lookbook에 사진 띄워짐
-    }
-
     private fun addNewCloth() {
         // +버튼 누르면 add하는 activity로 넘어감
+    }
+    
+    private fun addNewCodi() {
+        // save 버튼 누르면 코디 저장됨
+        codiSaveBtn.setOnClickListener {
+
+            // 코디에 사용되는 cloth들의 id
+            clothIdTop = binding.textLookbookTop.text.toString()
+            clothIdBottom = binding.textLookbookBottom.text.toString()
+            clothIdOuter = binding.textLookbookOuter.text.toString()
+            clothIdOnepiece = binding.textLookbookOnepiece.text.toString()
+            clothIdShoes = binding.textLookbookShoes.text.toString()
+            clothIdBag = binding.textLookbookBag.text.toString()
+            // 이때 text를 불러와야 데이터 꼬임이 없을 듯!
+
+            Log.e("MyClosetFragment", clothIdTop)
+            Log.e("MyClosetFragment", clothIdBottom)
+
+            val codiTop = findWhichCloth(topList, clothIdTop)
+            val codiBottom = findWhichCloth(bottomList, clothIdBottom)
+            val codiOuter = findWhichCloth(outerList, clothIdOuter)
+            val codiOnepiece = findWhichCloth(onepieceList, clothIdOnepiece)
+            val codiShoes = findWhichCloth(shoeList, clothIdShoes)
+            val codiBag = findWhichCloth(bagList, clothIdBag)
+
+            var stylesArray = ArrayList<String>()
+            for (style in codiTop.styles) { stylesArray.add(style) }
+            for (style in codiBottom.styles) { stylesArray.add(style) }
+            for (style in codiOuter.styles) { stylesArray.add(style) }
+            for (style in codiOnepiece.styles) { stylesArray.add(style) }
+            for (style in codiShoes.styles) { stylesArray.add(style) }
+            for (style in codiBag.styles) { stylesArray.add(style) }
+            stylesArray.distinct() // 중복 제거
+
+            val like: String = "none"
+
+            val clothesIdsArray = ArrayList<String>()
+            clothesIdsArray.add(clothIdTop)
+            clothesIdsArray.add(clothIdBottom)
+            clothesIdsArray.add(clothIdOuter)
+            clothesIdsArray.add(clothIdOnepiece)
+            clothesIdsArray.add(clothIdShoes)
+            clothesIdsArray.add(clothIdBag)
+
+            val clothesImagesArray = ArrayList<String>()
+            clothesImagesArray.add(codiTop.imageUrl)
+            clothesImagesArray.add(codiBottom.imageUrl)
+            clothesImagesArray.add(codiOuter.imageUrl)
+            clothesImagesArray.add(codiOnepiece.imageUrl)
+            clothesImagesArray.add(codiShoes.imageUrl)
+            clothesImagesArray.add(codiBag.imageUrl)
+
+            val comment = binding.comment.text.toString()
+
+            val call = api.saveCodi(
+                userId,
+                stylesArray,
+                like,
+                clothesIdsArray,
+                clothesImagesArray,
+                comment)
+            call.enqueue(object: Callback<JsonObject> {
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful) {
+                        val result = response.body()
+                        val whichUser = result?.get("result")?.asString
+                        if (whichUser == "codi has been saved") {
+                            Log.e("Lets go", "success!! good!!")
+                        } else  { Log.e("Lets go", "what's wrong in response...") }
+                    } else { Log.e("Lets go", "what's wrong...") }
+                }
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.e("mad..nn", "so sad plz")
+                }
+            })
+            
+            // 다 보내고 나서 리셋하는 과정 필요함
+            // list들 모두 reset,
+            // 이미지 뷰들 모두 reset,
+            // comment도 reset
+        }
+    }
+
+    private fun findWhichCloth(clothesList: ArrayList<Clothes>, clothId: String) : Clothes {
+        var position: Int = 0
+        for (i: Int in 0..(clothesList.size-1)) {
+            if (clothesList[i].id == clothId) {
+                position = i
+                break
+            }
+        }
+        return clothesList[position]
     }
 
     companion object {}

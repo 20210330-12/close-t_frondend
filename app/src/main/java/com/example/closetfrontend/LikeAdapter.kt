@@ -22,44 +22,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private var clothesList: ArrayList<Clothes>) :
-        RecyclerView.Adapter<ClothesAdapter.clothesViewHolder>() {
+class LikeAdapter (private var clothesList: ArrayList<Clothes>) :
+        RecyclerView.Adapter<LikeAdapter.clothesViewHolder>() {
 
     // 서버에서 불러오기
     val api = RetrofitInterface.create()
     // userId 불러오기
     private lateinit var userId: String
 
-    // myClosetFragment의 binding 불러오기
-    private val bindingMyCloset = myClosetFragment.binding
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClothesAdapter.clothesViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LikeAdapter.clothesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.my_closet_recyclerview, parent, false)
         return clothesViewHolder(view)
     }
 
     //@SuppressLint("ClickableViewAccessibility")
-    override fun onBindViewHolder(holder: ClothesAdapter.clothesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LikeAdapter.clothesViewHolder, position: Int) {
         holder.bind(clothesList[position])
         val sharedPref = holder.itemView.context.getSharedPreferences("userId", Context.MODE_PRIVATE)
         userId = sharedPref.getString("userId", "")!!
-
-        Log.e("ClothesAdapter", "${bindingMyCloset == null}")
-
-        // 사진을 길게 누르는 것만 ㄱㄱ하고 짧게 누르는 건 막아두기
-        // 이 코드에서 ACTION_DOWN은 뷰를 누르는 순간을 나타내고,
-        // ACTION_UP 및 ACTION_CANCEL은 뷰에서 손을 뗀 순간을 나타냅니다.
-        // 따라서 길게 누르는 경우 ACTION_DOWN에서 isClickable을 true로 설정하고,
-        // 짧게 누르거나 손을 뗀 경우 ACTION_UP 또는 ACTION_CANCEL에서 isClickable을 false로 설정합니다.
-//        holder.myClosetPic.setOnTouchListener { view, motionEvent ->
-//            when (motionEvent.action) {
-//                MotionEvent.ACTION_DOWN -> { view.isClickable = true }
-//                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> { view.isClickable = false }
-//            }
-//            true
-//            // 길게 누르는 경우
-//        }
-
 
 
         // 하트 버튼 누르면 like tag 추가 / 삭제
@@ -93,19 +73,18 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
                     Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
                 }
             })
-
 //            notifyDataSetChanged()
         }
-        
-        
-        
-        // 길게 누르면 trash tag 추가 및 보이는 곳에서 삭제
+
+
+
+
+        // 길게 누르면 누르면 trash 테그 넣음
         holder.myClosetPic.setOnLongClickListener {
-            
-            // trash된다는 이미지를 0.5초간 보여주기
+            // trash 없어진다는 이미지를 0.5초간 보여주기
             holder.myClosetPic.setImageResource(R.drawable.go_trash)
-            
-            // Trash tag 붙이기
+
+            // Trash tag 넣기
             api.changeTrash(userId, clothesList[position].id).enqueue(object:
                 Callback<JsonObject> {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
@@ -121,7 +100,7 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
                     Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
                 }
             })
-            
+
             // 0.5초 뒤에 list에서 완전히 제거함
             Handler(Looper.getMainLooper()).postDelayed({
                 removeMyClosetItem(position)
@@ -129,75 +108,6 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
                 true
             }, 500)
         }
-
-
-
-        // 그리고, 각 버튼을 누르면 그 이미지가 Lookbook에 나타나야함
-        holder.myClosetPic.setOnClickListener {
-            val clothImage = clothesList[position].imageUrl // 해당 이미지
-            val clothTag = clothesList[position].category // 해당 이미지 카테고리
-            val clothId = clothesList[position].id // 해당 이미지 id
-
-            Log.e("imageURL", "$clothImage")
-            Picasso.get().load(clothImage)
-                .placeholder(R.drawable.full_heart)
-                .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
-                .into(bindingMyCloset.lookbookTop)
-
-            when (clothTag) {
-                "상의" -> {
-                    // displayProcessedImage(bindingMyCloset.lookbookTop, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
-                        .into(bindingMyCloset.lookbookTop)
-                    bindingMyCloset.textLookbookTop.text = clothId
-                }
-                "하의" -> {
-                    // displayProcessedImage(bindingMyCloset.lookbookBottom, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
-                        .into(bindingMyCloset.lookbookBottom)
-                    bindingMyCloset.textLookbookBottom.text = clothId
-                }
-                "아우터" -> {
-                    // displayProcessedImage(bindingMyCloset.lookbookOuter, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
-                        .into(bindingMyCloset.lookbookOuter)
-                    bindingMyCloset.textLookbookOuter.text = clothId
-                }
-                "원피스" -> {
-                    // displayProcessedImage(bindingMyCloset.lookbookOnepiece, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
-                        .into(bindingMyCloset.lookbookOnepiece)
-                    bindingMyCloset.textLookbookOnepiece.text = clothId
-                }
-                "신발" -> {
-                    // displayProcessedImage(bindingMyCloset.lookbookShoes, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
-                        .into(bindingMyCloset.lookbookShoes)
-                    bindingMyCloset.textLookbookShoes.text = clothId
-                }
-                "가방" -> {
-                    // displayProcessedImage(bindingMyCloset.lookbookBag, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
-                        .into(bindingMyCloset.lookbookBag)
-                    bindingMyCloset.textLookbookBag.text = clothId
-                }
-            }
-        }
-        
-        // 상세정보 뜨는건 할 필요가 없지 않을까
-
     }
 
     private fun displayProcessedImage(imageView: ImageView, base64Image: String) {
