@@ -1,5 +1,6 @@
 package com.example.closetfrontend
 
+import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +12,18 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.closetfrontend.databinding.FragmentMyClosetBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.gson.JsonObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class MyClosetFragment : Fragment() {
+class MyClosetFragment : BottomSheetDialogFragment() {
 
     private lateinit var userId: String // userId
-    private lateinit var binding: FragmentMyClosetBinding // binding
+    lateinit var binding: FragmentMyClosetBinding // binding
 
     // recyclerView들
     private lateinit var rvTab1Top: RecyclerView
@@ -25,21 +33,37 @@ class MyClosetFragment : Fragment() {
     private lateinit var rvTab1Shoes: RecyclerView
     private lateinit var rvTab1Bag: RecyclerView
 
-    // adapter들
-    private lateinit var topAdapter: myClosetAdapter
-    private lateinit var bottomAdapter: myClosetAdapter
-    private lateinit var outerAdapter: myClosetAdapter
-    private lateinit var onepieceAdapter: myClosetAdapter
-    private lateinit var shoesAdapter: myClosetAdapter
-    private lateinit var bagAdapter: myClosetAdapter
+//    // adapter들 - dummy 실험용 아이들
+//    private lateinit var topItemAdapter: myClosetAdapter
+//    private lateinit var bottomItemAdapter: myClosetAdapter
+//    private lateinit var outerItemAdapter: myClosetAdapter
+//    private lateinit var onepieceItemAdapter: myClosetAdapter
+//    private lateinit var shoesItemAdapter: myClosetAdapter
+//    private lateinit var bagItemAdapter: myClosetAdapter
+//
+//    // itemList들 - dummy 실험용 아이들
+//    private var topItemList = ArrayList<myClosetItem>()
+//    private var bottomItemList = ArrayList<myClosetItem>()
+//    private var outerItemList = ArrayList<myClosetItem>()
+//    private var onepieceItemList = ArrayList<myClosetItem>()
+//    private var shoeItemList = ArrayList<myClosetItem>()
+//    private var bagItemList = ArrayList<myClosetItem>()
 
-    // itemList들
-    private var topItemList = ArrayList<myClosetItem>()
-    private var bottomItemList = ArrayList<myClosetItem>()
-    private var outerItemList = ArrayList<myClosetItem>()
-    private var onepieceItemList = ArrayList<myClosetItem>()
-    private var shoeItemList = ArrayList<myClosetItem>()
-    private var bagItemList = ArrayList<myClosetItem>()
+    // itemList들 - 실제 서버에 사용될 아이들
+    private var topList = ArrayList<Clothes>()
+    private var bottomList = ArrayList<Clothes>()
+    private var outerList = ArrayList<Clothes>()
+    private var onepieceList = ArrayList<Clothes>()
+    private var shoeList = ArrayList<Clothes>()
+    private var bagList = ArrayList<Clothes>()
+
+    // adapter들 - 실제 서버에 사용될 아이들
+    private lateinit var topAdapter: ClothesAdapter
+    private lateinit var bottomAdapter: ClothesAdapter
+    private lateinit var outerAdapter: ClothesAdapter
+    private lateinit var onepieceAdapter: ClothesAdapter
+    private lateinit var shoesAdapter: ClothesAdapter
+    private lateinit var bagAdapter: ClothesAdapter
 
     // heart 버튼들
     private lateinit var tab1TopLike: ImageButton
@@ -49,6 +73,12 @@ class MyClosetFragment : Fragment() {
     private lateinit var tab1ShoesLike: ImageButton
     private lateinit var tab1BagLike: ImageButton
 
+    // 서버에서 불러오기
+    private val api = RetrofitInterface.create()
+
+    // 카테고리별 분류를 위한 list
+    private val category = listOf("상의", "하의", "아우터", "원피스", "신발", "가방")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -57,7 +87,7 @@ class MyClosetFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        
+
         // 여기가 sharedPreference로 userId 받는 부분
         val sharedPref = requireContext().getSharedPreferences("userId", Context.MODE_PRIVATE)
         userId = sharedPref.getString("userId", "")!!
@@ -65,13 +95,14 @@ class MyClosetFragment : Fragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentMyClosetBinding.inflate(inflater, container, false)
-        
+
         initiation() // 모든 view들 정의
-        val dummy = myClosetItem("1234", "1", "top", listOf("Casual", "Basic"), listOf("like", "wish"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", listOf("https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg"))
-        for (i: Int in 1..10) {
-            topItemList.add(dummy)
-        }
-        topAdapter.notifyDataSetChanged()
+        getClothes() // 서버에서 모든 옷들 가져오기
+        showOnlyLikes() // 하트 누르면 like된 애들만 빼오기
+        // clickHeart() // 각 항목 하트 누르면 like-unlike 실행 -> 이건 adapter에서 함
+        // goTrash() // 길게 누르면 trash 항목으로 이동 -> 이건 adapter에서 함
+        makeLookbook() // Make a New Lookbook 버튼 누르면 각 옷 선택됨 + 같은 카테고리의 다른 옷들 선택 못하게 됨 + lookbook에 사진 띄워짐
+        addNewCloth() // +버튼 누르면 add하는 activity로 넘어감
 
         return binding.root
     }
@@ -86,13 +117,21 @@ class MyClosetFragment : Fragment() {
         rvTab1Shoes = binding.rvTab1Shoes
         rvTab1Bag = binding.rvTab1Bag
 
-        // adapter 매칭
-        topAdapter = myClosetAdapter(topItemList)
-        bottomAdapter = myClosetAdapter(bottomItemList)
-        outerAdapter = myClosetAdapter(outerItemList)
-        onepieceAdapter = myClosetAdapter(onepieceItemList)
-        shoesAdapter = myClosetAdapter(shoeItemList)
-        bagAdapter = myClosetAdapter(bagItemList)
+//        // adapter 매칭 - dummy data용
+//        topItemAdapter = myClosetAdapter(topItemList)
+//        bottomItemAdapter = myClosetAdapter(bottomItemList)
+//        outerItemAdapter = myClosetAdapter(outerItemList)
+//        onepieceItemAdapter = myClosetAdapter(onepieceItemList)
+//        shoesItemAdapter = myClosetAdapter(shoeItemList)
+//        bagItemAdapter = myClosetAdapter(bagItemList)
+
+        // adapter 매칭 - 실제 서버에서 data 가져왔을 때 용
+        topAdapter = ClothesAdapter(this, topList)
+        bottomAdapter = ClothesAdapter(this, bottomList)
+        outerAdapter = ClothesAdapter(this, outerList)
+        onepieceAdapter = ClothesAdapter(this, onepieceList)
+        shoesAdapter = ClothesAdapter(this, shoeList)
+        bagAdapter = ClothesAdapter(this, bagList)
 
         // recyclerView 가로로 스크롤 하도록
         rvTab1Top.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
@@ -102,7 +141,15 @@ class MyClosetFragment : Fragment() {
         rvTab1Shoes.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         rvTab1Bag.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
-        // recyclerView와 adapter 연결
+//        // recyclerView와 adapter 연결 - dummy data용
+//        rvTab1Top.adapter = topItemAdapter
+//        rvTab1Bottom.adapter = bottomItemAdapter
+//        rvTab1Outer.adapter = outerItemAdapter
+//        rvTab1Onepiece.adapter = onepieceItemAdapter
+//        rvTab1Shoes.adapter = shoesItemAdapter
+//        rvTab1Bag.adapter = bagItemAdapter
+
+        // recyclerView와 adapter 연결 - 실제 서버에서 data 가져왔을 때 용
         rvTab1Top.adapter = topAdapter
         rvTab1Bottom.adapter = bottomAdapter
         rvTab1Outer.adapter = outerAdapter
@@ -118,6 +165,151 @@ class MyClosetFragment : Fragment() {
         tab1ShoesLike = binding.tab1ShoesLike
         tab1BagLike = binding.tab1BagLike
 
+        // bottom sheet behavior
+        val bottomSheetView = binding.bottomSheet
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView)
+        bottomSheetBehavior.setBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {}
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                if (slideOffset > 0) {
+                    // 화살표 180도 돌아가도록
+                    binding.guideline1.rotation = slideOffset * 180F
+                    val params = binding.myClosetPadding.layoutParams
+                    params.height = resources.getDimension(R.dimen.new_height).toInt() // 원하는 높이로 변경
+                    binding.myClosetPadding.layoutParams = params
+                } else if (slideOffset.toInt() == 0) {
+                    val params = binding.myClosetPadding.layoutParams
+                    params.height = resources.getDimension(R.dimen.old_height).toInt() // 원하는 높이로 변경
+                    binding.myClosetPadding.layoutParams = params
+                }
+            }
+        })
+
+    }
+
+    private fun getClothes() {
+        
+//        // dummy
+//        val dummy = myClosetItem("1234", "1", "top", listOf("Casual", "Basic"), listOf("like", "wish"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", listOf("https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg"))
+//        for (i: Int in 1..5) {
+//            topItemList.add(dummy)
+//            bottomItemList.add(dummy)
+//            outerItemList.add(dummy)
+//            onepieceItemList.add(dummy)
+//            shoeItemList.add(dummy)
+//            bagItemList.add(dummy)
+//        }
+//        topItemAdapter.notifyDataSetChanged()
+//        bottomItemAdapter.notifyDataSetChanged()
+//        outerItemAdapter.notifyDataSetChanged()
+//        onepieceItemAdapter.notifyDataSetChanged()
+//        shoesItemAdapter.notifyDataSetChanged()
+//        bagItemAdapter.notifyDataSetChanged()
+        
+        for (category in category) {
+            // 서버에서 옷 가져오는 거 해야함
+            api.getCategoryClothes(userId, category).enqueue(object: Callback<ClothesResponse> {
+                override fun onResponse(call: Call<ClothesResponse>, response: Response<ClothesResponse>) {
+                    if (response.isSuccessful) {
+                        val result = response.body()
+                        Log.e(ContentValues.TAG, "result: $result")
+                        result?.let{ handleGetClothes(category, it) }
+                    } else {
+                        // HTTP 요청이 실패한 경우의 처리
+                        Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<ClothesResponse>, t: Throwable) {
+                    Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
+                }
+            })
+        }
+        topList.add(Clothes("1", "상의", listOf("꾸안꾸"), listOf("Like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+        topAdapter.notifyDataSetChanged()
+        bottomAdapter.notifyDataSetChanged()
+        outerAdapter.notifyDataSetChanged()
+        onepieceAdapter.notifyDataSetChanged()
+        shoesAdapter.notifyDataSetChanged()
+        bagAdapter.notifyDataSetChanged()
+    }
+
+    private fun showOnlyLikes() {
+        // 하트 누르면 like된 애들만 빼오기
+        clickLikeButton(tab1TopLike, "상의")
+        clickLikeButton(tab1BottomLike, "하의")
+        clickLikeButton(tab1OuterLike, "아우터")
+        clickLikeButton(tab1OnepieceLike, "원피스")
+        clickLikeButton(tab1ShoesLike, "신발")
+        clickLikeButton(tab1BagLike, "가방")
+    }
+
+    private fun clickLikeButton(likeButton: ImageButton, category: String) {
+        likeButton.setOnClickListener {
+            val currentTopLikeImage = likeButton.tag as? Int ?: R.drawable.empty_heart
+            val newTopLikeImage = if (currentTopLikeImage == R.drawable.empty_heart) {
+                R.drawable.full_heart
+            } else { R.drawable.empty_heart }
+
+            likeButton.setImageResource(newTopLikeImage)
+            likeButton.tag = newTopLikeImage
+            
+            // 각 list clear은 handleGetClothes에서 했음
+
+            // 서버에서 옷 가져오는 거 해야함
+            api.getTagCategoryClothes(userId, "Like", category).enqueue(object: Callback<ClothesResponse> {
+                override fun onResponse(call: Call<ClothesResponse>, response: Response<ClothesResponse>) {
+                    if (response.isSuccessful) {
+                        val result = response.body()
+                        Log.e(ContentValues.TAG, "result: $result")
+                        result?.let{ handleGetClothes(category, it) }
+                    } else {
+                        // HTTP 요청이 실패한 경우의 처리
+                        Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<ClothesResponse>, t: Throwable) {
+                    Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
+                }
+            })
+        }
+    }
+
+    private fun handleGetClothes(category: String, data: ClothesResponse) {
+        // 처음에 topList를 Reset하는게 필요하지 않을까?
+        when (category) {
+            "상의" -> { topList.clear() }
+            "하의" -> { topList.clear() }
+            "아우터" -> { outerList.clear() }
+            "원피스" -> { onepieceList.clear() }
+            "신발" -> { shoeList.clear() }
+            "가방" -> { bagList.clear() }
+        }
+        for (cloth in data.clothes) {
+            when (category) {
+                "상의" -> { topList.add(cloth) }
+                "하의" -> { bottomList.add(cloth) }
+                "아우터" -> { outerList.add(cloth) }
+                "원피스" -> { onepieceList.add(cloth) }
+                "신발" -> { shoeList.add(cloth) }
+                "가방" -> { bagList.add(cloth) }
+            }
+        }
+        topAdapter.notifyDataSetChanged()
+        bottomAdapter.notifyDataSetChanged()
+        outerAdapter.notifyDataSetChanged()
+        onepieceAdapter.notifyDataSetChanged()
+        shoesAdapter.notifyDataSetChanged()
+        bagAdapter.notifyDataSetChanged()
+    }
+
+    private fun makeLookbook() {
+        // Make a New Lookbook 버튼 누르면 각 옷 선택됨 + 같은 카테고리의 다른 옷들 선택 못하게 됨 + lookbook에 사진 띄워짐
+    }
+
+    private fun addNewCloth() {
+        // +버튼 누르면 add하는 activity로 넘어감
     }
 
     companion object {}

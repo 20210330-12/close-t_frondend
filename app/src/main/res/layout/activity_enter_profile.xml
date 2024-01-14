@@ -1,19 +1,351 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:orientation="vertical"
     tools:context=".EnterProfile">
 
-    <Button
-        android:id="@+id/gotoActivity"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_gravity="center"
+        android:layout_marginVertical="10dp">
+
+        <ImageView
+            android:id="@+id/enter_your_profile"
+            android:layout_width="292.83dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/enter_your_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="35dp"
+            android:text="송한이"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/enter_your_profile"
+            app:layout_constraintTop_toTopOf="@+id/enter_your_profile" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="top|start"
+        android:src="@drawable/need_to_enter" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textSize="20sp"
+            android:text="성별"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ToggleButton
+            android:id="@+id/gender_toggle"
+            android:layout_width="92.65dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/toggle_selector"
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="top|start"
+        android:src="@drawable/dont_need_to_enter" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="나이"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/lineAge"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/line_age_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/userAge"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/lineAge"
+            app:layout_constraintEnd_toEndOf="@+id/lineAge"
+            app:layout_constraintStart_toStartOf="@+id/lineAge"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="키"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/lineHeight"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/line_age_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/userHeight"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/lineHeight"
+            app:layout_constraintEnd_toEndOf="@+id/lineHeight"
+            app:layout_constraintStart_toStartOf="@+id/lineHeight"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="6dp"
+            android:text="체형"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/natureBtn"
+            android:layout_width="62.63dp"
+            android:layout_height="140dp"
+            android:layout_marginEnd="5dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/natural"
+            app:layout_constraintBottom_toBottomOf="@+id/waveBtn"
+            app:layout_constraintEnd_toStartOf="@+id/waveBtn"
+            app:layout_constraintTop_toTopOf="@+id/waveBtn" />
+
+        <ImageButton
+            android:id="@+id/waveBtn"
+            android:layout_width="65.39dp"
+            android:layout_height="140dp"
+            android:layout_marginEnd="5dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/wave"
+            app:layout_constraintBottom_toBottomOf="@+id/hourglassBtn"
+            app:layout_constraintEnd_toStartOf="@+id/hourglassBtn"
+            app:layout_constraintTop_toTopOf="@+id/hourglassBtn" />
+
+        <ImageButton
+            android:id="@+id/hourglassBtn"
+            android:layout_width="48.7dp"
+            android:layout_height="140dp"
+            android:layout_marginEnd="5dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/hourglass"
+            app:layout_constraintBottom_toBottomOf="@+id/straightBtn"
+            app:layout_constraintEnd_toStartOf="@+id/straightBtn"
+            app:layout_constraintTop_toTopOf="@+id/straightBtn" />
+
+        <ImageButton
+            android:id="@+id/straightBtn"
+            android:layout_width="56dp"
+            android:layout_height="140dp"
+            android:layout_marginEnd="20dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/straight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/styles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="6dp"
+            android:text="좋아하는 스타일"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/styles">
+
+            <ImageButton
+                android:id="@+id/casualBtn"
+                android:layout_width="75.83dp"
+                android:layout_height="28dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/tag_casual_button" />
+
+            <ImageButton
+                android:id="@+id/lovelyBtn"
+                android:layout_width="75.83dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/tag_lovely_button" />
+
+            <ImageButton
+                android:id="@+id/chicBtn"
+                android:layout_width="84dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/tag_chic_button" />
+
+            <ImageButton
+                android:id="@+id/formalBtn"
+                android:layout_width="121.33dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/tag_formal_button" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <ImageButton
+                android:id="@+id/sportyBtn"
+                android:layout_width="75.83dp"
+                android:layout_height="28dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/tag_sporty_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageButton
+                android:id="@+id/basicBtn"
+                android:layout_width="100.33dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/tag_basic_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/sportyBtn" />
+
+            <ImageButton
+                android:id="@+id/romanticBtn"
+                android:layout_width="107.33dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/tag_romantic_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/basicBtn" />
+
+            <ImageButton
+                android:id="@+id/naturalBtn"
+                android:layout_width="75.83dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="5dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/tag_natural_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/romanticBtn" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/gotoActivity"
+        android:layout_width="70.4dp"
+        android:layout_height="33dp"
+        android:src="@drawable/save_button_inmycloset"
+        android:scaleType="centerInside"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"/>
+</LinearLayout>

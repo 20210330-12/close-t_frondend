@@ -14,10 +14,25 @@
         android:layout_height="110dp"
         android:scaleType="centerInside"
         android:src="@drawable/my_closet_box"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/myClosetPic"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/full_heart"
+        app:layout_constraintBottom_toBottomOf="@+id/myClosetBox"
+        app:layout_constraintEnd_toEndOf="@+id/myClosetBox"
+        app:layout_constraintStart_toStartOf="@+id/myClosetBox"
+        app:layout_constraintTop_toTopOf="@+id/myClosetBox" />
+<!--    android:foreground="@drawable/cross"-->
+<!--    android:foregroundTint="#333333"-->
 
     <ImageButton
         android:id="@+id/myClosetlikeBtn"
@@ -28,18 +43,8 @@
         android:background="#00FFFFFF"
         android:scaleType="centerInside"
         android:src="@drawable/empty_heart"
+        android:tag="@drawable/empty_heart"
         app:layout_constraintEnd_toEndOf="@+id/myClosetBox"
-        app:layout_constraintTop_toTopOf="@+id/myClosetBox" />
-
-    <ImageView
-        android:id="@+id/myClosetPic"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:src="@drawable/full_heart"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@+id/myClosetBox"
-        app:layout_constraintEnd_toEndOf="@+id/myClosetBox"
-        app:layout_constraintStart_toStartOf="@+id/myClosetBox"
         app:layout_constraintTop_toTopOf="@+id/myClosetBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
