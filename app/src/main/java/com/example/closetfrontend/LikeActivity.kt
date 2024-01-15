@@ -9,18 +9,19 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.closetfrontend.databinding.ActivityLikeBinding
 import com.example.closetfrontend.databinding.ActivityTrashBinding
 import com.example.closetfrontend.databinding.FragmentMyClosetBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TrashActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+class LikeActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var userId: String // userId
     // 스와이프해서 새로고침 구현
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var binding: ActivityTrashBinding
+    private lateinit var binding: ActivityLikeBinding
 
     // recyclerView들
     private lateinit var rvTab1Top: RecyclerView
@@ -39,12 +40,12 @@ class TrashActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener 
     private var bagList = ArrayList<Clothes>()
 
     // adapter들 - 실제 서버에 사용될 아이들
-    private lateinit var topAdapter: TrashAdapter
-    private lateinit var bottomAdapter: TrashAdapter
-    private lateinit var outerAdapter: TrashAdapter
-    private lateinit var onepieceAdapter: TrashAdapter
-    private lateinit var shoesAdapter: TrashAdapter
-    private lateinit var bagAdapter: TrashAdapter
+    private lateinit var topAdapter: LikeAdapter
+    private lateinit var bottomAdapter: LikeAdapter
+    private lateinit var outerAdapter: LikeAdapter
+    private lateinit var onepieceAdapter: LikeAdapter
+    private lateinit var shoesAdapter: LikeAdapter
+    private lateinit var bagAdapter: LikeAdapter
 
     // backbutton
     private lateinit var backButton: ImageButton
@@ -59,9 +60,9 @@ class TrashActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityTrashBinding.inflate(layoutInflater)
+        binding = ActivityLikeBinding.inflate(layoutInflater)
         // 새로고침
-        swipeRefreshLayout = binding.trashSwipeLayout
+        swipeRefreshLayout = binding.likeSwipeLayout
         swipeRefreshLayout.setOnRefreshListener(this)
 
         setContentView(binding.root)
@@ -86,12 +87,12 @@ class TrashActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener 
         rvTab1Bag = findViewById(R.id.rvTab1Bag)
 
         // adapter 매칭 - 실제 서버에서 data 가져왔을 때 용
-        topAdapter = TrashAdapter(topList)
-        bottomAdapter = TrashAdapter(bottomList)
-        outerAdapter = TrashAdapter(outerList)
-        onepieceAdapter = TrashAdapter(onepieceList)
-        shoesAdapter = TrashAdapter(shoeList)
-        bagAdapter = TrashAdapter(bagList)
+        topAdapter = LikeAdapter(topList)
+        bottomAdapter = LikeAdapter(bottomList)
+        outerAdapter = LikeAdapter(outerList)
+        onepieceAdapter = LikeAdapter(onepieceList)
+        shoesAdapter = LikeAdapter(shoeList)
+        bagAdapter = LikeAdapter(bagList)
 
         // recyclerView 가로로 스크롤 하도록
         rvTab1Top.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
@@ -107,7 +108,7 @@ class TrashActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener 
         // 서버 DB에서 각 리스트에 배당해주기
         // 서버에서 옷 가져오는 거 해야함
         for (category in category) {
-            api.getTagCategoryClothes(userId, "trash", category).enqueue(object :
+            api.getTagCategoryClothes(userId, "like", category).enqueue(object :
                 Callback<ClothesResponse> {
                 override fun onResponse(
                     call: Call<ClothesResponse>,

@@ -33,6 +33,7 @@ class MyPageFragment : Fragment() {
     private lateinit var goTrashBtn: ImageButton
     private lateinit var goLikeBtn: ImageButton
     private lateinit var goWishBtn: ImageButton
+    private lateinit var goOotdBtn: ImageButton
 
     // 프로필 정보 나타낼 것들
     private lateinit var profileImageText: String
@@ -78,6 +79,7 @@ class MyPageFragment : Fragment() {
         goTrashBtn = binding.TrashBtn
         goLikeBtn = binding.likeClothesBtn
         goWishBtn = binding.wishClothesBtn
+        goOotdBtn = binding.goOotdBtn
 
         // View들 초기화
         profileImage = binding.profilePic
@@ -137,8 +139,20 @@ class MyPageFragment : Fragment() {
 
     private fun goActivity() {
         goTrashBtn.setOnClickListener {
-            val intent = Intent(context, TrashActivity::class.java)
-            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            val intent1 = Intent(context, TrashActivity::class.java)
+            startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        }
+        goLikeBtn.setOnClickListener {
+            val intent2 = Intent(context, LikeActivity::class.java)
+            startActivity(intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        }
+        goWishBtn.setOnClickListener {
+            val intent3 = Intent(context, WishActivity::class.java)
+            startActivity(intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        }
+        goOotdBtn.setOnClickListener {
+            val intent4 = Intent(context, ChatOotdActivity::class.java)
+            startActivity(intent4.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         }
     }
 

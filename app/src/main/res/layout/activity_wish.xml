@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/trashSwipeLayout"
+    android:id="@+id/wishSwipeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TrashActivity">
+    tools:context=".WishActivity">
 
     <FrameLayout
         android:id="@+id/tab1FrameLayout"
@@ -52,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="안 입는 옷 보관함"
+                    android:text="사고 싶은 옷 보관함"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -84,11 +84,11 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-    <!--                    <TextView-->
-    <!--                        android:layout_width="wrap_content"-->
-    <!--                        android:layout_height="wrap_content"-->
-    <!--                        android:text="안 입는 옷 보관함"-->
-    <!--                        android:textSize="24sp"/>-->
+                        <!--                    <TextView-->
+                        <!--                        android:layout_width="wrap_content"-->
+                        <!--                        android:layout_height="wrap_content"-->
+                        <!--                        android:text="안 입는 옷 보관함"-->
+                        <!--                        android:textSize="24sp"/>-->
 
 
                         <!--      상의      -->
@@ -334,6 +334,6 @@
                     </LinearLayout>
                 </FrameLayout>
             </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+        </LinearLayout>
     </FrameLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

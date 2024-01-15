@@ -182,6 +182,7 @@
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:src="@drawable/natural"
+            android:onClick="natureImageButton"
             app:layout_constraintBottom_toBottomOf="@+id/waveBtn"
             app:layout_constraintEnd_toStartOf="@+id/waveBtn"
             app:layout_constraintTop_toTopOf="@+id/waveBtn" />
@@ -194,6 +195,7 @@
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:src="@drawable/wave"
+            android:onClick="waveImageButton"
             app:layout_constraintBottom_toBottomOf="@+id/hourglassBtn"
             app:layout_constraintEnd_toStartOf="@+id/hourglassBtn"
             app:layout_constraintTop_toTopOf="@+id/hourglassBtn" />
@@ -206,6 +208,7 @@
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:src="@drawable/hourglass"
+            android:onClick="hourglassImageButton"
             app:layout_constraintBottom_toBottomOf="@+id/straightBtn"
             app:layout_constraintEnd_toStartOf="@+id/straightBtn"
             app:layout_constraintTop_toTopOf="@+id/straightBtn" />
@@ -218,6 +221,7 @@
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:src="@drawable/straight"
+            android:onClick="straightImageButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -240,6 +244,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="3dp"
+            android:text="2개 이상 선택해주세요 :)"
+            android:textColor="#FF888888"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/styles"
+            app:layout_constraintStart_toEndOf="@+id/styles" />
+
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
@@ -255,7 +270,8 @@
                 android:layout_height="28dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
-                android:src="@drawable/tag_casual_button" />
+                android:src="@drawable/tag_casual_button"
+                android:onClick="casualImageButton"/>
 
             <ImageButton
                 android:id="@+id/lovelyBtn"
@@ -264,7 +280,8 @@
                 android:layout_marginStart="5dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
-                android:src="@drawable/tag_lovely_button" />
+                android:src="@drawable/tag_lovely_button"
+                android:onClick="lovelyImageButton"/>
 
             <ImageButton
                 android:id="@+id/chicBtn"
@@ -273,7 +290,8 @@
                 android:layout_marginStart="5dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
-                android:src="@drawable/tag_chic_button" />
+                android:src="@drawable/tag_chic_button"
+                android:onClick="chicImageButton"/>
 
             <ImageButton
                 android:id="@+id/formalBtn"
@@ -282,7 +300,8 @@
                 android:layout_marginStart="5dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
-                android:src="@drawable/tag_formal_button" />
+                android:src="@drawable/tag_formal_button"
+                android:onClick="formalImageButton"/>
 
         </LinearLayout>
 
@@ -301,6 +320,7 @@
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_sporty_button"
+                android:onClick="sportyImageButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -312,6 +332,7 @@
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_basic_button"
+                android:onClick="basicImageButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/sportyBtn" />
 
@@ -323,6 +344,7 @@
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_romantic_button"
+                android:onClick="romanticImageButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/basicBtn" />
 
@@ -334,6 +356,7 @@
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_natural_button"
+                android:onClick="naturalImageButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/romanticBtn" />
 

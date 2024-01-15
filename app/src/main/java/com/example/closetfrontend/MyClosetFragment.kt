@@ -259,6 +259,14 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
 //        shoesItemAdapter.notifyDataSetChanged()
 //        bagItemAdapter.notifyDataSetChanged()
         
+        // 한 번 쭉 비워줘야 하긴 함 다른 탭 갔다가 다시돌아오니까 계속 생기네
+        topList.clear()
+        bottomList.clear()
+        outerList.clear()
+        onepieceList.clear()
+        shoeList.clear()
+        bagList.clear()
+        
         for (category in category) {
             // 서버에서 옷 가져오는 거 해야함
             api.getCategoryClothes(userId, category).enqueue(object: Callback<ClothesResponse> {

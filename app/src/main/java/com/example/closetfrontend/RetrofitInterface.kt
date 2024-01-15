@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -74,6 +75,13 @@ interface RetrofitInterface {
         @Field("clothesImages") clothesImages: ArrayList<String>,
         @Field("comment") comment: String?
     ): Call<JsonObject>
+
+    @PATCH("/user/{userId}/add-information")
+    fun addUserInfo(@Path("userId") userId: String, @Body userProfileUpdate: UserProfileUpdate): Call<JsonObject>
+
+    @GET("/{userId}/openai/generate-ootd")
+    fun dalle(@Path("userId") userId: String, @Query("stylePick") stylePick: String?): Call<JsonObject>
+
 
 //    // 전 주에 했었던 예시들 보여줄겡
 //    // 만약 위에처럼 path에 parameter이 들어가는게 아니라, 그냥 parameter만 전달하는 거라면 이런 식으로!
