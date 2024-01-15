@@ -37,6 +37,8 @@ interface RetrofitInterface {
     @GET("/{userId}/codi/{codiId}/view")
     fun getSelectedCodi(@Path("userId") userId: String, @Path("codiId") codiId: String): Call<JsonObject>
 
+    @GET("/{userId}/codi/liked")
+    fun getLikedCodies(@Path("userId") userId: String): Call<JsonObject>
 //    // 전 주에 했었던 예시들 보여줄겡
 //    // 만약 위에처럼 path에 parameter이 들어가는게 아니라, 그냥 parameter만 전달하는 거라면 이런 식으로!
 //    @GET("/myCustom")

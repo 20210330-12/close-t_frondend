@@ -1,28 +1,137 @@
 package com.example.closetfrontend
 
-import android.app.Dialog
-import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
+import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.JsonArray
+import com.example.closetfrontend.RetrofitInterface.Companion.create
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class LookBookFragment : Fragment() {
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var lookBookAdapter: LookBookAdapter
+    private lateinit var codiIds: ArrayList<String>
+    private lateinit var likes: ArrayList<String>
+    private lateinit var clothesImageUrls: ArrayList<List<String>>
+    private lateinit var heartButton: ImageButton
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_look_book, container, false)
+        recyclerView = view.findViewById(R.id.idLookBooks)
+        codiIds = ArrayList()
+        likes = ArrayList()
+        clothesImageUrls = ArrayList()
 
+        lookBookAdapter = LookBookAdapter(
+            requireContext(),
+            codiIds,
+            likes,
+            clothesImageUrls,
+            object : LookBookAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    onCodiItemClick(position)
+                }
+            })
+
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+        recyclerView.adapter = lookBookAdapter
+
+        heartButton = view.findViewById(R.id.idHeartButton)
+        heartButton.setOnClickListener {
+            getLikedCodies()
+        }
+
+        getAllCodies()
+        return view
+    }
+
+    private fun getAllCodies() {
+        val sharedPreferences =
+            requireContext().getSharedPreferences("userId", Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", "")
+
+        val retrofitInterface = RetrofitInterface.create()
+        retrofitInterface.getAllCodies(userId!!).enqueue(object : Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful) {
+                    parseResponse(response.body())
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Failed to get codi information",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(requireContext(), "Network error", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun parseResponse(response: JsonObject?) {
+        val codiIdsArray = response!!.getAsJsonArray("codiIds")
+        val likesArray = response.getAsJsonArray("likes")
+        val clothesImageUrlsArray = response.getAsJsonArray("clothesImageUrls")
+
+        codiIdsArray?.let {
+            for (i in 0 until it.size()) {
+                codiIds.add(it[i].asString)
+                likes.add(likesArray?.get(i)?.asString ?: "")
+
+                val clothesImages = ArrayList<String>()
+                val clothesImagesArray = clothesImageUrlsArray?.get(i)?.asJsonArray
+                clothesImagesArray?.let {
+                    for (j in 0 until it.size()) {
+                        clothesImages.add(it[j].asString)
+                    }
+                }
+                clothesImageUrls.add(clothesImages)
+            }
+        }
+
+        lookBookAdapter.notifyDataSetChanged()
+    }
+
+    private fun getLikedCodies() {
+        val sharedPreferences = requireContext().getSharedPreferences("userId", Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", "")
+
+        val retrofitInterface = RetrofitInterface.create()
+        retrofitInterface.getLikedCodies(userId!!).enqueue(object : Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful) {
+                    parseResponse(response.body())
+                } else {
+                    Toast.makeText(requireContext(), "Failed to get liked codies", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(requireContext(), "Network error", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun onCodiItemClick(position: Int) {
+        val selectedCodiId = codiIds[position]
+        val intent = Intent(requireContext(), LookBookDetailViewActivity::class.java)
+        intent.putExtra("codiId", selectedCodiId)
+        startActivity(intent)
+    }
+}
