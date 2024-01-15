@@ -18,6 +18,9 @@
         android:theme="@style/Theme.CloseTFrontEnd"
         tools:targetApi="31">
         <activity
+            android:name=".AddPhotoActivity"
+            android:exported="false" />
+        <activity
             android:name=".TrashActivity"
             android:exported="false" />
         <activity

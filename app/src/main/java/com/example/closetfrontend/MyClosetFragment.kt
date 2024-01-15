@@ -10,8 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.closetfrontend.databinding.FragmentMyClosetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -22,10 +24,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MyClosetFragment : BottomSheetDialogFragment() {
+class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var userId: String // userId
     lateinit var binding: FragmentMyClosetBinding // binding
+    // 스와이프해서 새로고침 구현
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     // recyclerView들
     private lateinit var rvTab1Top: RecyclerView
@@ -78,6 +82,14 @@ class MyClosetFragment : BottomSheetDialogFragment() {
     // 코디 save 버튼
     private lateinit var codiSaveBtn: ImageButton
 
+    // 코디로 선택된 옷들의 실제 cloth
+    private lateinit var clothTop: ImageView
+    private lateinit var clothBottom: ImageView
+    private lateinit var clothOuter: ImageView
+    private lateinit var clothOnepiece: ImageView
+    private lateinit var clothShoes: ImageView
+    private lateinit var clothBag: ImageView
+
     // 코디로 선택한 옷들의 clothId
     private lateinit var clothIdTop: String
     private lateinit var clothIdBottom: String
@@ -89,7 +101,8 @@ class MyClosetFragment : BottomSheetDialogFragment() {
     // add clothes 버튼
     private lateinit var goAddClothes: FloatingActionButton
 
-
+//    // context
+//    private lateinit var context: Context
 
     // 서버에서 불러오기
     private val api = RetrofitInterface.create()
@@ -113,6 +126,13 @@ class MyClosetFragment : BottomSheetDialogFragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentMyClosetBinding.inflate(inflater, container, false)
+
+//        // context
+//        context = requireContext()
+
+        // 새로고침
+        swipeRefreshLayout = binding.tab1SwipeLayout
+        swipeRefreshLayout.setOnRefreshListener(this)
 
         initiation() // 모든 view들 정의
         getClothes() // 서버에서 모든 옷들 가져오기
@@ -183,6 +203,14 @@ class MyClosetFragment : BottomSheetDialogFragment() {
         tab1OnepieceLike = binding.tab1OnepieceLike
         tab1ShoesLike = binding.tab1ShoesLike
         tab1BagLike = binding.tab1BagLike
+
+        // 룩북 사진들
+        clothTop = binding.lookbookTop
+        clothBottom = binding.lookbookBottom
+        clothOuter = binding.lookbookOuter
+        clothOnepiece = binding.lookbookOnepiece
+        clothShoes = binding.lookbookShoes
+        clothBag = binding.lookbookBag
 
         // 코디 save 버튼
         codiSaveBtn = binding.saveCodiBtn
@@ -288,7 +316,7 @@ class MyClosetFragment : BottomSheetDialogFragment() {
             // 각 list clear은 handleGetClothes에서 했음
 
             // 서버에서 옷 가져오는 거 해야함
-            api.getTagCategoryClothes(userId, "Like", category).enqueue(object: Callback<ClothesResponse> {
+            api.getTagCategoryClothes(userId, "like", category).enqueue(object: Callback<ClothesResponse> {
                 override fun onResponse(call: Call<ClothesResponse>, response: Response<ClothesResponse>) {
                     if (response.isSuccessful) {
                         val result = response.body()
@@ -338,9 +366,10 @@ class MyClosetFragment : BottomSheetDialogFragment() {
     private fun addNewCloth() {
         // +버튼 누르면 add하는 activity로 넘어감
         goAddClothes.setOnClickListener {
-            val intent = Intent(context, AddPhotoActivity::class.java)
-            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-            finish()
+//            val intent = Intent(context, AddPhotoActivity::class.java)
+//            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//            finish()
+            Log.d("MyClosetFragment", "AddPhotoActivity로 가잣")
         }
     }
     
@@ -386,6 +415,8 @@ class MyClosetFragment : BottomSheetDialogFragment() {
             clothesIdsArray.add(clothIdShoes)
             clothesIdsArray.add(clothIdBag)
 
+            Log.e("MyClosetFragment", clothesIdsArray.toString())
+
             val clothesImagesArray = ArrayList<String>()
             clothesImagesArray.add(codiTop.imageUrl)
             clothesImagesArray.add(codiBottom.imageUrl)
@@ -419,9 +450,23 @@ class MyClosetFragment : BottomSheetDialogFragment() {
             })
             
             // 다 보내고 나서 리셋하는 과정 필요함
-            // list들 모두 reset,
+            // list들 모두 reset, -> 은 save 버튼 누를때마다 reset되니까 ㅇㅇ 상관없
             // 이미지 뷰들 모두 reset,
+            clothTop.setImageResource(android.R.color.transparent)
+            clothBottom.setImageResource(android.R.color.transparent)
+            clothOuter.setImageResource(android.R.color.transparent)
+            clothOnepiece.setImageResource(android.R.color.transparent)
+            clothShoes.setImageResource(android.R.color.transparent)
+            clothBag.setImageResource(android.R.color.transparent)
+            // text 뷰들도 모두 reset,
+            binding.textLookbookTop.text = ""
+            binding.textLookbookBottom.text = ""
+            binding.textLookbookOuter.text = ""
+            binding.textLookbookOnepiece.text = ""
+            binding.textLookbookShoes.text = ""
+            binding.textLookbookBag.text = ""
             // comment도 reset
+            binding.comment.setText("")
         }
     }
 
@@ -434,6 +479,46 @@ class MyClosetFragment : BottomSheetDialogFragment() {
             }
         }
         return clothesList[position]
+    }
+
+    // 새로고침 로직
+    override fun onRefresh() {
+
+        // list 모두 클리어
+        topList.clear()
+        bottomList.clear()
+        outerList.clear()
+        onepieceList.clear()
+        shoeList.clear()
+        bagList.clear()
+
+        // lookbook도 모두 클리어
+        // 이미지 뷰들 모두 reset,
+        clothTop.setImageResource(android.R.color.transparent)
+        clothBottom.setImageResource(android.R.color.transparent)
+        clothOuter.setImageResource(android.R.color.transparent)
+        clothOnepiece.setImageResource(android.R.color.transparent)
+        clothShoes.setImageResource(android.R.color.transparent)
+        clothBag.setImageResource(android.R.color.transparent)
+        // text 뷰들도 모두 reset,
+        binding.textLookbookTop.text = ""
+        binding.textLookbookBottom.text = ""
+        binding.textLookbookOuter.text = ""
+        binding.textLookbookOnepiece.text = ""
+        binding.textLookbookShoes.text = ""
+        binding.textLookbookBag.text = ""
+        // comment도 reset
+        binding.comment.setText("")
+
+        initiation() // 모든 view들 정의
+        getClothes() // 서버에서 모든 옷들 가져오기
+        showOnlyLikes() // 하트 누르면 like된 애들만 빼오기
+        // clickHeart() // 각 항목 하트 누르면 like-unlike 실행 -> 이건 adapter에서 함
+        // goTrash() // 길게 누르면 trash 항목으로 이동 -> 이건 adapter에서 함
+        // makeLookbook() // Make a New Lookbook 버튼 누르면 각 옷 선택됨 + 같은 카테고리의 다른 옷들 선택 못하게 됨 + lookbook에 사진 띄워짐 -> 이건 adapter에서 함
+        addNewCloth() // +버튼 누르면 add하는 activity로 넘어감
+        addNewCodi() // save 버튼 누르면 코디 저장됨
+        swipeRefreshLayout.isRefreshing = false
     }
 
     companion object {}

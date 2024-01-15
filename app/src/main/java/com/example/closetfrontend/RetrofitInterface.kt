@@ -35,7 +35,7 @@ interface RetrofitInterface {
         @Field("height") height: Int?,
         @Field("bodyType") bodyType: String?,
         @Field("styles") styles: ArrayList<String>?
-    ): Call<Void>
+    ): Call<JsonObject>
 
     @GET("/user/{userId}/profile")
     fun getUser(@Path("userId") userId: String): Call<JsonObject>

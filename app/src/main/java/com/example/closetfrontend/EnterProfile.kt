@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.ToggleButton
+import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -147,14 +148,19 @@ class EnterProfile : AppCompatActivity() {
                 userProfileImage,
                 if (userAge == 0) { null } else { userAge },
                 if (userHeight == 0) { null } else { userHeight },
+//                userAge,
+//                userHeight,
                 if (userBodyType == "") { null } else { userBodyType },
                 if (userStyles.size == 0) {null} else { userStyles })
-            call.enqueue(object: Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) { Log.e("Lets go", "success!! good!!")
+            call.enqueue(object: Callback<JsonObject> {
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful) {
+                        val result = response.body()
+                        Log.e("Lets go", "$result")
+                        Log.e("Lets go", "success!! good!!")
                     } else { Log.e("Lets go", "what's wrong...") }
                 }
-                override fun onFailure(call: Call<Void>, t: Throwable) {
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                     Log.e("mad..nn", "so sad plz")
                 }
             })
@@ -165,6 +171,7 @@ class EnterProfile : AppCompatActivity() {
             Log.d("EnterProfile", "userEmail: $userEmail")
             Log.d("EnterProfile", "userProfileImage: $userProfileImage")
             Log.d("EnterProfile", "userAge: $userAge")
+            Log.d("EnterProfile", "userAge: ${userAge::class}")
             Log.d("EnterProfile", "userHeight: $userHeight")
             Log.d("EnterProfile", "userBodyType: $userBodyType")
             Log.d("EnterProfile", "userStyles: $userStyles")

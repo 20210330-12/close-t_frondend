@@ -2,6 +2,7 @@ package com.example.closetfrontend
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -66,6 +67,7 @@ class MyPageFragment : Fragment() {
             // user 정보 불러오는데 시간 걸릴 것 같아서 이렇게 해줬다
             setProfile()
         }, 1000)
+        goActivity()
 
 
         return binding.root
@@ -103,6 +105,13 @@ class MyPageFragment : Fragment() {
                 Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
             }
         })
+
+        // 일단 dummy data로
+        profileNameText = "송한이"
+        profileGenderText = "Female"
+        profileEmailText = "hanis@kaist.ac.kr"
+        profileImageText = "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg"
+
     }
 
     private fun setProfile() {
@@ -124,6 +133,13 @@ class MyPageFragment : Fragment() {
 
         // 이메일 세팅
         profileEmail.text = profileEmailText
+    }
+
+    private fun goActivity() {
+        goTrashBtn.setOnClickListener {
+            val intent = Intent(context, TrashActivity::class.java)
+            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        }
     }
 
     companion object {    }
