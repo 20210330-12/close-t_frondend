@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab1SwipeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TrashActivity">
+
+    <FrameLayout
+        android:id="@+id/tab1FrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/tool_bar_logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="안 입는 옷 보관함"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
+
+
+                    <LinearLayout
+                        android:id="@+id/tab1WholeLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+    <!--                    <TextView-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:text="안 입는 옷 보관함"-->
+    <!--                        android:textSize="24sp"/>-->
+
+
+                        <!--      상의      -->
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/tab1TopLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+                                android:id="@+id/tab1TopText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="상의"
+                                android:textAlignment="center"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp">
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"/>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvTab1Top"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:overScrollMode="never"
+                                tools:listitem="@layout/my_closet_recyclerview"/>
+                        </LinearLayout>
+
+
+                        <!--      하의      -->
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/tab1BottomLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+                                android:id="@+id/tab1BottomText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="하의"
+                                android:textAlignment="center"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp">
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"/>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvTab1Bottom"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:overScrollMode="never"
+                                tools:listitem="@layout/my_closet_recyclerview"/>
+                        </LinearLayout>
+
+
+                        <!--      아우터      -->
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/tab1OuterLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+                                android:id="@+id/tab1OuterText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="아우터"
+                                android:textAlignment="center"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp">
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"/>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvTab1Outer"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:overScrollMode="never"
+                                tools:listitem="@layout/my_closet_recyclerview"/>
+                        </LinearLayout>
+
+
+                        <!--      원피스      -->
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/tab1OnepieceLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+                                android:id="@+id/tab1OnepieceText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="원피스"
+                                android:textAlignment="center"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp">
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"/>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvTab1Onepiece"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:overScrollMode="never"
+                                tools:listitem="@layout/my_closet_recyclerview"/>
+                        </LinearLayout>
+
+
+                        <!--      신발      -->
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/tab1OShoesLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+                                android:id="@+id/tab1ShoesText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="신발"
+                                android:textAlignment="center"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp">
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"/>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvTab1Shoes"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:overScrollMode="never"
+                                tools:listitem="@layout/my_closet_recyclerview"/>
+                        </LinearLayout>
+
+
+                        <!--      가방      -->
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/tab1BagLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+                                android:id="@+id/tab1BagText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:text="가방"
+                                android:textAlignment="center"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp">
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"/>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvTab1Bag"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:overScrollMode="never"
+                                tools:listitem="@layout/my_closet_recyclerview"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </FrameLayout>
+            </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+    </FrameLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
