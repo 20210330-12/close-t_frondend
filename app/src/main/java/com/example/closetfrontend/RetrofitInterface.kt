@@ -29,12 +29,15 @@ interface RetrofitInterface {
     @GET("/user/{userId}/check")
     fun getUserCheck(@Path("userId") userId: String): Call<JsonObject>
 
+    @FormUrlEncoded
     @POST("/{userId}/clothes/add")
     fun postAddClothes(
         @Path("userId") userId: String,
         @Field("category") category: String,
         @Field("styles") styles: List<String>,
-        @Field("tag") tag: List<String>?,
+        @Field("like") like: String,
+        @Field("trash") trash: String,
+        @Field("wish") wish: String,
         @Field("imageUrl") imageUrl: String,
         @Field("link") link: String?,
     ): Call<JsonObject>

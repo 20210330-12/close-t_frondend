@@ -43,6 +43,7 @@ import java.io.IOException
 import java.io.InputStream
 
 class AddClothesActivity : AppCompatActivity() {
+    private lateinit var userId: String
     private lateinit var imageView: ImageView
     private lateinit var heartButton: ImageView
     private lateinit var trashButton: ImageView
@@ -53,9 +54,19 @@ class AddClothesActivity : AppCompatActivity() {
     private lateinit var wishToggle: ToggleButton
     private lateinit var urlEditText: EditText
     private var imageUrl: String? = null
-    private val selectedTags = ArrayList<String>()
+    private lateinit var like: String
+    private lateinit var trash: String
+    private lateinit var wish: String
+    //private val selectedTags = ArrayList<String>()
     private val selectedStyles = ArrayList<String>()
     private lateinit var selectedCategoryKeyword: TextView
+    private lateinit var topCategoryTextView: TextView
+    private lateinit var bottomCategoryTextView: TextView
+    private lateinit var outerCategoryTextView: TextView
+    private lateinit var onePieceCategoryTextView: TextView
+    private lateinit var shoesCategoryTextView: TextView
+    private lateinit var bagCategoryTextView: TextView
+
     private lateinit var retrofitInterface: RetrofitInterface
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +97,8 @@ class AddClothesActivity : AppCompatActivity() {
         trashText = findViewById(R.id.trashText)
         noneText = findViewById(R.id.noneText)
 
+        like = "None"
+        trash = "None"
         heartButton.setOnClickListener(View.OnClickListener { handleButtonClick("heart") })
         trashButton.setOnClickListener(View.OnClickListener { handleButtonClick("trash") })
         noneButton.setOnClickListener(View.OnClickListener { handleButtonClick("none") })
@@ -95,10 +108,11 @@ class AddClothesActivity : AppCompatActivity() {
         wishToggle.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 wishToggle.setBackgroundResource(R.drawable.toggle_on)
-                selectedTags.add("wish")
+                wish = "Wish"
                 urlEditText.isEnabled = isChecked
             } else {
                 wishToggle.setBackgroundResource(R.drawable.toggle_off)
+                wish = "None"
             }
         })
 
@@ -121,12 +135,12 @@ class AddClothesActivity : AppCompatActivity() {
         setStyleClickListener(comfortableStyleTextView, "꾸안꾸")
 
         selectedCategoryKeyword = findViewById(R.id.idTopCategory)
-        val topCategoryTextView = findViewById<TextView>(R.id.idTopCategory)
-        val bottomCategoryTextView = findViewById<TextView>(R.id.idBottomCategory)
-        val outerCategoryTextView = findViewById<TextView>(R.id.idOuterCategory)
-        val onePieceCategoryTextView = findViewById<TextView>(R.id.idOnePieceCategory)
-        val shoesCategoryTextView = findViewById<TextView>(R.id.idShoesCategory)
-        val bagCategoryTextView = findViewById<TextView>(R.id.idBagCategory)
+        topCategoryTextView = findViewById<TextView>(R.id.idTopCategory)
+        bottomCategoryTextView = findViewById<TextView>(R.id.idBottomCategory)
+        outerCategoryTextView = findViewById<TextView>(R.id.idOuterCategory)
+        onePieceCategoryTextView = findViewById<TextView>(R.id.idOnePieceCategory)
+        shoesCategoryTextView = findViewById<TextView>(R.id.idShoesCategory)
+        bagCategoryTextView = findViewById<TextView>(R.id.idBagCategory)
 
         setCategoryClickListener(topCategoryTextView, "상의")
         setCategoryClickListener(bottomCategoryTextView, "하의")
@@ -141,15 +155,24 @@ class AddClothesActivity : AppCompatActivity() {
 
     private fun addClothes() {
         val sharedPreferences = getSharedPreferences("userId", MODE_PRIVATE)
-        val userId = sharedPreferences.getString("userId", "")
+        userId = sharedPreferences.getString("userId", "")!!
         val category = selectedCategoryKeyword.text.toString() //지금 카테고리 셀렉하는 부분을 구현 안해놨다 (추가해야함)
         val enteredLink = urlEditText.text.toString() //위시일때 link받아오기 추가해야함.
 
+        Log.d("AddClothesActivity", "UserId: ${userId}")
+        Log.d("AddClothesActivity", "Category: $category")
+        Log.d("AddClothesActivity", "Selected Styles: $selectedStyles")
+        //Log.d("AddClothesActivity", "Selected Tags: $selectedTags")
+        Log.d("AddClothesActivity", "ImageUrl: $imageUrl")
+        Log.d("AddClothesActivity", "EnteredLink: $enteredLink")
+
         retrofitInterface.postAddClothes(
-            userId!!,
+            userId,
             category,
             selectedStyles,
-            selectedTags,
+            like,
+            wish,
+            trash,
             imageUrl!!,
             enteredLink
         )
@@ -157,7 +180,13 @@ class AddClothesActivity : AppCompatActivity() {
                 override fun onResponse(call: retrofit2.Call<JsonObject?>, response: retrofit2.Response<JsonObject?>) {
                     if (response.isSuccessful) {
                         val jsonObject = response.body()
+                        Log.d("AddClothesActivity", jsonObject.toString())
                         Log.d(jsonObject.toString(), "clothes added")
+
+                        val intent = Intent(this@AddClothesActivity, AfterLoginActivity::class.java)
+                        intent.putExtra("userId", userId)
+                        startActivity(intent)
+                        finish()
                     } else {
                         Toast.makeText(
                             this@AddClothesActivity,
@@ -181,27 +210,59 @@ class AddClothesActivity : AppCompatActivity() {
         clickedTextView.setOnClickListener {
             if (selectedCategoryKeyword != null) {
                 when (selectedCategoryKeyword.text.toString()) {
-                    "상의", "하의", "신발", "가방" -> {
+                    "상의" -> {
                         selectedCategoryKeyword.setBackgroundResource(R.drawable.short_category_rectangle)
                         selectedCategoryKeyword.setTypeface(null, Typeface.NORMAL)
                     }
-                    "아우터", "원피스" -> {
+                    "하의" -> {
+                        selectedCategoryKeyword.setBackgroundResource(R.drawable.short_category_rectangle)
+                        selectedCategoryKeyword.setTypeface(null, Typeface.NORMAL)
+                    }
+                    "신발" -> {
+                        selectedCategoryKeyword.setBackgroundResource(R.drawable.short_category_rectangle)
+                        selectedCategoryKeyword.setTypeface(null, Typeface.NORMAL)
+                    }
+                    "가방" -> {
+                        selectedCategoryKeyword.setBackgroundResource(R.drawable.short_category_rectangle)
+                        selectedCategoryKeyword.setTypeface(null, Typeface.NORMAL)
+                    }
+                    "아우터" -> {
+                        selectedCategoryKeyword.setBackgroundResource(R.drawable.long_catgory_rectangle)
+                        selectedCategoryKeyword.setTypeface(null, Typeface.NORMAL)
+                    }
+                    "원피스" -> {
                         selectedCategoryKeyword.setBackgroundResource(R.drawable.long_catgory_rectangle)
                         selectedCategoryKeyword.setTypeface(null, Typeface.NORMAL)
                     }
                 }
             }
+            selectedCategoryKeyword = clickedTextView
             when (clickedTextView.text.toString()) {
-                "상의", "하의", "신발", "가방" -> {
+                "상의" -> {
                     selectedCategoryKeyword.setBackgroundResource(R.drawable.short_category_rectangle_gray)
                     selectedCategoryKeyword.setTypeface(null, Typeface.BOLD)
                 }
-                "아우터", "원피스" -> {
+                "하의" -> {
+                    selectedCategoryKeyword.setBackgroundResource(R.drawable.short_category_rectangle_gray)
+                    selectedCategoryKeyword.setTypeface(null, Typeface.BOLD)
+                }
+                "신발" -> {
+                    selectedCategoryKeyword.setBackgroundResource(R.drawable.short_category_rectangle_gray)
+                    selectedCategoryKeyword.setTypeface(null, Typeface.BOLD)
+                }
+                "가방" -> {
+                    selectedCategoryKeyword.setBackgroundResource(R.drawable.short_category_rectangle_gray)
+                    selectedCategoryKeyword.setTypeface(null, Typeface.BOLD)
+                }
+                "아우터" -> {
+                    selectedCategoryKeyword.setBackgroundResource(R.drawable.long_category_rectangle_gray)
+                    selectedCategoryKeyword.setTypeface(null, Typeface.BOLD)
+                }
+                "원피스" -> {
                     selectedCategoryKeyword.setBackgroundResource(R.drawable.long_category_rectangle_gray)
                     selectedCategoryKeyword.setTypeface(null, Typeface.BOLD)
                 }
             }
-            selectedCategoryKeyword = clickedTextView
         }
     }
 
@@ -226,9 +287,11 @@ class AddClothesActivity : AppCompatActivity() {
                         styleTextView.setBackgroundResource(R.drawable.romantic_luxury_style)
                         styleTextView.setTypeface(null, Typeface.NORMAL)
                     }
+                    "캐주얼", "러블리", "스포티", "꾸안꾸" -> {
+                        styleTextView.setBackgroundResource(R.drawable.styles_rectangle)
+                        styleTextView.setTypeface(null, Typeface.NORMAL)
+                    }
                 }
-                styleTextView.setBackgroundResource(R.drawable.styles_rectangle)
-                styleTextView.setTypeface(null, Typeface.NORMAL)
             } else {
                 selectedStyles.add(styleKeyword)
                 when (styleKeyword) {
@@ -248,26 +311,32 @@ class AddClothesActivity : AppCompatActivity() {
                         styleTextView.setBackgroundResource(R.drawable.romantic_luxury_style_gray)
                         styleTextView.setTypeface(null, Typeface.BOLD)
                     }
+                    "캐주얼", "러블리", "스포티", "꾸안꾸" -> {
+                        styleTextView.setBackgroundResource(R.drawable.styles_rectangle_gray)
+                        styleTextView.setTypeface(null, Typeface.BOLD)
+                    }
                 }
-                styleTextView.setBackgroundResource(R.drawable.styles_rectangle_gray)
-                styleTextView.setTypeface(null, Typeface.BOLD)
             }
         }
     }
 
     private fun handleButtonClick(tag: String) {
         resetButtonColors()
+        like = "None"
+        trash = "None"
+        wish = "None"
         when (tag) {
             "heart" -> {
                 heartButton.setImageResource(R.drawable.heart_icon)
                 heartText.setTextColor(Color.BLACK)
-                selectedTags.add("like")
+                like = "Like"
             }
+
 
             "trash" -> {
                 trashButton.setImageResource(R.drawable.trash_icon_black)
                 trashText.setTextColor(Color.BLACK)
-                selectedTags.add("trash")
+                trash = "Trash"
             }
 
             "none" -> {
@@ -314,8 +383,9 @@ class AddClothesActivity : AppCompatActivity() {
 
                     runOnUiThread {
                         byteArray?.let {
-                            displayProcessedImage(it)
-                            imageUrl = saveImageAndGetUrl(it)
+                            val uniqueFileName = generateUniqueFileName()
+                            displayProcessedImage(it, uniqueFileName)
+                            imageUrl = saveImageAndGetUrl(it, uniqueFileName)
                         }
                     }
                 } else {
@@ -323,138 +393,24 @@ class AddClothesActivity : AppCompatActivity() {
                 }
             }
         })
-
-        /*
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            else {
-                val byteArray = response.body?.bytes()
-            }
-        }
-
-         */
-    }
-    private fun removeBg(imageFile: File) {
-        val requestBody = MultipartBody.Builder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart("image_file", "image.jpg", imageFile.asRequestBody("image/jpeg".toMediaType()))
-            .addFormDataPart("size", "auto")
-            .build()
-
-        val request = Request.Builder()
-            .url("https://api.remove.bg/v1.0/removebg")
-            .header("X-API-Key", "")
-            .post(requestBody)
-            .build()
-
-        /*
-        val client = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .build()
-
-         */
-
-        val client = OkHttpClient()
-
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-            else {
-                val byteResultImage = response.body?.bytes()
-
-            }
-        }
-
-        /*
-        retrofitInterface.removeBackground(request).enqueue(object : Callback {
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    val contentType = response.headers.get("Content-Type")
-                    if (contentType != null && contentType.startsWith("application/json")) {
-                        val responseData = response.body?.string()
-                        try {
-                            val resultData = GsonBuilder().setLenient().create().fromJson(responseData, JsonObject::class.java)
-                        } catch (e: JsonSyntaxException) {
-                            Log.e(ContentValues.TAG, "Error parsing JSON: $responseData")
-                        }
-                    } else if (contentType != null && contentType.startsWith("image/")) {
-                        val imageBytes = response.body?.bytes()
-                        if (imageBytes != null) {
-                            displayProcessedImage(imageBytes)
-                            imageUrl = saveImageAndGetUrl(imageBytes)
-                        } else {
-                            Log.e(ContentValues.TAG, "Image bytes are null")
-                        }
-                    } else {
-                        Log.e(ContentValues.TAG, "Unknown content type: $contentType")
-                    }
-                    /*
-                    val responseData = response.body()?.string()
-                    try {
-                        val resultData = GsonBuilder().setLenient().create().fromJson(responseData, JsonObject::class.java)
-                        if (resultData != null && resultData.has("data")) {
-                            val resultObj = resultData.getAsJsonObject("data")
-                            if (resultObj != null && resultObj.has("result_b64")) {
-                                val base64Image = resultObj.getAsJsonPrimitive("result_b64").asString
-                                displayProcessedImage(Base64.decode(base64Image, Base64.DEFAULT))
-                                imageUrl = saveImageAndGetUrl(Base64.decode(base64Image, Base64.DEFAULT))
-                                Log.e(ContentValues.TAG, "result: $resultObj")
-                            } else {
-                                Log.e(ContentValues.TAG, "Response does not have result_b64")
-                            }
-                        } else {
-                            Log.e(ContentValues.TAG, "Response does not have data")
-                        }
-                    } catch (e: JsonSyntaxException) {
-                        Log.e(ContentValues.TAG, "Error parsing JSON: $responseData")
-                    }
-
-                     */
-                } else {
-                    Log.e(ContentValues.TAG, "HTTP request failed with code: ${response.code}")
-                }
-            }
-
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e(ContentValues.TAG, "RemoveBG HTTP request failed: ${e.message}")
-            }
-        })
-
-         */
-
     }
 
-    private fun displayProcessedImage(decodedBytes: ByteArray) {
+    private fun generateUniqueFileName(): String {
+        return "processed_image_${System.currentTimeMillis()}.jpg"
+    }
+
+    private fun displayProcessedImage(decodedBytes: ByteArray, fileName: String) {
         val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
         imageView.setImageBitmap(decodedBitmap)
-        /*
-        if (inputStream != null) {
-            val decodedBitmap = BitmapFactory.decodeStream(inputStream)
-            imageView.setImageBitmap(decodedBitmap)
-        } else {
-            Log.e(ContentValues.TAG, "InputStream is null")
-        }
-
-         */
-        //val decodedBytes = Base64.decode(base64Image, Base64.DEFAULT)
-        //val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     }
 
-    private fun saveImageAndGetUrl(decodedBytes: ByteArray): String? {
+    private fun saveImageAndGetUrl(decodedBytes: ByteArray, fileName: String): String? {
         val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-        return saveImageToFile(decodedBitmap)
-        /*
-        if (inputStream != null) {
-            val decodedBitmap = BitmapFactory.decodeStream(inputStream)
-            return saveImageToFile(decodedBitmap)
-        } else {
-            Log.e(ContentValues.TAG, "Input stream is null")
-            return null
-        }
-
-         */
+        return saveImageToFile(decodedBitmap, fileName)
     }
 
-    private fun saveImageToFile(bitmap: Bitmap): String? {
-        val file = File(filesDir, "processed_image.jpg")
+    private fun saveImageToFile(bitmap: Bitmap, fileName: String): String? {
+        val file = File(filesDir, fileName)
         try {
             val outputStream = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
@@ -467,18 +423,4 @@ class AddClothesActivity : AppCompatActivity() {
         }
     }
 
-    /*
-    interface RemoveBGService {
-        @POST("removebg")
-        fun removeBackground(
-            @Query("api_key") apiKey: String,
-            @Body body: RequestBody
-        ): Call
-    }
-
-    companion object {
-        private const val API_KEY = "smSA3YYqq9zN9XymdrriWFyE"
-    }
-
-     */
 }

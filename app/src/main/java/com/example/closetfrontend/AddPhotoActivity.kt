@@ -158,17 +158,6 @@ class AddPhotoActivity : AppCompatActivity() {
                     }
                 }
             }
-            /*
-            if (cursor != null && cursor.count > 0) {
-                val dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-                while (cursor.moveToNext()) {
-                    imagePathArrayList!!.add(cursor.getString(dataColumnIndex))
-                }
-                myAdapter!!.notifyDataSetChanged()
-            }
-            cursor?.close()
-
-             */
         }
     }
 
