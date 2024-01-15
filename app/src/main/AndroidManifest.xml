@@ -32,7 +32,9 @@
             android:exported="false" />
         <activity
             android:name=".LookBookDetailViewActivity"
-            android:theme="@android:style/Theme.Dialog"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".TrashActivity"
             android:exported="false" />
         <activity
             android:name=".AfterLoginActivity"

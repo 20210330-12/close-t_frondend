@@ -64,4 +64,12 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.71828")
     // 새로고침을 위한 implementation
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    // 이미지 url을 위한 implementation
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
+    // FloatingActionButton을 위한 implimentation
+//    implementation ("com.android.support:design:28.0.0")
+    implementation ("com.google.android.material:material:1.11.0")
+
 }

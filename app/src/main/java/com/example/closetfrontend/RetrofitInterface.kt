@@ -2,19 +2,27 @@ package com.example.closetfrontend
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Streaming
 
 interface RetrofitInterface {
 
@@ -31,6 +39,58 @@ interface RetrofitInterface {
         @Field("link") link: String?,
     ): Call<JsonObject>
 
+    @FormUrlEncoded
+    @POST("/user/create")
+    fun createUser(
+        @Field("id") id: String,
+        @Field("name") name: String,
+        @Field("gender") gender: String,
+        @Field("email") email: String,
+        @Field("profileImage") profileImage: String,
+        @Field("age") age: Int?,
+        @Field("height") height: Int?,
+        @Field("bodyType") bodyType: String?,
+        @Field("styles") styles: ArrayList<String>?
+    ): Call<Void>
+
+    @GET("/user/{userId}/profile")
+    fun getUser(@Path("userId") userId: String): Call<JsonObject>
+
+    @GET("/user/{userId}/clothes")
+    fun getCategoryClothes(@Path("userId") userId: String, @Query("category") category: String): Call<ClothesResponse>
+
+    @GET("/user/{userId}/clothes/filter/{tag}")
+    fun getTagCategoryClothes(@Path("userId") userId: String, @Path("tag") tag: String, @Query("category") category: String): Call<ClothesResponse>
+
+    @GET("{userId}/clothes/{clothesId}")
+    fun getCloth(@Path("userId") userId: String, @Path("clothesId") clothesId: String): Call<Clothes>
+
+    //@FormUrlEncoded
+    @PATCH("/{userId}/clothes/{clothesId}/changeLike")
+    fun changeLike(@Path("userId") userId: String, @Path("clothesId") clothesId: String): Call<JsonObject>
+
+    //@FormUrlEncoded
+    @PATCH("/{userId}/clothes/{clothesId}/changeTrash")
+    fun changeTrash(@Path("userId") userId: String, @Path("clothesId") clothesId: String): Call<JsonObject>
+
+    //@FormUrlEncoded
+    @PATCH("/{userId}/clothes/{clothesId}/removeFromWish")
+    fun removeWish(@Path("userId") userId: String, @Path("clothesId") clothesId: String): Call<JsonObject>
+
+    @DELETE("/{userId}/clothes/{clothesId}/remove")
+    fun deleteCloth(@Path("userId") userId: String, @Path("clothesId") clothesId: String): Call<JsonObject>
+
+    @FormUrlEncoded
+    @POST("/{userId}/codi/save")
+    fun saveCodi(
+        @Path("userId") userId: String,
+        @Field("styles") styles: ArrayList<String>,
+        @Field("like") like: String,
+        @Field("clothesIds") clothesIds: ArrayList<String>,
+        @Field("clothesImages") clothesImages: ArrayList<String>,
+        @Field("comment") comment: String?
+    ): Call<JsonObject>
+
     @GET("/{userId}/codi")
     fun getAllCodies(@Path("userId") userId: String): Call<JsonObject>
 
@@ -39,6 +99,13 @@ interface RetrofitInterface {
 
     @GET("/{userId}/codi/liked")
     fun getLikedCodies(@Path("userId") userId: String): Call<JsonObject>
+
+    @POST("removebg")
+    @Headers("Accept: application/json")
+    fun removeBackground(
+        @Query("api_key") apiKey: String,
+        @Body body: RequestBody
+    ): Call<ResponseBody>
 //    // 전 주에 했었던 예시들 보여줄겡
 //    // 만약 위에처럼 path에 parameter이 들어가는게 아니라, 그냥 parameter만 전달하는 거라면 이런 식으로!
 //    @GET("/myCustom")
@@ -79,7 +146,7 @@ interface RetrofitInterface {
         // -> 호스트의 127.0.0.1에 직접 접근하는게 불가능
         // -> 에뮬레이터가 호스트와 통신하려면 호스트 IP를 사용해야하며,
         // 일반적으로 10.0.2.2가 호스트의 IP임
-        private const val BASE_URL = "http://10.0.2.2:8888/"
+        private const val BASE_URL = "http://172.10.7.44:80/"
 
 
         fun create(): RetrofitInterface {

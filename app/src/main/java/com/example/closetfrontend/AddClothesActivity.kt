@@ -2,6 +2,7 @@ package com.example.closetfrontend
 
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
@@ -17,21 +18,29 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import com.example.closetfrontend.RetrofitInterface.Companion.create
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import com.google.gson.JsonSyntaxException
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 
 class AddClothesActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
@@ -53,14 +62,19 @@ class AddClothesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_clothes)
 
         val imagePath = intent.getStringExtra("imgPath")
-        imageView = findViewById(R.id.idIVImage)
-        val imageFile = File(imagePath)
+        if (imagePath != null) {
+            val imageFile = File(imagePath)
 
-        if (imageFile.exists()) {
-            removeBg(imageFile)
+            if (imageFile.exists()) {
+                clipdropBg(imageFile)
+            } else {
+                Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show()
+            }
         } else {
-            Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Image path is null", Toast.LENGTH_SHORT).show()
         }
+        imageView = findViewById(R.id.idIVImage)
+
 
         val backIcon = findViewById<ImageView>(R.id.backIcon)
         backIcon.setOnClickListener { navigateBackToPhotosActivity() }
@@ -82,7 +96,7 @@ class AddClothesActivity : AppCompatActivity() {
             if (isChecked) {
                 wishToggle.setBackgroundResource(R.drawable.toggle_on)
                 selectedTags.add("wish")
-                urlEditText.setEnabled(isChecked)
+                urlEditText.isEnabled = isChecked
             } else {
                 wishToggle.setBackgroundResource(R.drawable.toggle_off)
             }
@@ -106,6 +120,7 @@ class AddClothesActivity : AppCompatActivity() {
         setStyleClickListener(romanticStyleTextView, "로맨틱럭셔리")
         setStyleClickListener(comfortableStyleTextView, "꾸안꾸")
 
+        selectedCategoryKeyword = findViewById(R.id.idTopCategory)
         val topCategoryTextView = findViewById<TextView>(R.id.idTopCategory)
         val bottomCategoryTextView = findViewById<TextView>(R.id.idBottomCategory)
         val outerCategoryTextView = findViewById<TextView>(R.id.idOuterCategory)
@@ -138,8 +153,8 @@ class AddClothesActivity : AppCompatActivity() {
             imageUrl!!,
             enteredLink
         )
-            .enqueue(object : Callback<JsonObject?> {
-                override fun onResponse(call: Call<JsonObject?>, response: Response<JsonObject?>) {
+            .enqueue(object : retrofit2.Callback<JsonObject> {
+                override fun onResponse(call: retrofit2.Call<JsonObject?>, response: retrofit2.Response<JsonObject?>) {
                     if (response.isSuccessful) {
                         val jsonObject = response.body()
                         Log.d(jsonObject.toString(), "clothes added")
@@ -152,7 +167,7 @@ class AddClothesActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<JsonObject?>, t: Throwable) {
+                override fun onFailure(call: retrofit2.Call<JsonObject?>, t: Throwable) {
                     Toast.makeText(
                         this@AddClothesActivity,
                         "Network error: " + t.message,
@@ -277,60 +292,193 @@ class AddClothesActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun removeBg(imageFile: File) {
-        val clientBuilder = OkHttpClient.Builder()
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        clientBuilder.addInterceptor(loggingInterceptor)
-
-        val client: OkHttpClient = clientBuilder.build()
-
-        val retrofit = Retrofit.Builder().baseUrl("https://api.remove.bg/v1.0")
-            .addConverterFactory(GsonConverterFactory.create()).client(client).build()
-
-        val service = retrofit.create(RemoveBGService::class.java)
+    private fun clipdropBg(imageFile: File) {
+        val client = OkHttpClient()
 
         val requestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
-            .addFormDataPart("image_file", "image.jpg", RequestBody.create("image/*".toMediaType(), imageFile))
+            .addFormDataPart("image_file", "image.jpg", imageFile.asRequestBody("image/jpeg".toMediaType()))
+            .build()
+
+        val request = Request.Builder().header("x-api-key", "97838e421cdfc4d7fd8f6f13065711b89a24bafbce5b0ccde618266696155d0b2598e9866be5433a8e8b4e6137a0a4cf")
+            .url("https://clipdrop-api.co/remove-background/v1").post(requestBody).build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val byteArray = response.body?.bytes()
+
+                    runOnUiThread {
+                        byteArray?.let {
+                            displayProcessedImage(it)
+                            imageUrl = saveImageAndGetUrl(it)
+                        }
+                    }
+                } else {
+                    Log.e("Clipdrop", "Unexpected code ${response.code}")
+                }
+            }
+        })
+
+        /*
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            else {
+                val byteArray = response.body?.bytes()
+            }
+        }
+
+         */
+    }
+    private fun removeBg(imageFile: File) {
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("image_file", "image.jpg", imageFile.asRequestBody("image/jpeg".toMediaType()))
             .addFormDataPart("size", "auto")
             .build()
 
-        val call = service.removeBackground(API_KEY, requestBody)
-        call.enqueue(object : Callback<JsonObject> {
-            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+        val request = Request.Builder()
+            .url("https://api.remove.bg/v1.0/removebg")
+            .header("X-API-Key", "")
+            .post(requestBody)
+            .build()
+
+        /*
+        val client = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
+
+         */
+
+        val client = OkHttpClient()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+            else {
+                val byteResultImage = response.body?.bytes()
+
+            }
+        }
+
+        /*
+        retrofitInterface.removeBackground(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    val result = response.body()!!.getAsJsonObject("data")
-                    val base64Image = result["result_b64"].asString
-                    imageUrl = base64Image
-                    displayProcessedImage(base64Image)
-                    Log.e(ContentValues.TAG, "Result: $imageUrl")
+                    val contentType = response.headers.get("Content-Type")
+                    if (contentType != null && contentType.startsWith("application/json")) {
+                        val responseData = response.body?.string()
+                        try {
+                            val resultData = GsonBuilder().setLenient().create().fromJson(responseData, JsonObject::class.java)
+                        } catch (e: JsonSyntaxException) {
+                            Log.e(ContentValues.TAG, "Error parsing JSON: $responseData")
+                        }
+                    } else if (contentType != null && contentType.startsWith("image/")) {
+                        val imageBytes = response.body?.bytes()
+                        if (imageBytes != null) {
+                            displayProcessedImage(imageBytes)
+                            imageUrl = saveImageAndGetUrl(imageBytes)
+                        } else {
+                            Log.e(ContentValues.TAG, "Image bytes are null")
+                        }
+                    } else {
+                        Log.e(ContentValues.TAG, "Unknown content type: $contentType")
+                    }
+                    /*
+                    val responseData = response.body()?.string()
+                    try {
+                        val resultData = GsonBuilder().setLenient().create().fromJson(responseData, JsonObject::class.java)
+                        if (resultData != null && resultData.has("data")) {
+                            val resultObj = resultData.getAsJsonObject("data")
+                            if (resultObj != null && resultObj.has("result_b64")) {
+                                val base64Image = resultObj.getAsJsonPrimitive("result_b64").asString
+                                displayProcessedImage(Base64.decode(base64Image, Base64.DEFAULT))
+                                imageUrl = saveImageAndGetUrl(Base64.decode(base64Image, Base64.DEFAULT))
+                                Log.e(ContentValues.TAG, "result: $resultObj")
+                            } else {
+                                Log.e(ContentValues.TAG, "Response does not have result_b64")
+                            }
+                        } else {
+                            Log.e(ContentValues.TAG, "Response does not have data")
+                        }
+                    } catch (e: JsonSyntaxException) {
+                        Log.e(ContentValues.TAG, "Error parsing JSON: $responseData")
+                    }
+
+                     */
                 } else {
-                    Log.e(ContentValues.TAG, "HTTP 요청 실패: " + response.code())
+                    Log.e(ContentValues.TAG, "HTTP request failed with code: ${response.code}")
                 }
             }
 
-            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                Log.e(ContentValues.TAG, "네트워크 오류: " + t.message)
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e(ContentValues.TAG, "RemoveBG HTTP request failed: ${e.message}")
             }
         })
+
+         */
+
     }
 
-    private fun displayProcessedImage(base64Image: String) {
-        val decodedBytes = Base64.decode(base64Image, Base64.DEFAULT)
+    private fun displayProcessedImage(decodedBytes: ByteArray) {
         val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
         imageView.setImageBitmap(decodedBitmap)
+        /*
+        if (inputStream != null) {
+            val decodedBitmap = BitmapFactory.decodeStream(inputStream)
+            imageView.setImageBitmap(decodedBitmap)
+        } else {
+            Log.e(ContentValues.TAG, "InputStream is null")
+        }
+
+         */
+        //val decodedBytes = Base64.decode(base64Image, Base64.DEFAULT)
+        //val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     }
 
+    private fun saveImageAndGetUrl(decodedBytes: ByteArray): String? {
+        val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+        return saveImageToFile(decodedBitmap)
+        /*
+        if (inputStream != null) {
+            val decodedBitmap = BitmapFactory.decodeStream(inputStream)
+            return saveImageToFile(decodedBitmap)
+        } else {
+            Log.e(ContentValues.TAG, "Input stream is null")
+            return null
+        }
+
+         */
+    }
+
+    private fun saveImageToFile(bitmap: Bitmap): String? {
+        val file = File(filesDir, "processed_image.jpg")
+        try {
+            val outputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.flush()
+            outputStream.close()
+            return file.absolutePath
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return null
+        }
+    }
+
+    /*
     interface RemoveBGService {
         @POST("removebg")
         fun removeBackground(
             @Query("api_key") apiKey: String,
             @Body body: RequestBody
-        ): Call<JsonObject>
+        ): Call
     }
 
     companion object {
         private const val API_KEY = "smSA3YYqq9zN9XymdrriWFyE"
     }
+
+     */
 }

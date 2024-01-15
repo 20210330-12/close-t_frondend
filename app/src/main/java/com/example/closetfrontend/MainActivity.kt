@@ -71,6 +71,9 @@ class MainActivity : AppCompatActivity() {
                             val editor = sharedPref.edit()
                             // userId 데이터 저장 (다른 activity나 fragment에서도 사용할 수 있도록 함)
                             editor.putString("userId", "$userId")
+                            editor.putString("userName", "$userName")
+                            editor.putString("userPic", "$userPic")
+                            editor.putString("userEmail", "$userEmail")
                             editor.apply() // 변경 사항을 저장
                             // 이걸 내가 MyClosetFragment에서 받아볼테니 한번 봐봥
                             // 코드 수정은 하지 말고 똑같은 방법으로 다른 곳에다가 쓰면 돼!

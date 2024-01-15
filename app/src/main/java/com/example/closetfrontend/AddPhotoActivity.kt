@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.closetfrontend.AddClothesActivity
 
 class AddPhotoActivity : AppCompatActivity() {
-    private var imagePathArrayList: ArrayList<String>? = null
+    private lateinit var imagePathArrayList: ArrayList<String>
     private var myAdapter: GalleryAdapter? = null
     private var capturedImageUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,12 +43,12 @@ class AddPhotoActivity : AppCompatActivity() {
         val manager = GridLayoutManager(this, 3)
         imagesRV.layoutManager = manager
         imagesRV.adapter = myAdapter
-        imagesRV.setHasFixedSize(false)
+        imagesRV.setHasFixedSize(true)
 
         myAdapter!!.setOnItemClickListener(object : GalleryAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val i = Intent(this@AddPhotoActivity, AddClothesActivity::class.java)
-                i.putExtra("imgPath", imagePathArrayList)
+                i.putExtra("imgPath", imagePathArrayList[position])
                 startActivity(i)
             }
         })
@@ -91,6 +91,8 @@ class AddPhotoActivity : AppCompatActivity() {
         if (takePictureIntent.resolveActivity(packageManager) != null) {
             // Create the File where the photo should go
             startActivityForResult(takePictureIntent, TAKE_PICTURE_REQUEST_CODE)
+        } else {
+            Toast.makeText(this, "Camera not available", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -98,13 +100,17 @@ class AddPhotoActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == TAKE_PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
             // Add the new image to the gallery
-            refreshGallery()
+            if (capturedImageUri != null) {
+                refreshGallery()
 
-            // Set result and finish
-            val resultIntent = Intent()
-            resultIntent.putExtra("capturedImageUri", capturedImageUri.toString())
-            setResult(RESULT_OK, resultIntent)
-            finish()
+                // Set result and finish
+                val resultIntent = Intent()
+                resultIntent.putExtra("capturedImageUri", capturedImageUri.toString())
+                setResult(RESULT_OK, resultIntent)
+                finish()
+            } else {
+                Toast.makeText(this, "Error: Captured image URI is null", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -119,10 +125,15 @@ class AddPhotoActivity : AppCompatActivity() {
     }
 
     private fun refreshGallery() {
-        imagePathArrayList!!.clear()
+        if (imagePathArrayList == null) {
+            imagePathArrayList = ArrayList()
+        } else {
+            imagePathArrayList?.clear()
+        }
+
         getImagePath()
-        if (myAdapter != null) {
-            myAdapter!!.notifyDataSetChanged()
+        runOnUiThread {
+            myAdapter?.notifyDataSetChanged()
         }
     }
 
@@ -138,6 +149,16 @@ class AddPhotoActivity : AppCompatActivity() {
                 null,
                 orderBy
             )
+            cursor?.use {
+                val dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                while (cursor.moveToNext()) {
+                    val imagePath = cursor.getString(dataColumnIndex)
+                    imagePath?.let {
+                        imagePathArrayList?.add(it)
+                    }
+                }
+            }
+            /*
             if (cursor != null && cursor.count > 0) {
                 val dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
                 while (cursor.moveToNext()) {
@@ -146,6 +167,8 @@ class AddPhotoActivity : AppCompatActivity() {
                 myAdapter!!.notifyDataSetChanged()
             }
             cursor?.close()
+
+             */
         }
     }
 
