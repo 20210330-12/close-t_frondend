@@ -16,6 +16,7 @@ import com.example.closetfrontend.databinding.FragmentMyClosetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -84,6 +85,9 @@ class MyClosetFragment : BottomSheetDialogFragment() {
     private lateinit var clothIdOnepiece: String
     private lateinit var clothIdShoes: String
     private lateinit var clothIdBag: String
+
+    // add clothes 버튼
+    private lateinit var goAddClothes: FloatingActionButton
 
 
 
@@ -182,6 +186,9 @@ class MyClosetFragment : BottomSheetDialogFragment() {
 
         // 코디 save 버튼
         codiSaveBtn = binding.saveCodiBtn
+
+        // add Clothes 버튼
+        goAddClothes = binding.addFab
 
         // bottom sheet behavior
         val bottomSheetView = binding.bottomSheet
@@ -330,6 +337,11 @@ class MyClosetFragment : BottomSheetDialogFragment() {
 
     private fun addNewCloth() {
         // +버튼 누르면 add하는 activity로 넘어감
+        goAddClothes.setOnClickListener {
+            val intent = Intent(context, AddPhotoActivity::class.java)
+            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+            finish()
+        }
     }
     
     private fun addNewCodi() {
