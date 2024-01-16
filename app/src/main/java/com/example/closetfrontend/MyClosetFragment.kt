@@ -338,9 +338,9 @@ class MyClosetFragment : BottomSheetDialogFragment() {
     private fun addNewCloth() {
         // +버튼 누르면 add하는 activity로 넘어감
         goAddClothes.setOnClickListener {
-            val intent = Intent(context, AddPhotoActivity::class.java)
+            val intent = Intent(requireContext(), AddPhotoActivity::class.java)
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-            finish()
+            //finish()
         }
     }
     
