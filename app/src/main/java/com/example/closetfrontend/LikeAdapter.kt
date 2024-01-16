@@ -153,10 +153,7 @@ class LikeAdapter (private var clothesList: ArrayList<Clothes>) :
             // 이미지 URL이 있는지 확인하고 Picasso를 사용하여 ImageView에 로드합니다.
             val imageUrl = item.imageUrl // 실제 이미지 URL을 저장하는 myClosetItem 클래스의 필드로 교체하세요.
             //Log.e("imageURL", "$imageUrl")
-            Picasso.get().load(imageUrl)
-                .placeholder(R.drawable.full_heart)
-                .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
-                .into(myClosetPic)
+            Picasso.get().load("http://172.10.7.44:80/images/${imageUrl}").into(myClosetPic)
         }
 
     }
