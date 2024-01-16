@@ -28,13 +28,14 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="44dp"
         android:scaleType="centerCrop"
-        android:background="#FD81AE" >
+        android:background="#EAD8C8" >
 
         <ImageView
             android:id="@+id/lookbookOuter"
             android:layout_width="131dp"
             android:layout_height="131dp"
             android:layout_marginTop="50dp"
+            android:layout_marginLeft="55dp"
             android:scaleType="centerInside"
             app:layout_constraintEnd_toStartOf="@+id/lookbookTop"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +45,7 @@
             android:id="@+id/lookbookTop"
             android:layout_width="131dp"
             android:layout_height="131dp"
-            android:layout_marginTop="-95dp"
+            android:layout_marginTop="-85dp"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +57,7 @@
             android:layout_width="131dp"
             android:layout_height="131dp"
             android:layout_marginStart="-100dp"
-            android:layout_marginTop="-100dp"
+            android:layout_marginTop="-50dp"
             android:scaleType="centerInside"
             app:layout_constraintStart_toEndOf="@+id/lookbookTop"
             app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
@@ -85,7 +86,8 @@
             android:id="@+id/lookbookBag"
             android:layout_width="131dp"
             android:layout_height="131dp"
-            android:layout_marginStart="-50dp"
+            android:layout_marginStart="-60dp"
+            android:layout_marginTop="20dp"
             android:scaleType="centerInside"
             app:layout_constraintStart_toEndOf="@+id/lookbookTop"
             app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
