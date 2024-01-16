@@ -125,13 +125,32 @@ class LookBookDetailViewActivity : AppCompatActivity() {
     }
 
     private fun updateClothesImages(clothesImagesArray: JsonArray) {
-        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[0].asString}").into(lookbookTop)
-        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[1].asString}").into(lookbookBottom)
-        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[2].asString}").into(lookbookOuter)
-        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[3].asString}").into(lookbookOnepiece)
-        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[4].asString}").into(lookbookShoes)
-        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[5].asString}").into(lookbookBag)
-        
+        if (clothesImagesArray.size() >= 6) {
+            // Check for JsonNull before accessing elements
+            val topImageUrl = clothesImagesArray[0].takeIf { !it.isJsonNull }?.asString
+            val bottomImageUrl = clothesImagesArray[1].takeIf { !it.isJsonNull }?.asString
+            val outerImageUrl = clothesImagesArray[2].takeIf { !it.isJsonNull }?.asString
+            val onepieceImageUrl = clothesImagesArray[3].takeIf { !it.isJsonNull }?.asString
+            val shoesImageUrl = clothesImagesArray[4].takeIf { !it.isJsonNull }?.asString
+            val bagImageUrl = clothesImagesArray[5].takeIf { !it.isJsonNull }?.asString
+
+            Glide.with(this).load("http://172.10.7.44:80/images/$topImageUrl").into(lookbookTop)
+            Glide.with(this).load("http://172.10.7.44:80/images/$bottomImageUrl")
+                .into(lookbookBottom)
+            Glide.with(this).load("http://172.10.7.44:80/images/$outerImageUrl").into(lookbookOuter)
+            Glide.with(this).load("http://172.10.7.44:80/images/$onepieceImageUrl")
+                .into(lookbookOnepiece)
+            Glide.with(this).load("http://172.10.7.44:80/images/$shoesImageUrl").into(lookbookShoes)
+            Glide.with(this).load("http://172.10.7.44:80/images/$bagImageUrl").into(lookbookBag)
+        }
+//        }
+//        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[0].asString}").into(lookbookTop)
+//        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[1].asString}").into(lookbookBottom)
+//        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[2].asString}").into(lookbookOuter)
+//        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[3].asString}").into(lookbookOnepiece)
+//        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[4].asString}").into(lookbookShoes)
+//        Glide.with(this).load("http://172.10.7.44:80/images/${clothesImagesArray[5].asString}").into(lookbookBag)
+//
 //        Picasso.get().load("http://172.10.7.44:80/images/${clothesImagesArray[1]}").into(lookbookBottom)
 //        Picasso.get().load("http://172.10.7.44:80/images/${clothesImagesArray[2]}").into(lookbookOuter)
 //        Picasso.get().load("http://172.10.7.44:80/images/${clothesImagesArray[3]}").into(lookbookOnepiece)
