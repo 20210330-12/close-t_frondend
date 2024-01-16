@@ -23,7 +23,7 @@ class LookBookFragment : Fragment() {
     private lateinit var lookBookAdapter: LookBookAdapter
     private lateinit var codiIds: ArrayList<String>
     private lateinit var likes: ArrayList<String>
-    private lateinit var clothesImageUrls: ArrayList<List<String>>
+    private lateinit var clothesImageUrls: ArrayList<List<String?>>
     private lateinit var heartButton: ImageButton
     private var emptyHeart: Boolean = true
     override fun onCreateView(
@@ -94,22 +94,31 @@ class LookBookFragment : Fragment() {
     }
 
     private fun parseResponse(response: JsonObject?) {
-        val codiIdsArray = response!!.getAsJsonArray("codiIds")
-        val likesArray = response.getAsJsonArray("likes")
-        val clothesImageUrlsArray = response.getAsJsonArray("clothesImageUrls")
+        val codiIdsArray = response?.getAsJsonArray("codiIds")
+        val likesArray = response?.getAsJsonArray("likes")
+        val clothesImageUrlsArray = response?.getAsJsonArray("clothesImageUrls")
 
         codiIdsArray?.let {
             for (i in 0 until it.size()) {
                 codiIds.add(it[i].asString)
                 likes.add(likesArray?.get(i)?.asString ?: "")
 
-                val clothesImages = ArrayList<String>()
-                val clothesImagesArray = clothesImageUrlsArray?.get(i)?.asJsonArray
-                clothesImagesArray?.let {
-                    for (j in 0 until it.size()) {
-                        clothesImages.add(it[j].asString)
+                val clothesImages = ArrayList<String?>()
+                val clothesImagesArray = clothesImageUrlsArray?.get(i)
+
+                if (clothesImagesArray != null && clothesImagesArray.isJsonArray) {
+                    val jsonArray = clothesImagesArray.asJsonArray
+                    for (j in 0 until jsonArray.size()) {
+                        val imageUrl = jsonArray[j].takeIf { !it.isJsonNull }?.asString
+                        clothesImages.add(imageUrl)
                     }
                 }
+//                clothesImagesArray?.let {
+//                    for (j in 0 until it.size()) {
+//                        val imageUrl = it[j]?.asString
+//                        clothesImages.add(imageUrl)
+//                    }
+//                }
                 clothesImageUrls.add(clothesImages)
             }
         }

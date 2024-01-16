@@ -25,7 +25,7 @@ class LookBookAdapter(
     private val context: Context,
     private val codiIds: List<String>,
     private val likes: List<String>,
-    private val clothesImageUrls: List<List<String>>,
+    private val clothesImageUrls: List<List<String?>>,
     private val itemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<LookBookViewHolder>() {
     interface OnItemClickListener {
