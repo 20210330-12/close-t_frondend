@@ -44,17 +44,28 @@ class TrashAdapter (private var clothesList: ArrayList<Clothes>) :
 
         // 하트 버튼 누르면 like tag 추가 / 삭제
         holder.myClosetLikeBtn.setOnClickListener {
-            val currentTopLikeImage = holder.myClosetLikeBtn.tag as? Int ?: R.drawable.empty_heart
-            val newTopLikeImage = if (currentTopLikeImage == R.drawable.empty_heart) {
-                R.drawable.full_heart
-            } else { R.drawable.empty_heart }
+//            val currentTopLikeImage = holder.myClosetLikeBtn.tag as? Int ?: R.drawable.empty_heart
+//            val newTopLikeImage = if (currentTopLikeImage == R.drawable.empty_heart) {
+//                R.drawable.full_heart
+//            } else { R.drawable.empty_heart }
+//
+//            Log.e("ClothesAdapter", "current: $currentTopLikeImage")
+//            Log.e("ClothesAdapter", "new: $newTopLikeImage")
+//            Log.e("ClothesAdapter", "empty_heart: ${R.drawable.empty_heart}")
+//            Log.e("ClothesAdapter", "full_heart: ${R.drawable.full_heart}")
+//            holder.myClosetLikeBtn.setImageResource(newTopLikeImage)
+//            holder.myClosetLikeBtn.tag = newTopLikeImage
 
-            Log.e("ClothesAdapter", "current: $currentTopLikeImage")
-            Log.e("ClothesAdapter", "new: $newTopLikeImage")
-            Log.e("ClothesAdapter", "empty_heart: ${R.drawable.empty_heart}")
-            Log.e("ClothesAdapter", "full_heart: ${R.drawable.full_heart}")
-            holder.myClosetLikeBtn.setImageResource(newTopLikeImage)
-            holder.myClosetLikeBtn.tag = newTopLikeImage
+            if (clothesList[position].like.contains("Like")) {
+                // 이때는 이제 none이 되는거니까
+                clothesList[position].like = "None"
+                holder.myClosetLikeBtn.setImageResource(R.drawable.empty_heart)
+            } else {
+                // false였던걸 누른 거니까 true가 되고, 하트는 칠해져야 하는거지.
+                clothesList[position].like = "Like"
+                holder.myClosetLikeBtn.setImageResource(R.drawable.full_heart)
+            }
+            notifyItemChanged(position)
 
             // 서버에 like 여부 저장
             // 이건 그냥 보내만 두면 -> like 되어있으면 해제해주고, 안 되어있으면 like해줌
@@ -166,7 +177,7 @@ class TrashAdapter (private var clothesList: ArrayList<Clothes>) :
         fun bind(item: Clothes) {
             
             // tag에 like가 있으면 좋아요 눌러놓기
-            if(item.trash.contains("Trash")) {
+            if(item.like.contains("Like")) {
                 myClosetLikeBtn.setImageResource(R.drawable.full_heart)
             } else { myClosetLikeBtn.setImageResource(R.drawable.empty_heart) }
 

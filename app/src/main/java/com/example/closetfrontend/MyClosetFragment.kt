@@ -4,6 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -64,6 +66,14 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
     private var onepieceList = ArrayList<Clothes>()
     private var shoeList = ArrayList<Clothes>()
     private var bagList = ArrayList<Clothes>()
+
+    // TrashItemList들 - 이 아이들을 실제 itemList에서 제외시키면 됨
+    private var topTrashList = ArrayList<Clothes>()
+    private var bottomTrashList = ArrayList<Clothes>()
+    private var outerTrashList = ArrayList<Clothes>()
+    private var onepieceTrashList = ArrayList<Clothes>()
+    private var shoeTrashList = ArrayList<Clothes>()
+    private var bagTrashList = ArrayList<Clothes>()
 
     // adapter들 - 실제 서버에 사용될 아이들
     private lateinit var topAdapter: ClothesAdapter
@@ -317,19 +327,76 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
                 }
             })
         }
+        // 근데 여기서 보관함에 있는 옷은 불러오면 안됨. 근데 그 로직이 없으니까 그냥 내가 제외하도록 하겠음
+        getTrashList()
+        // 이렇게 하면 TrashList 얻어진거니까
+        // 약간의 시간차를 둔 다음에, remove하면 됨
+        Handler(Looper.getMainLooper()).postDelayed({
+            for (topTrash in topTrashList) { topList.remove(topTrash) }
+            for (bottomTrash in bottomTrashList) { bottomList.remove(bottomTrash) }
+            for (outerTrash in outerTrashList) { outerList.remove(outerTrash) }
+            for (onepieceTrash in onepieceTrashList) { onepieceList.remove(onepieceTrash) }
+            for (shoeTrash in shoeTrashList) { shoeList.remove(shoeTrash) }
+            for (bagTrash in bagTrashList) { bagList.remove(bagTrash) }
+
+            topAdapter.notifyDataSetChanged()
+            bottomAdapter.notifyDataSetChanged()
+            outerAdapter.notifyDataSetChanged()
+            onepieceAdapter.notifyDataSetChanged()
+            shoesAdapter.notifyDataSetChanged()
+            bagAdapter.notifyDataSetChanged()
+        }, 1000)
+        
+        
 //        topList.add(Clothes("1", "상의", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
 //        bottomList.add(Clothes("2", "하의", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
 //        outerList.add(Clothes("3", "아우터", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
 //        onepieceList.add(Clothes("4", "원피스", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
 //        shoeList.add(Clothes("5", "신발", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
 //        bagList.add(Clothes("6", "가방", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+    }
 
-        topAdapter.notifyDataSetChanged()
-        bottomAdapter.notifyDataSetChanged()
-        outerAdapter.notifyDataSetChanged()
-        onepieceAdapter.notifyDataSetChanged()
-        shoesAdapter.notifyDataSetChanged()
-        bagAdapter.notifyDataSetChanged()
+    private fun getTrashList() {
+        for (category in category) {
+            // 서버에서 옷 가져오는 거 해야함
+            Log.e(ContentValues.TAG, "$category")
+//            val encodedCategory = URLEncoder.encode(category, StandardCharsets.UTF_8.toString())
+            api.getTrash(userId, category).enqueue(object: Callback<ClothesResponse> {
+                override fun onResponse(call: Call<ClothesResponse>, response: Response<ClothesResponse>) {
+                    if (response.isSuccessful) {
+                        val result = response.body()
+                        Log.e(ContentValues.TAG, "result: $result")
+                        result?.let{
+                            when (category) {
+                                "상의" -> { topTrashList.clear() }
+                                "하의" -> { bottomTrashList.clear() }
+                                "아우터" -> { outerTrashList.clear() }
+                                "원피스" -> { onepieceTrashList.clear() }
+                                "신발" -> { shoeTrashList.clear() }
+                                "가방" -> { bagTrashList.clear() }
+                            }
+                            for (cloth in result.clothes) {
+                                when (category) {
+                                    "상의" -> { topTrashList.add(cloth) }
+                                    "하의" -> { bottomTrashList.add(cloth) }
+                                    "아우터" -> { outerTrashList.add(cloth) }
+                                    "원피스" -> { onepieceTrashList.add(cloth) }
+                                    "신발" -> { shoeTrashList.add(cloth) }
+                                    "가방" -> { bagTrashList.add(cloth) }
+                                }
+                            }
+                        }
+                    } else {
+                        // HTTP 요청이 실패한 경우의 처리
+                        Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<ClothesResponse>, t: Throwable) {
+                    Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
+                }
+            })
+        }
     }
 
     private fun showOnlyLikes() {
@@ -344,15 +411,16 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
 
     private fun clickLikeButton(ifLike: Boolean, likeButton: ImageButton, category: String) {
         // 각 list clear은 handleGetClothes에서 했음
-        if (ifLike) {
+        if (!ifLike) {
             // 이미 눌려있는 상황이면, 다시 눌렀을 때 false가 되는거지
-            likeButton.setImageResource(R.drawable.empty_heart)
+//            likeButton.setImageResource(R.drawable.empty_heart)
             api.getCategoryClothes(userId, category).enqueue(object: Callback<ClothesResponse> {
                 override fun onResponse(call: Call<ClothesResponse>, response: Response<ClothesResponse>) {
                     if (response.isSuccessful) {
                         val result = response.body()
                         Log.e(ContentValues.TAG, "result: $result")
                         result?.let{ handleGetClothes(category, it) }
+                        //likeButton.setImageResource(R.drawable.empty_heart)
                     } else {
                         // HTTP 요청이 실패한 경우의 처리
                         Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
@@ -364,7 +432,7 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
                 }
             })
         } else {
-            likeButton.setImageResource(R.drawable.full_heart)
+//            likeButton.setImageResource(R.drawable.full_heart)
             // 서버에서 옷 가져오는 거 해야함
             api.getLike(userId, category).enqueue(object: Callback<ClothesResponse> {
                 override fun onResponse(call: Call<ClothesResponse>, response: Response<ClothesResponse>) {
@@ -372,6 +440,7 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
                         val result = response.body()
                         Log.e(ContentValues.TAG, "result: $result")
                         result?.let{ handleGetClothes(category, it) }
+                        //likeButton.setImageResource(R.drawable.full_heart)
                     } else {
                         // HTTP 요청이 실패한 경우의 처리
                         Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
@@ -395,22 +464,24 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
             "신발" -> { shoeList.clear() }
             "가방" -> { bagList.clear() }
         }
-        for (cloth in data.clothes) {
-            when (category) {
-                "상의" -> { topList.add(cloth) }
-                "하의" -> { bottomList.add(cloth) }
-                "아우터" -> { outerList.add(cloth) }
-                "원피스" -> { onepieceList.add(cloth) }
-                "신발" -> { shoeList.add(cloth) }
-                "가방" -> { bagList.add(cloth) }
+        Handler(Looper.getMainLooper()).postDelayed({
+            for (cloth in data.clothes) {
+                when (category) {
+                    "상의" -> { topList.add(cloth) }
+                    "하의" -> { bottomList.add(cloth) }
+                    "아우터" -> { outerList.add(cloth) }
+                    "원피스" -> { onepieceList.add(cloth) }
+                    "신발" -> { shoeList.add(cloth) }
+                    "가방" -> { bagList.add(cloth) }
+                }
             }
-        }
-        topAdapter.notifyDataSetChanged()
-        bottomAdapter.notifyDataSetChanged()
-        outerAdapter.notifyDataSetChanged()
-        onepieceAdapter.notifyDataSetChanged()
-        shoesAdapter.notifyDataSetChanged()
-        bagAdapter.notifyDataSetChanged()
+            topAdapter.notifyDataSetChanged()
+            bottomAdapter.notifyDataSetChanged()
+            outerAdapter.notifyDataSetChanged()
+            onepieceAdapter.notifyDataSetChanged()
+            shoesAdapter.notifyDataSetChanged()
+            bagAdapter.notifyDataSetChanged()
+        }, 400)
     }
 
     private fun addNewCloth() {

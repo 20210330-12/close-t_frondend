@@ -84,9 +84,11 @@ class MainActivity : AppCompatActivity() {
                     Handler(Looper.getMainLooper()).postDelayed({
                         getUserCheck()
                         putDummyData()
-                        val intent = Intent(context, EnterProfile::class.java)
-                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                        finish()
+
+//                        // 이걸 내가 왜 한거야 ㅋㅋ
+//                        val intent = Intent(context, EnterProfile::class.java)
+//                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+//                        finish()
                     }, 2000)
                 } catch (error: Throwable) {
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
