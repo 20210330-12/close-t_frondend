@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.closetfrontend.LookBookAdapter.LookBookViewHolder
+import com.squareup.picasso.Picasso
 
 class LookBookAdapter(
     private val context: Context,
@@ -32,12 +33,13 @@ class LookBookAdapter(
         val like = likes[position]
         val clothesImages = clothesImageUrls[position]
         if (clothesImages.size >= 6) {
-            holder.lookbookTop.setImageBitmap(displayProcessedImage(clothesImages[0]))
-            holder.lookbookBottom.setImageBitmap(displayProcessedImage(clothesImages[1]))
-            holder.lookbookOuter.setImageBitmap(displayProcessedImage(clothesImages[2]))
-            holder.lookbookOnepiece.setImageBitmap(displayProcessedImage(clothesImages[3]))
-            holder.lookbookShoes.setImageBitmap(displayProcessedImage(clothesImages[4]))
-            holder.lookbookBag.setImageBitmap(displayProcessedImage(clothesImages[5]))
+            Picasso.get().load("http://172.10.7.44:80/images/${clothesImages[0]}").into(holder.lookbookTop)
+            Picasso.get().load("http://172.10.7.44:80/images/${clothesImages[1]}").into(holder.lookbookBottom)
+            Picasso.get().load("http://172.10.7.44:80/images/${clothesImages[2]}").into(holder.lookbookOuter)
+            Picasso.get().load("http://172.10.7.44:80/images/${clothesImages[3]}").into(holder.lookbookOnepiece)
+            Picasso.get().load("http://172.10.7.44:80/images/${clothesImages[4]}").into(holder.lookbookShoes)
+            Picasso.get().load("http://172.10.7.44:80/images/${clothesImages[5]}").into(holder.lookbookBag)
+//
         }
         holder.itemView.setOnClickListener { view: View? -> itemClickListener.onItemClick(position) }
         if ("like" == like) {
@@ -49,18 +51,21 @@ class LookBookAdapter(
         }
     }
 
+    /*
     private fun displayProcessedImage(base64Image: String): Bitmap {
         val decodedBytes =
             Base64.decode(base64Image, Base64.DEFAULT)
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     }
 
+     */
+
     override fun getItemCount(): Int {
         return codiIds.size
     }
 
     inner class LookBookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageIV: ImageView
+        //val imageIV: ImageView
         val emptyHeart: ImageView
         val filledHeart: ImageView
         val lookbookTop: ImageView
@@ -71,7 +76,7 @@ class LookBookAdapter(
         val lookbookBag: ImageView
 
         init {
-            imageIV = itemView.findViewById(R.id.idIVImage)
+            //imageIV = itemView.findViewById(R.id.idIVImage)
             emptyHeart = itemView.findViewById(R.id.idEmptyHeart)
             filledHeart = itemView.findViewById(R.id.idHeartFilled)
             lookbookTop = itemView.findViewById(R.id.lookbookTop)
