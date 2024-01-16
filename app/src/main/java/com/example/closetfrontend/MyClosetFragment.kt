@@ -525,8 +525,8 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
             val like: String = "none"
 
             val clothesIdsArray = ArrayList<UUID>()
-            clothesIdsArray.add(UUID.fromString(clothIdTop))
-            clothesIdsArray.add(UUID.fromString(clothIdBottom))
+            //clothesIdsArray.add(if(clothIdTop.isEmpty()) { null } else {UUID.fromString(clothIdTop)})
+            if (clothIdBottom.isNotEmpty()) { clothesIdsArray.add(UUID.fromString(clothIdBottom)) }
             clothesIdsArray.add(UUID.fromString(clothIdOuter))
             clothesIdsArray.add(UUID.fromString(clothIdOnepiece))
             clothesIdsArray.add(UUID.fromString(clothIdShoes))
