@@ -580,8 +580,6 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
             clothesIdsArray.add(if (clothIdShoes.isEmpty()) { null } else { UUID.fromString(clothIdShoes) })
             clothesIdsArray.add(if (clothIdBag.isEmpty()) { null } else { UUID.fromString(clothIdBag) })
 
-            Log.e("MyClosetFragment", clothesIdsArray.toString())
-
             val clothesImagesArray = ArrayList<String?>()
             clothesImagesArray.add(if (codiTop == null) { null } else { codiTop.imageUrl })
             clothesImagesArray.add(if (codiBottom == null) { null } else { codiBottom.imageUrl })
@@ -590,6 +588,8 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
             clothesImagesArray.add(if (codiShoes == null) { null } else { codiShoes.imageUrl })
             clothesImagesArray.add(if (codiBag == null) { null } else { codiBag.imageUrl })
 
+            Log.e("MyClosetFragment", clothesIdsArray.toString())
+            Log.e("MyClosetFragment", clothesImagesArray.toString())
             Log.e("MyClosetFragment", "clothesIdsArray size: ${clothesIdsArray.size}")
             Log.e("MyClosetFragment", "clothesImagesArray size: ${clothesImagesArray.size}")
 
@@ -644,12 +644,15 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
         for (i: Int in 0..(clothesList.size-1)) {
             if (clothesList[i].id == clothId) {
                 position = i
-                check = i
                 break
             }
+            check = check + 1
+            Log.e("check 값 check", "i: $i")
         }
         // 만약 전체 리스트 중에 없으면 null을 반환하고, 있으면 cloth 객체를 반환함
-        return if (check == (clothesList.size-1)) { null } else { clothesList[position] }
+        Log.e("check 값 check", "clothesList.size: ${clothesList.size}")
+        Log.e("check 값 check", "check: $check")
+        return if (check == clothesList.size) { null } else { clothesList[position] }
     }
 
     private fun topLikeButton(view: View) {
