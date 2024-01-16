@@ -12,7 +12,7 @@ data class Clothes(
     val id: String,
     val category: String,
     val styles: List<String>,
-    val like: String,
+    var like: String,
     val wish: String,
     val trash: String,
     @SerializedName("imageUrl") val imageUrl: String,

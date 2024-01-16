@@ -73,8 +73,7 @@ dependencies {
     implementation ("com.google.android.material:material:1.11.0")
 
     // 파일 경로로 된 이미지를 띄우기 위한 implementation
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
-
-
+    // 및 gif 이미지를 위한
+    implementation ("com.github.bumptech.glide:glide:4.13.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.13.0")
 }

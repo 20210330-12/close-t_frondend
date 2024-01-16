@@ -11,12 +11,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.closetfrontend.databinding.FragmentMyClosetBinding
 import com.example.closetfrontend.databinding.FragmentMyPageBinding
 import com.google.gson.JsonObject
+import com.kakao.sdk.user.UserApiClient
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,7 +63,21 @@ class MyPageFragment : Fragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentMyPageBinding.inflate(inflater, container, false)
-
+        
+        
+        // 로그아웃 로직 구현
+        binding.logoutBtn.setOnClickListener{
+            UserApiClient.instance.logout { error: Throwable? ->
+                if (error != null) {
+                    Log.e(ContentValues.TAG, "로그아웃 실패, SDK에서 토큰 삭제됨", error)
+                } else {
+                    Log.e(ContentValues.TAG, "로그아웃 성공, SDK에서 토큰 삭제됨")
+                }
+            }
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
+        }
+        
         initiation()
         getUser()
         Handler(Looper.getMainLooper()).postDelayed({
@@ -108,19 +124,19 @@ class MyPageFragment : Fragment() {
             }
         })
 
-        // 일단 dummy data로
-        profileNameText = "송한이"
-        profileGenderText = "Female"
-        profileEmailText = "hanis@kaist.ac.kr"
-        profileImageText = "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg"
+//        // 일단 dummy data로
+//        profileNameText = "송한이"
+//        profileGenderText = "Female"
+//        profileEmailText = "hanis@kaist.ac.kr"
+//        profileImageText = "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg"
 
     }
 
     private fun setProfile() {
         // 이미지 세팅
         Picasso.get().load(profileImageText)
-            .placeholder(R.drawable.full_heart)
-            .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+            .placeholder(android.R.color.transparent)
+            .error(android.R.color.transparent) // 에러 발생 시 로딩될 이미지
             .into(profileImage)
 
         // 이름 세팅
