@@ -19,6 +19,7 @@ import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import com.example.closetfrontend.RetrofitInterface.Companion.create
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonSyntaxException
 import okhttp3.MediaType.Companion.toMediaType
@@ -31,6 +32,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -181,8 +183,8 @@ class AddClothesActivity : AppCompatActivity() {
             category,
             selectedStyles,
             like,
-            wish,
             trash,
+            wish,
             imageUrl!!,
             enteredLink
         )
@@ -379,7 +381,7 @@ class AddClothesActivity : AppCompatActivity() {
             .addFormDataPart("image_file", "image.jpg", imageFile.asRequestBody("image/jpeg".toMediaType()))
             .build()
 
-        val request = Request.Builder().header("x-api-key", "97838e421cdfc4d7fd8f6f13065711b89a24bafbce5b0ccde618266696155d0b2598e9866be5433a8e8b4e6137a0a4cf")
+        val request = Request.Builder().header("x-api-key", "8fa4f1ef03e050deb24ea41db892f951d4866b41a8936e63d42f45beb50df888b51ac1560d0c16bdfe4d50d6dbd1ed67")
             .url("https://clipdrop-api.co/remove-background/v1").post(requestBody).build()
 
         client.newCall(request).enqueue(object : Callback {
@@ -390,12 +392,11 @@ class AddClothesActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val byteArray = response.body?.bytes()
-
+                    //Log.d("response", response.body.toString())
                     runOnUiThread {
                         byteArray?.let {
-                            val uniqueFileName = generateUniqueFileName()
-                            displayProcessedImage(it, uniqueFileName)
-                            imageUrl = saveImageAndGetUrl(it, uniqueFileName)
+                            displayProcessedImage(it)
+                            uploadImageToServer(it)
                         }
                     }
                 } else {
@@ -405,21 +406,58 @@ class AddClothesActivity : AppCompatActivity() {
         })
     }
 
+    private fun uploadImageToServer(byteArray: ByteArray) {
+        val requestFile: RequestBody = byteArray.toRequestBody("image/jpeg".toMediaType())
+        val body: MultipartBody.Part = MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
+
+        retrofitInterface.uploadImage(body).enqueue(object : retrofit2.Callback<JsonObject> {
+            override fun onResponse(
+                call: retrofit2.Call<JsonObject>,
+                response: retrofit2.Response<JsonObject>
+            ) {
+                if (response.isSuccessful) {
+                    val jsonObject: JsonObject? = response.body()
+
+                    if (jsonObject != null && jsonObject.has("imagePath")) {
+                        val imagePath: JsonElement = jsonObject.getAsJsonPrimitive("imagePath")
+
+                        // Check if the "imagePath" is a string
+                        if (imagePath.isJsonPrimitive) {
+                            imageUrl = imagePath.asString
+                            Log.d("Image Upload", "Image URL: $imageUrl")
+                        } else {
+                            Log.e("Image Upload", "Unexpected 'imagePath' format")
+                        }
+                    }
+                    //imageUrl = response.body().toString()
+
+                    //return imageUrl
+                } else {
+                    Log.e("Image Upload", "failed")
+                }
+            }
+
+            override fun onFailure(call: retrofit2.Call<JsonObject>, t: Throwable) {
+                Log.e("Image upload", "Unexpected result")
+            }
+        })
+    }
+
     private fun generateUniqueFileName(): String {
         return "processed_image_${System.currentTimeMillis()}.jpg"
     }
 
-    private fun displayProcessedImage(decodedBytes: ByteArray, fileName: String) {
+    private fun displayProcessedImage(decodedBytes: ByteArray) {
         val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-        Log.d("AddClothesActivity", "${decodedBitmap}")
+        Log.d("display", decodedBitmap.toString())
         imageView.setImageBitmap(decodedBitmap)
     }
 
     private fun saveImageAndGetUrl(decodedBytes: ByteArray, fileName: String): String? {
         //val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
         //return saveImageToFile(decodedBytes, fileName)
-        val encodedString: String = java.util.Base64.getEncoder().encodeToString(decodedBytes)
-        Log.d("AddClothesActivity", "${encodedString}");
+        val encodedString: String = Base64.encodeToString(decodedBytes, Base64.DEFAULT)
+        //Log.d("display base 64", "${encodedString}");
         return decodedBytes.toString();
     }
 
