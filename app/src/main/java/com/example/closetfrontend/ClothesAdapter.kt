@@ -16,7 +16,6 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -169,9 +168,10 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
 //                        .placeholder(R.drawable.full_heart)
 //                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
 //                        .into(bindingMyCloset.lookbookTop)
-                    Glide.with(myClosetFragment)
-                        .load(imageUrl)
-                        .into(bindingMyCloset.lookbookTop)
+//                    Glide.with(myClosetFragment)
+//                        .load(imageUrl)
+//                        .into(bindingMyCloset.lookbookTop)
+                    Picasso.get().load("http://172.10.7.44:80/images/${imageUrl}").into(bindingMyCloset.lookbookTop)
                     bindingMyCloset.textLookbookTop.text = clothId
                 }
                 "하의" -> {
@@ -180,9 +180,10 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
 //                        .placeholder(R.drawable.full_heart)
 //                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
 //                        .into(bindingMyCloset.lookbookBottom)
-                    Glide.with(myClosetFragment)
-                        .load(imageUrl)
-                        .into(bindingMyCloset.lookbookBottom)
+//                    Glide.with(myClosetFragment)
+//                        .load(imageUrl)
+//                        .into(bindingMyCloset.lookbookBottom)
+                    Picasso.get().load("http://172.10.7.44:80/images/${imageUrl}").into(bindingMyCloset.lookbookBottom)
                     bindingMyCloset.textLookbookBottom.text = clothId
                 }
                 "아우터" -> {
@@ -191,9 +192,10 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
 //                        .placeholder(R.drawable.full_heart)
 //                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
 //                        .into(bindingMyCloset.lookbookOuter)
-                    Glide.with(myClosetFragment)
-                        .load(imageUrl)
-                        .into(bindingMyCloset.lookbookOuter)
+//                    Glide.with(myClosetFragment)
+//                        .load(imageUrl)
+//                        .into(bindingMyCloset.lookbookOuter)
+                    Picasso.get().load("http://172.10.7.44:80/images/${imageUrl}").into(bindingMyCloset.lookbookOuter)
                     bindingMyCloset.textLookbookOuter.text = clothId
                 }
                 "원피스" -> {
@@ -201,10 +203,11 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
 //                    Picasso.get().load(clothImage)
 //                        .placeholder(R.drawable.full_heart)
 //                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+////                        .into(bindingMyCloset.lookbookOnepiece)
+//                    Glide.with(myClosetFragment)
+//                        .load(imageUrl)
 //                        .into(bindingMyCloset.lookbookOnepiece)
-                    Glide.with(myClosetFragment)
-                        .load(imageUrl)
-                        .into(bindingMyCloset.lookbookOnepiece)
+                    Picasso.get().load("http://172.10.7.44:80/images/${imageUrl}").into(bindingMyCloset.lookbookOnepiece)
                     bindingMyCloset.textLookbookOnepiece.text = clothId
                 }
                 "신발" -> {
@@ -213,9 +216,10 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
 //                        .placeholder(R.drawable.full_heart)
 //                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
 //                        .into(bindingMyCloset.lookbookShoes)
-                    Glide.with(myClosetFragment)
-                        .load(imageUrl)
-                        .into(bindingMyCloset.lookbookShoes)
+//                    Glide.with(myClosetFragment)
+//                        .load(imageUrl)
+//                        .into(bindingMyCloset.lookbookShoes)
+                    Picasso.get().load("http://172.10.7.44:80/images/${imageUrl}").into(bindingMyCloset.lookbookShoes)
                     bindingMyCloset.textLookbookShoes.text = clothId
                 }
                 "가방" -> {
@@ -224,9 +228,10 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
 //                        .placeholder(R.drawable.full_heart)
 //                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
 //                        .into(bindingMyCloset.lookbookBag)
-                    Glide.with(myClosetFragment)
-                        .load(imageUrl)
-                        .into(bindingMyCloset.lookbookBag)
+//                    Glide.with(myClosetFragment)
+//                        .load(imageUrl)
+//                        .into(bindingMyCloset.lookbookBag)
+                    Picasso.get().load("http://172.10.7.44:80/images/${imageUrl}").into(bindingMyCloset.lookbookBag)
                     bindingMyCloset.textLookbookBag.text = clothId
                 }
             }
@@ -273,18 +278,7 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
 //            Glide.with(itemView.context)
 //                .load(imageUrl)
 //                .into(myClosetPic)
-
-            val byteArrayString = "iVBORw0KGgoAAAANSUhEUgAABDgAAAjoCAYAAAA5jhrUAAABBmlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGCSYAACJgEGhty8kqIgdyeFiMgoBQYkkJhcXMCAGzAyMHy7BiIZGC7r4lGHC3CmpBYnA+kPQFxSBLQcaGQKkC2SDmFXgNhJEHYPiF0UEuQMZC8AsjXSkdhJSOzykoISIPsESH1yQRGIfQfItsnNKU1GuJuBJzUvNBhIRwCxDEMxQxCDO4MTGX7ACxDhmb+IgcHiKwMD8wSEWNJMBobtrQwMErcQYipAP/C3MDBsO1+QWJQIFmIBYqa0NAaGT8sZGHgjGRiELzAwcEVj2oGICxx+VQD71Z0hHwjTGXIYUoEingx5DMkMekCWEYMBgyGDGQBMpUCRBqmilgAAAAlwSFlzAAALEwAACxMBAJqcGAABAABJREFUeF7s3duCG7mStucvQFaV1D3LPvDYt+sL8LFv9PeMuiUVET4IBIBEZpIsSd2z1sz7qKtJ5gabAHIHJkkJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-
-            // Convert the string representation to an actual byte array
-            val byteArray = Base64.decode(byteArrayString, Base64.DEFAULT)
-
-            // Create a Bitmap from the byte array
-            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-            // val bitmap = "android.graphics.Bitmap@ca6faba"
-            // Now you can use 'bitmap' to display the image
-            Log.d("bitmap 확인", bitmap.toString())
-            myClosetPic.setImageBitmap(bitmap)
+            Picasso.get().load("http://172.10.7.44:80/images/${imageUrl}").into(myClosetPic)
 
 //            itemView.context.openFileInput(imageUrl).use { inputStream ->
 //                val byteArray = inputStream.readBytes()

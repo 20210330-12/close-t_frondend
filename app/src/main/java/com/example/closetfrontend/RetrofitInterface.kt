@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -18,8 +19,10 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
@@ -58,6 +61,12 @@ interface RetrofitInterface {
         @Field("styles") styles: ArrayList<String>?
     ): Call<JsonObject>
 
+    @Multipart
+    @POST("/images/upload")
+    fun uploadImage(@Part image: MultipartBody.Part): Call<JsonObject>
+
+    @GET("images/{url}")
+    fun getImage(@Path("url") url: String): Call<JsonObject>
 
     @GET("/user/{userId}/profile")
     fun getUser(@Path("userId") userId: String): Call<JsonObject>
