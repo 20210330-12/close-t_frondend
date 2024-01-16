@@ -4,13 +4,21 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.example.closetfrontend.LookBookAdapter.LookBookViewHolder
+import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LookBookAdapter(
     private val context: Context,
@@ -49,6 +57,36 @@ class LookBookAdapter(
             holder.emptyHeart.visibility = View.VISIBLE
             holder.filledHeart.visibility = View.GONE
         }
+
+        val sharedPreferences = holder.itemView.context.getSharedPreferences("userId", AppCompatActivity.MODE_PRIVATE)
+        val userId = sharedPreferences.getString("userId", "")!!
+        holder.emptyHeart.setOnClickListener {
+            likeCodi(userId, codiId)
+            if (likes[position] == "none") {
+                holder.emptyHeart.visibility = View.GONE
+                holder.filledHeart.visibility = View.VISIBLE
+            } else {
+                holder.emptyHeart.visibility = View.VISIBLE
+                holder.filledHeart.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun likeCodi(userId: String, codiId: String) {
+        RetrofitInterface.create().likeCodi(userId, codiId).enqueue(object :
+            Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful) {
+                    Log.e("likeCodi", response.body().toString())
+                } else {
+                    Log.e("likeCodi", "failed to like codi")
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Log.e("likeCodi", "failed")
+            }
+        })
     }
 
     /*

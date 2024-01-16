@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:scaleType="centerCrop"
-            android:background="#FD81AE" >
+            android:background="#EAD8C8" >
 
             <ImageView
                 android:id="@+id/lookbookOuter"

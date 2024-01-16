@@ -126,7 +126,8 @@ interface RetrofitInterface {
     @GET("/{userId}/openai/generateOOTD")
     fun dalle(@Path("userId") userId: String, @Query("stylePick") stylePick: String): Call<JsonObject>
 
-
+    @PATCH("/{userId}/codi/{codiId}/like")
+    fun likeCodi(@Path("userId") userId: String, @Path("codiId") codiId: String): Call<JsonObject>
 
     @GET("/{userId}/codi")
     fun getAllCodies(@Path("userId") userId: String): Call<JsonObject>
