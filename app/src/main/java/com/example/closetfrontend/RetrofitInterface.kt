@@ -2,9 +2,7 @@ package com.example.closetfrontend
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.google.gson.JsonPrimitive
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -26,7 +24,7 @@ import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
-import retrofit2.http.Streaming
+import java.util.UUID
 
 interface RetrofitInterface {
 
@@ -114,7 +112,7 @@ interface RetrofitInterface {
         @Path("userId") userId: String,
         @Field("styles") styles: ArrayList<String>,
         @Field("like") like: String,
-        @Field("clothesIds") clothesIds: ArrayList<String>,
+        @Field("clothesIds") clothesIds: ArrayList<UUID>,
         @Field("clothesImages") clothesImages: ArrayList<String>,
         @Field("comment") comment: String?
     ): Call<JsonObject>

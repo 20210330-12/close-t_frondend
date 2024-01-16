@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,15 +17,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.closetfrontend.databinding.FragmentMyClosetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
+import java.util.UUID
 
 class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefreshListener {
 
@@ -527,13 +524,13 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
 
             val like: String = "none"
 
-            val clothesIdsArray = ArrayList<String>()
-            clothesIdsArray.add(clothIdTop)
-            clothesIdsArray.add(clothIdBottom)
-            clothesIdsArray.add(clothIdOuter)
-            clothesIdsArray.add(clothIdOnepiece)
-            clothesIdsArray.add(clothIdShoes)
-            clothesIdsArray.add(clothIdBag)
+            val clothesIdsArray = ArrayList<UUID>()
+            clothesIdsArray.add(UUID.fromString(clothIdTop))
+            clothesIdsArray.add(UUID.fromString(clothIdBottom))
+            clothesIdsArray.add(UUID.fromString(clothIdOuter))
+            clothesIdsArray.add(UUID.fromString(clothIdOnepiece))
+            clothesIdsArray.add(UUID.fromString(clothIdShoes))
+            clothesIdsArray.add(UUID.fromString(clothIdBag))
 
             Log.e("MyClosetFragment", clothesIdsArray.toString())
 
