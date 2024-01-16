@@ -166,7 +166,7 @@ class WishAdapter (private var clothesList: ArrayList<Clothes>) :
         fun bind(item: Clothes) {
             
             // tag에 like가 있으면 좋아요 눌러놓기
-            if(item.tag?.contains("like") == true) {
+            if(item.wish.contains("Wish")) {
                 myClosetLikeBtn.setImageResource(R.drawable.full_heart)
             } else { myClosetLikeBtn.setImageResource(R.drawable.empty_heart) }
 

@@ -1,11 +1,19 @@
 package com.example.closetfrontend
 
+import android.content.ContentValues
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AfterLoginActivity : AppCompatActivity() {
 
@@ -55,4 +63,5 @@ class AfterLoginActivity : AppCompatActivity() {
         })
 
     }
+
 }

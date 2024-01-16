@@ -14,6 +14,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.closetfrontend.databinding.ActivityChatOotdBinding
 import com.google.gson.JsonObject
@@ -197,17 +198,19 @@ class ChatOotdActivity : AppCompatActivity() {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
                     val result = response.body()
-                    Log.e(ContentValues.TAG, "result: $result")
-                    profileNameText = result?.get("name")?.asString!!
-                    profileGenderText = result?.get("gender")?.asString!!
-                    profileEmailText = result?.get("email")?.asString!!
-                    profileImageText = result?.get("profileImage")?.asString!!
-                    profileAgeText = if (result?.get("age") == null) { ""
-                    } else { result?.get("age")?.asString!! }
-                    profileHeightText = if (result?.get("height") == null) { ""
-                    } else { result?.get("height")?.asString!! }
-                    profileBodyTypeText = if (result?.get("bodyType") == null) { ""
-                    } else { result?.get("bodyType")?.asString!! }
+                    if (result != null) {
+                        Log.e(ContentValues.TAG, "result: $result")
+                        profileNameText = result?.get("name")?.asString ?: ""
+                        profileGenderText = result?.get("gender")?.asString ?: ""
+                        profileEmailText = result?.get("email")?.asString ?: ""
+                        profileImageText = result?.get("profileImage")?.asString ?: ""
+                        profileAgeText = if (!result.get("age").isJsonNull) result.get("age")?.asString ?: "" else ""
+                        profileHeightText = if (!result.get("height").isJsonNull) result.get("height")?.asString ?: "" else ""
+                        profileBodyTypeText = if (!result.get("bodyType").isJsonNull) result.get("bodyType")?.asString ?: "" else ""
+                    } else {
+                        // API 응답이 null인 경우의 처리
+                        Log.e(ContentValues.TAG, "API 응답이 null입니다.")
+                    }
                 } else {
                     // HTTP 요청이 실패한 경우의 처리
                     Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
@@ -218,14 +221,14 @@ class ChatOotdActivity : AppCompatActivity() {
             }
         })
 
-        // 일단 dummy data로
-        profileNameText = "송한이"
-        profileGenderText = "Female"
-        profileEmailText = "hanis@kaist.ac.kr"
-        profileImageText = "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg"
-        profileAgeText = "22"
-        profileHeightText = "165"
-        profileBodyTypeText = "모래시계형"
+//        // 일단 dummy data로
+//        profileNameText = "송한이"
+//        profileGenderText = "Female"
+//        profileEmailText = "hanis@kaist.ac.kr"
+//        profileImageText = "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg"
+//        profileAgeText = "22"
+//        profileHeightText = "165"
+//        profileBodyTypeText = "모래시계형"
         
     }
 
@@ -334,27 +337,36 @@ class ChatOotdActivity : AppCompatActivity() {
             // DB에 user post 시키기
             val dalleCall = api.dalle(
                 userId,
-                if ( stylePick == "") { null } else { stylePick }
+//                if ( stylePick == "") { null } else { stylePick }
+                stylePick
             )
-            dalleCall.enqueue(object : Callback<JsonObject> {
-                override fun onResponse(
-                    call: Call<JsonObject>,
-                    response: Response<JsonObject>
-                ) {
-                    if (response.isSuccessful) {
-                        val result = response.body()
-//                        dalleUrl = response.data.data[0].url.toString()
-                        Log.e("Lets go", "$result")
-                        Log.e("Lets go", "success!! good!!")
-                    } else {
-                        Log.e("Lets go", "what's wrong...")
+            if (stylePick.isEmpty()) {
+                Toast.makeText(this, "오늘의 룩 스타일을 선택해 주세요", Toast.LENGTH_SHORT).show()
+            } else {
+                dalleCall.enqueue(object : Callback<JsonObject> {
+                    override fun onResponse(
+                        call: Call<JsonObject>,
+                        response: Response<JsonObject>
+                    ) {
+                        if (response.isSuccessful) {
+                            val result = response.body()
+                            val imageUrl = result?.get("url")?.asString
+                            Log.e("Lets go", "$result")
+                            Log.e("Lets go", "success!! good!!")
+                            Picasso.get().load(imageUrl)
+                                .placeholder(R.drawable.full_heart)
+                                .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+                                .into(binding.dallePic)
+                        } else {
+                            Log.e("Lets go", "what's wrong...")
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.e("mad..nn", "so sad plz")
-                }
-            })
+                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                        Log.e("mad..nn", "so sad plz")
+                    }
+                })
+            }
 
         }
     }

@@ -12,9 +12,11 @@ data class Clothes(
     val id: String,
     val category: String,
     val styles: List<String>,
-    val tag: List<String>?,
+    val like: String,
+    val wish: String,
+    val trash: String,
     @SerializedName("imageUrl") val imageUrl: String,
-    val link: List<String>?,
+    val link: String?,
     val user: String,
     @SerializedName("userId")  val userId: String
 )

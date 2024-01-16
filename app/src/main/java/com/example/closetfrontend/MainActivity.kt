@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                         val intent = Intent(context, EnterProfile::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
-                    }, 1000)
+                    }, 2000)
                 } catch (error: Throwable) {
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                         Log.d("MainActivity", "사용자가 명시적으로 취소")
