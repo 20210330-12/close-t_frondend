@@ -25,6 +25,7 @@ class LookBookFragment : Fragment() {
     private lateinit var likes: ArrayList<String>
     private lateinit var clothesImageUrls: ArrayList<List<String>>
     private lateinit var heartButton: ImageButton
+    private var emptyHeart: Boolean = true
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,7 +53,15 @@ class LookBookFragment : Fragment() {
 
         heartButton = view.findViewById(R.id.idHeartButton)
         heartButton.setOnClickListener {
-            getLikedCodies()
+            if (emptyHeart) {
+                heartButton.setBackgroundResource(R.drawable.heart_filled)
+                getLikedCodies()
+                emptyHeart = !emptyHeart
+            } else {
+                heartButton.setBackgroundResource(R.drawable.empty_heart)
+                getAllCodies()
+                emptyHeart = !emptyHeart
+            }
         }
 
         getAllCodies()
@@ -110,10 +119,10 @@ class LookBookFragment : Fragment() {
 
     private fun getLikedCodies() {
         val sharedPreferences = requireContext().getSharedPreferences("userId", Context.MODE_PRIVATE)
-        val userId = sharedPreferences.getString("userId", "")
+        val userId = sharedPreferences.getString("userId", "")!!
 
         val retrofitInterface = RetrofitInterface.create()
-        retrofitInterface.getLikedCodies(userId!!).enqueue(object : Callback<JsonObject> {
+        retrofitInterface.getLikedCodies(userId).enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
                     parseResponse(response.body())

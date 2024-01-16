@@ -1,6 +1,6 @@
 package com.example.closetfrontend
 
-import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -105,6 +105,7 @@ class AddClothesActivity : AppCompatActivity() {
 
         wishToggle = findViewById(R.id.idWishToggle)
         urlEditText = findViewById(R.id.urlEditText)
+        wish = "None"
         wishToggle.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 wishToggle.setBackgroundResource(R.drawable.toggle_on)
@@ -150,7 +151,16 @@ class AddClothesActivity : AppCompatActivity() {
         setCategoryClickListener(bagCategoryTextView, "가방")
 
         retrofitInterface = create()
-        findViewById<View>(R.id.saveButton).setOnClickListener { addClothes() }
+        findViewById<View>(R.id.saveButton).setOnClickListener {
+            Log.d("AddClothesActivity", "Selected styles: ${selectedStyles.size}")
+            if (selectedStyles.size == 1) {
+                Toast.makeText(this@AddClothesActivity,
+                    "태그를 두개 이상 선택해주세요",
+                    Toast.LENGTH_SHORT).show()
+            } else {
+                addClothes()
+            }
+        }
     }
 
     private fun addClothes() {
@@ -401,16 +411,30 @@ class AddClothesActivity : AppCompatActivity() {
 
     private fun displayProcessedImage(decodedBytes: ByteArray, fileName: String) {
         val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+        Log.d("AddClothesActivity", "${decodedBitmap}")
         imageView.setImageBitmap(decodedBitmap)
     }
 
     private fun saveImageAndGetUrl(decodedBytes: ByteArray, fileName: String): String? {
-        val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-        return saveImageToFile(decodedBitmap, fileName)
+        //val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+        //return saveImageToFile(decodedBytes, fileName)
+        val encodedString: String = java.util.Base64.getEncoder().encodeToString(decodedBytes)
+        Log.d("AddClothesActivity", "${encodedString}");
+        return decodedBytes.toString();
     }
 
-    private fun saveImageToFile(bitmap: Bitmap, fileName: String): String? {
-        val file = File(filesDir, fileName)
+    private fun saveImageToFile(decodedBytes: ByteArray, fileName: String): String? {
+        openFileOutput(fileName, Context.MODE_PRIVATE).use {
+            it.write(decodedBytes)
+        }
+
+        val filePath = getFileStreamPath(fileName).absolutePath
+
+        val server =
+
+        return fileName;
+        /*
+        file.parentFile?.mkdirs()
         try {
             val outputStream = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
@@ -421,6 +445,8 @@ class AddClothesActivity : AppCompatActivity() {
             e.printStackTrace()
             return null
         }
+
+         */
     }
 
 }
