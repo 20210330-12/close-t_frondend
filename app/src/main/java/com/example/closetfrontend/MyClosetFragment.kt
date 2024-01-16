@@ -449,6 +449,26 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
                 }
             })
         }
+
+        // 근데 여기서 보관함에 있는 옷은 불러오면 안됨. 근데 그 로직이 없으니까 그냥 내가 제외하도록 하겠음
+        getTrashList()
+        // 이렇게 하면 TrashList 얻어진거니까
+        // 약간의 시간차를 둔 다음에, remove하면 됨
+        Handler(Looper.getMainLooper()).postDelayed({
+            for (topTrash in topTrashList) { topList.remove(topTrash) }
+            for (bottomTrash in bottomTrashList) { bottomList.remove(bottomTrash) }
+            for (outerTrash in outerTrashList) { outerList.remove(outerTrash) }
+            for (onepieceTrash in onepieceTrashList) { onepieceList.remove(onepieceTrash) }
+            for (shoeTrash in shoeTrashList) { shoeList.remove(shoeTrash) }
+            for (bagTrash in bagTrashList) { bagList.remove(bagTrash) }
+
+            topAdapter.notifyDataSetChanged()
+            bottomAdapter.notifyDataSetChanged()
+            outerAdapter.notifyDataSetChanged()
+            onepieceAdapter.notifyDataSetChanged()
+            shoesAdapter.notifyDataSetChanged()
+            bagAdapter.notifyDataSetChanged()
+        }, 1000)
     }
 
     fun handleGetClothes(category: String, data: ClothesResponse) {
@@ -472,13 +492,13 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
                     "가방" -> { bagList.add(cloth) }
                 }
             }
-            topAdapter.notifyDataSetChanged()
-            bottomAdapter.notifyDataSetChanged()
-            outerAdapter.notifyDataSetChanged()
-            onepieceAdapter.notifyDataSetChanged()
-            shoesAdapter.notifyDataSetChanged()
-            bagAdapter.notifyDataSetChanged()
-        }, 400)
+//            topAdapter.notifyDataSetChanged()
+//            bottomAdapter.notifyDataSetChanged()
+//            outerAdapter.notifyDataSetChanged()
+//            onepieceAdapter.notifyDataSetChanged()
+//            shoesAdapter.notifyDataSetChanged()
+//            bagAdapter.notifyDataSetChanged()
+        }, 500)
     }
 
     private fun addNewCloth() {
@@ -518,12 +538,36 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
             val codiBag = findWhichCloth(bagList, clothIdBag)
 
             var stylesArray = ArrayList<String>()
-            for (style in codiTop.styles) { stylesArray.add(style) }
-            for (style in codiBottom.styles) { stylesArray.add(style) }
-            for (style in codiOuter.styles) { stylesArray.add(style) }
-            for (style in codiOnepiece.styles) { stylesArray.add(style) }
-            for (style in codiShoes.styles) { stylesArray.add(style) }
-            for (style in codiBag.styles) { stylesArray.add(style) }
+            if (codiTop != null) {
+                for (style in codiTop.styles) {
+                    stylesArray.add(style)
+                }
+            }
+            if (codiBottom != null) {
+                for (style in codiBottom.styles) {
+                    stylesArray.add(style)
+                }
+            }
+            if (codiOuter != null) {
+                for (style in codiOuter.styles) {
+                    stylesArray.add(style)
+                }
+            }
+            if (codiOnepiece != null) {
+                for (style in codiOnepiece.styles) {
+                    stylesArray.add(style)
+                }
+            }
+            if (codiShoes != null) {
+                for (style in codiShoes.styles) {
+                    stylesArray.add(style)
+                }
+            }
+            if (codiBag != null) {
+                for (style in codiBag.styles) {
+                    stylesArray.add(style)
+                }
+            }
             stylesArray.distinct() // 중복 제거
 
             val like: String = "none"
@@ -538,13 +582,16 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
 
             Log.e("MyClosetFragment", clothesIdsArray.toString())
 
-            val clothesImagesArray = ArrayList<String>()
-            clothesImagesArray.add(codiTop.imageUrl)
-            clothesImagesArray.add(codiBottom.imageUrl)
-            clothesImagesArray.add(codiOuter.imageUrl)
-            clothesImagesArray.add(codiOnepiece.imageUrl)
-            clothesImagesArray.add(codiShoes.imageUrl)
-            clothesImagesArray.add(codiBag.imageUrl)
+            val clothesImagesArray = ArrayList<String?>()
+            clothesImagesArray.add(if (codiTop == null) { null } else { codiTop.imageUrl })
+            clothesImagesArray.add(if (codiBottom == null) { null } else { codiBottom.imageUrl })
+            clothesImagesArray.add(if (codiOuter == null) { null } else { codiOuter.imageUrl })
+            clothesImagesArray.add(if (codiOnepiece == null) { null } else { codiOnepiece.imageUrl })
+            clothesImagesArray.add(if (codiShoes == null) { null } else { codiShoes.imageUrl })
+            clothesImagesArray.add(if (codiBag == null) { null } else { codiBag.imageUrl })
+
+            Log.e("MyClosetFragment", "clothesIdsArray size: ${clothesIdsArray.size}")
+            Log.e("MyClosetFragment", "clothesImagesArray size: ${clothesImagesArray.size}")
 
             val comment = binding.comment.text.toString()
 
@@ -591,15 +638,18 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
         }
     }
 
-    private fun findWhichCloth(clothesList: ArrayList<Clothes>, clothId: String) : Clothes {
+    private fun findWhichCloth(clothesList: ArrayList<Clothes>, clothId: String) : Clothes? {
         var position: Int = 0
+        var check: Int = 0
         for (i: Int in 0..(clothesList.size-1)) {
             if (clothesList[i].id == clothId) {
                 position = i
+                check = i
                 break
             }
         }
-        return clothesList[position]
+        // 만약 전체 리스트 중에 없으면 null을 반환하고, 있으면 cloth 객체를 반환함
+        return if (check == (clothesList.size-1)) { null } else { clothesList[position] }
     }
 
     private fun topLikeButton(view: View) {

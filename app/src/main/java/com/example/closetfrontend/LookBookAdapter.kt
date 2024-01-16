@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -51,24 +52,40 @@ class LookBookAdapter(
         }
         holder.itemView.setOnClickListener { view: View? -> itemClickListener.onItemClick(position) }
         if ("like" == like) {
-            holder.emptyHeart.visibility = View.GONE
-            holder.filledHeart.visibility = View.VISIBLE
+            holder.emptyHeart.setImageResource(R.drawable.full_heart)
+//            holder.emptyHeart.visibility = View.INVISIBLE
+//            holder.filledHeart.visibility = View.VISIBLE
         } else {
-            holder.emptyHeart.visibility = View.VISIBLE
-            holder.filledHeart.visibility = View.GONE
+            holder.emptyHeart.setImageResource(R.drawable.empty_heart)
+//            holder.emptyHeart.visibility = View.VISIBLE
+//            holder.filledHeart.visibility = View.INVISIBLE
         }
 
         val sharedPreferences = holder.itemView.context.getSharedPreferences("userId", AppCompatActivity.MODE_PRIVATE)
         val userId = sharedPreferences.getString("userId", "")!!
+//        holder.emptyHeart.setOnClickListener {
+//            likeCodi(userId, codiId)
+//            if (likes[position] == "none") {
+//                holder.emptyHeart.visibility = View.GONE
+//                holder.filledHeart.visibility = View.VISIBLE
+//            } else {
+//                holder.emptyHeart.visibility = View.VISIBLE
+//                holder.filledHeart.visibility = View.GONE
+//            }
+//        }
+
         holder.emptyHeart.setOnClickListener {
-            likeCodi(userId, codiId)
             if (likes[position] == "none") {
-                holder.emptyHeart.visibility = View.GONE
-                holder.filledHeart.visibility = View.VISIBLE
+                // false였던 걸 누른거니까 true가 되고, 하트는 칠해져야.
+                holder.emptyHeart.setImageResource(R.drawable.heart_filled)
+//                holder.filledHeart.visibility = View.VISIBLE
             } else {
-                holder.emptyHeart.visibility = View.VISIBLE
-                holder.filledHeart.visibility = View.GONE
+                // true였던 걸 누른거니까 false가 되고, 하트는 없어져야.
+                holder.emptyHeart.setImageResource(R.drawable.heart_icon)
+//                holder.filledHeart.visibility = View.INVISIBLE
             }
+            notifyItemChanged(position)
+            likeCodi(userId, codiId)
         }
     }
 
@@ -104,8 +121,8 @@ class LookBookAdapter(
 
     inner class LookBookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //val imageIV: ImageView
-        val emptyHeart: ImageView
-        val filledHeart: ImageView
+        val emptyHeart: ImageButton
+//        val filledHeart: ImageView
         val lookbookTop: ImageView
         val lookbookBottom: ImageView
         val lookbookOuter: ImageView
@@ -116,13 +133,21 @@ class LookBookAdapter(
         init {
             //imageIV = itemView.findViewById(R.id.idIVImage)
             emptyHeart = itemView.findViewById(R.id.idEmptyHeart)
-            filledHeart = itemView.findViewById(R.id.idHeartFilled)
+//            filledHeart = itemView.findViewById(R.id.idHeartFilled)
             lookbookTop = itemView.findViewById(R.id.lookbookTop)
             lookbookBottom = itemView.findViewById(R.id.lookbookBottom)
             lookbookOuter = itemView.findViewById(R.id.lookbookOuter)
             lookbookOnepiece = itemView.findViewById(R.id.lookbookOnepiece)
             lookbookShoes = itemView.findViewById(R.id.lookbookShoes)
             lookbookBag = itemView.findViewById(R.id.lookbookBag)
+        }
+
+        fun bind(item: String) {
+            if (item == "like") {
+                emptyHeart.setImageResource(R.drawable.heart_filled)
+            } else {
+                emptyHeart.setImageResource(R.drawable.heart_icon)
+            }
         }
     }
 }

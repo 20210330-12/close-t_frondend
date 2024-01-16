@@ -113,7 +113,7 @@ interface RetrofitInterface {
         @Field("styles") styles: ArrayList<String>,
         @Field("like") like: String,
         @Field("clothesIds") clothesIds: ArrayList<UUID?>,
-        @Field("clothesImages") clothesImages: ArrayList<String>,
+        @Field("clothesImages") clothesImages: ArrayList<String?>,
         @Field("comment") comment: String?
     ): Call<JsonObject>
 

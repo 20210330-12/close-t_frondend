@@ -86,26 +86,37 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
+<!--        <ImageView-->
+<!--            android:id="@+id/idEmptyHeart"-->
+<!--            android:layout_width="18dp"-->
+<!--            android:layout_height="18dp"-->
+<!--            android:layout_gravity="top|end"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:background="@drawable/heart_icon"-->
+<!--            android:clickable="true"  />-->
+
+        <ImageButton
             android:id="@+id/idEmptyHeart"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_gravity="top|end"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
-            android:background="@drawable/heart_icon"
+            android:scaleType="centerInside"
+            android:src="@drawable/empty_heart"
             android:clickable="true"  />
 
-        <ImageView
-            android:id="@+id/idHeartFilled"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_gravity="top|end"
-            android:layout_marginEnd="4dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/heart_filled"
-            android:visibility="gone"
-            android:clickable="true" />
+<!--        <ImageView-->
+<!--            android:id="@+id/idHeartFilled"-->
+<!--            android:layout_width="18dp"-->
+<!--            android:layout_height="18dp"-->
+<!--            android:layout_gravity="top|end"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginTop="4dp"-->
+<!--            android:background="@drawable/heart_filled"-->
+<!--            android:visibility="invisible"-->
+<!--            android:clickable="true" />-->
 
     </androidx.cardview.widget.CardView>
 
