@@ -77,11 +77,11 @@ class LookBookAdapter(
         holder.emptyHeart.setOnClickListener {
             if (likes[position] == "none") {
                 // false였던 걸 누른거니까 true가 되고, 하트는 칠해져야.
-                holder.emptyHeart.setImageResource(R.drawable.heart_filled)
+                holder.emptyHeart.setImageResource(R.drawable.full_heart)
 //                holder.filledHeart.visibility = View.VISIBLE
             } else {
                 // true였던 걸 누른거니까 false가 되고, 하트는 없어져야.
-                holder.emptyHeart.setImageResource(R.drawable.heart_icon)
+                holder.emptyHeart.setImageResource(R.drawable.empty_heart)
 //                holder.filledHeart.visibility = View.INVISIBLE
             }
             notifyItemChanged(position)
@@ -144,9 +144,9 @@ class LookBookAdapter(
 
         fun bind(item: String) {
             if (item == "like") {
-                emptyHeart.setImageResource(R.drawable.heart_filled)
+                emptyHeart.setImageResource(R.drawable.full_heart)
             } else {
-                emptyHeart.setImageResource(R.drawable.heart_icon)
+                emptyHeart.setImageResource(R.drawable.empty_heart)
             }
         }
     }
