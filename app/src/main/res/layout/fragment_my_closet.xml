@@ -410,188 +410,192 @@
         app:cardCornerRadius="36dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/guideline1"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/upload" />
-
-            <ImageView
-                android:id="@+id/lookbookLogo"
-                android:layout_width="150dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/lookbook_logo"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/lookbookBackground"
-                android:layout_width="360dp"
-                android:layout_height="270dp"
-                android:layout_marginTop="10dp"
-                android:background="#EAD8C8">
-
-                <ImageView
-                    android:id="@+id/lookbookOuter"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginEnd="-60dp"
-                    android:scaleType="centerInside"
-                    android:src="@android:color/transparent"
-                    app:layout_constraintEnd_toStartOf="@+id/lookbookTop"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
-
-                <TextView
-                    android:id="@+id/textLookbookOuter"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginEnd="-60dp"
-                    android:text=""
-                    android:visibility="invisible"
-                    app:layout_constraintEnd_toStartOf="@+id/lookbookTop"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
-
-                <ImageView
-                    android:id="@+id/lookbookTop"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="-100dp"
-                    android:scaleType="centerInside"
-                    android:src="@android:color/transparent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textLookbookTop"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="-100dp"
-                    android:text=""
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/lookbookBottom"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginStart="-100dp"
-                    android:layout_marginTop="-100dp"
-                    android:scaleType="centerInside"
-                    android:src="@android:color/transparent"
-                    app:layout_constraintStart_toEndOf="@+id/lookbookTop"
-                    app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
-
-                <TextView
-                    android:id="@+id/textLookbookBottom"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginStart="-100dp"
-                    android:layout_marginTop="-100dp"
-                    android:text=""
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toEndOf="@+id/lookbookTop"
-                    app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
-
-                <ImageView
-                    android:id="@+id/lookbookOnepiece"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginStart="-20dp"
-                    android:layout_marginTop="-50dp"
-                    android:scaleType="centerInside"
-                    android:src="@android:color/transparent"
-                    app:layout_constraintStart_toStartOf="@+id/lookbookTop"
-                    app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
-
-                <TextView
-                    android:id="@+id/textLookbookOnepiece"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginStart="-20dp"
-                    android:layout_marginTop="-50dp"
-                    android:text=""
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toStartOf="@+id/lookbookTop"
-                    app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
-
-                <ImageView
-                    android:id="@+id/lookbookShoes"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="-10dp"
-                    android:layout_marginTop="10dp"
-                    android:scaleType="centerInside"
-                    android:src="@android:color/transparent"
-                    app:layout_constraintStart_toEndOf="@+id/lookbookTop"
-                    app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
-
-                <TextView
-                    android:id="@+id/textLookbookShoes"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="-10dp"
-                    android:layout_marginTop="10dp"
-                    android:text=""
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toEndOf="@+id/lookbookTop"
-                    app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
-
-                <ImageView
-                    android:id="@+id/lookbookBag"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginStart="-45dp"
-                    android:scaleType="centerInside"
-                    android:src="@android:color/transparent"
-                    app:layout_constraintStart_toEndOf="@+id/lookbookTop"
-                    app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
-
-                <TextView
-                    android:id="@+id/textLookbookBag"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginStart="-45dp"
-                    android:text=""
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toEndOf="@+id/lookbookTop"
-                    app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <EditText
-                android:id="@+id/comment"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="20dp"
-                android:hint="Comment"/>
-            
-            <ImageButton
-                android:id="@+id/saveCodiBtn"
-                android:layout_width="70.4dp"
-                android:layout_height="33dp"
-                android:src="@drawable/save_button_inmycloset"
-                android:scaleType="centerInside"
-                android:background="@android:color/transparent"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"/>
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/guideline1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/upload" />
 
+                <ImageView
+                    android:id="@+id/lookbookLogo"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/lookbook_logo"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/lookbookBackground"
+                    android:layout_width="360dp"
+                    android:layout_height="270dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#EAD8C8">
+
+                    <ImageView
+                        android:id="@+id/lookbookOuter"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginEnd="-60dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:color/transparent"
+                        app:layout_constraintEnd_toStartOf="@+id/lookbookTop"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
+
+                    <TextView
+                        android:id="@+id/textLookbookOuter"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginEnd="-60dp"
+                        android:text=""
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toStartOf="@+id/lookbookTop"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
+
+                    <ImageView
+                        android:id="@+id/lookbookTop"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="-100dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:color/transparent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textLookbookTop"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="-100dp"
+                        android:text=""
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/lookbookBottom"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="-100dp"
+                        android:layout_marginTop="-100dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:color/transparent"
+                        app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+                        app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+                    <TextView
+                        android:id="@+id/textLookbookBottom"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="-100dp"
+                        android:layout_marginTop="-100dp"
+                        android:text=""
+                        android:visibility="invisible"
+                        app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+                        app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+                    <ImageView
+                        android:id="@+id/lookbookOnepiece"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="-20dp"
+                        android:layout_marginTop="-50dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:color/transparent"
+                        app:layout_constraintStart_toStartOf="@+id/lookbookTop"
+                        app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+                    <TextView
+                        android:id="@+id/textLookbookOnepiece"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="-20dp"
+                        android:layout_marginTop="-50dp"
+                        android:text=""
+                        android:visibility="invisible"
+                        app:layout_constraintStart_toStartOf="@+id/lookbookTop"
+                        app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+                    <ImageView
+                        android:id="@+id/lookbookShoes"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="-10dp"
+                        android:layout_marginTop="10dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:color/transparent"
+                        app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+                        app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+                    <TextView
+                        android:id="@+id/textLookbookShoes"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="-10dp"
+                        android:layout_marginTop="10dp"
+                        android:text=""
+                        android:visibility="invisible"
+                        app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+                        app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+                    <ImageView
+                        android:id="@+id/lookbookBag"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="-45dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:color/transparent"
+                        app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+                        app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
+
+                    <TextView
+                        android:id="@+id/textLookbookBag"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="-45dp"
+                        android:text=""
+                        android:visibility="invisible"
+                        app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+                        app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="Comment"/>
+
+                <ImageButton
+                    android:id="@+id/saveCodiBtn"
+                    android:layout_width="70.4dp"
+                    android:layout_height="33dp"
+                    android:src="@drawable/save_button_inmycloset"
+                    android:scaleType="centerInside"
+                    android:background="@android:color/transparent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="30dp"/>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.cardview.widget.CardView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

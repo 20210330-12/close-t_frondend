@@ -26,7 +26,7 @@
         android:layout_height="110dp"
         android:background="@android:color/transparent"
         android:scaleType="centerInside"
-        android:src="@drawable/full_heart"
+        android:src="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@+id/myClosetBox"
         app:layout_constraintEnd_toEndOf="@+id/myClosetBox"
         app:layout_constraintStart_toStartOf="@+id/myClosetBox"
