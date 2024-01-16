@@ -505,6 +505,10 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
 
             Log.e("MyClosetFragment", clothIdTop)
             Log.e("MyClosetFragment", clothIdBottom)
+            Log.e("MyClosetFragment", clothIdOuter)
+            Log.e("MyClosetFragment", clothIdOnepiece)
+            Log.e("MyClosetFragment", clothIdShoes)
+            Log.e("MyClosetFragment", clothIdBag)
 
             val codiTop = findWhichCloth(topList, clothIdTop)
             val codiBottom = findWhichCloth(bottomList, clothIdBottom)
@@ -524,13 +528,13 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
 
             val like: String = "none"
 
-            val clothesIdsArray = ArrayList<UUID>()
-            clothesIdsArray.add(UUID.fromString(clothIdTop))
-            clothesIdsArray.add(UUID.fromString(clothIdBottom))
-            clothesIdsArray.add(UUID.fromString(clothIdOuter))
-            clothesIdsArray.add(UUID.fromString(clothIdOnepiece))
-            clothesIdsArray.add(UUID.fromString(clothIdShoes))
-            clothesIdsArray.add(UUID.fromString(clothIdBag))
+            val clothesIdsArray = ArrayList<UUID?>()
+            clothesIdsArray.add(if (clothIdTop.isEmpty()) { null } else { UUID.fromString(clothIdTop) })
+            clothesIdsArray.add(if (clothIdBottom.isEmpty()) { null } else { UUID.fromString(clothIdBottom) })
+            clothesIdsArray.add(if (clothIdOuter.isEmpty()) { null } else { UUID.fromString(clothIdOuter) })
+            clothesIdsArray.add(if (clothIdOnepiece.isEmpty()) { null } else { UUID.fromString(clothIdOnepiece) })
+            clothesIdsArray.add(if (clothIdShoes.isEmpty()) { null } else { UUID.fromString(clothIdShoes) })
+            clothesIdsArray.add(if (clothIdBag.isEmpty()) { null } else { UUID.fromString(clothIdBag) })
 
             Log.e("MyClosetFragment", clothesIdsArray.toString())
 
