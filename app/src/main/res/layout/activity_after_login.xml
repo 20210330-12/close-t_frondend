@@ -63,6 +63,16 @@
                         app:tabSelectedTextColor="#000000"
                         app:tabTextColor="#A1A1A1">
 
+<!--                        <com.google.android.material.tabs.TabItem-->
+<!--                            android:text="My Closet"-->
+<!--                            style="@style/CustomTabTextStyle"/>-->
+<!--                        <com.google.android.material.tabs.TabItem-->
+<!--                            android:text="Look Book"-->
+<!--                            style="@style/CustomTabTextStyle"/>-->
+<!--                        <com.google.android.material.tabs.TabItem-->
+<!--                            android:text="My Page"-->
+<!--                            style="@style/CustomTabTextStyle"/>-->
+
                     </com.google.android.material.tabs.TabLayout>
 
                 </com.google.android.material.appbar.AppBarLayout>

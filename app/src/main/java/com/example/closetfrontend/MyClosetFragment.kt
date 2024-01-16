@@ -518,12 +518,36 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
             val codiBag = findWhichCloth(bagList, clothIdBag)
 
             var stylesArray = ArrayList<String>()
-            for (style in codiTop.styles) { stylesArray.add(style) }
-            for (style in codiBottom.styles) { stylesArray.add(style) }
-            for (style in codiOuter.styles) { stylesArray.add(style) }
-            for (style in codiOnepiece.styles) { stylesArray.add(style) }
-            for (style in codiShoes.styles) { stylesArray.add(style) }
-            for (style in codiBag.styles) { stylesArray.add(style) }
+            if (codiTop != null) {
+                for (style in codiTop.styles) {
+                    stylesArray.add(style)
+                }
+            }
+            if (codiBottom != null) {
+                for (style in codiBottom.styles) {
+                    stylesArray.add(style)
+                }
+            }
+            if (codiOuter != null) {
+                for (style in codiOuter.styles) {
+                    stylesArray.add(style)
+                }
+            }
+            if (codiOnepiece != null) {
+                for (style in codiOnepiece.styles) {
+                    stylesArray.add(style)
+                }
+            }
+            if (codiShoes != null) {
+                for (style in codiShoes.styles) {
+                    stylesArray.add(style)
+                }
+            }
+            if (codiBag != null) {
+                for (style in codiBag.styles) {
+                    stylesArray.add(style)
+                }
+            }
             stylesArray.distinct() // 중복 제거
 
             val like: String = "none"
@@ -538,13 +562,13 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
 
             Log.e("MyClosetFragment", clothesIdsArray.toString())
 
-            val clothesImagesArray = ArrayList<String>()
-            clothesImagesArray.add(codiTop.imageUrl)
-            clothesImagesArray.add(codiBottom.imageUrl)
-            clothesImagesArray.add(codiOuter.imageUrl)
-            clothesImagesArray.add(codiOnepiece.imageUrl)
-            clothesImagesArray.add(codiShoes.imageUrl)
-            clothesImagesArray.add(codiBag.imageUrl)
+            val clothesImagesArray = ArrayList<String?>()
+            clothesImagesArray.add(if (codiTop == null) { null } else { codiTop.imageUrl })
+            clothesImagesArray.add(if (codiBottom == null) { null } else { codiBottom.imageUrl })
+            clothesImagesArray.add(if (codiOuter == null) { null } else { codiOuter.imageUrl })
+            clothesImagesArray.add(if (codiOnepiece == null) { null } else { codiOnepiece.imageUrl })
+            clothesImagesArray.add(if (codiShoes == null) { null } else { codiShoes.imageUrl })
+            clothesImagesArray.add(if (codiBag == null) { null } else { codiBag.imageUrl })
 
             val comment = binding.comment.text.toString()
 
@@ -591,15 +615,18 @@ class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefre
         }
     }
 
-    private fun findWhichCloth(clothesList: ArrayList<Clothes>, clothId: String) : Clothes {
+    private fun findWhichCloth(clothesList: ArrayList<Clothes>, clothId: String) : Clothes? {
         var position: Int = 0
+        var check: Int = 0
         for (i: Int in 0..(clothesList.size-1)) {
             if (clothesList[i].id == clothId) {
                 position = i
+                check = i
                 break
             }
         }
-        return clothesList[position]
+        // 만약 전체 리스트 중에 없으면 null을 반환하고, 있으면 cloth 객체를 반환함
+        return if (check == (clothesList.size-1)) { null } else { clothesList[position] }
     }
 
     private fun topLikeButton(view: View) {
