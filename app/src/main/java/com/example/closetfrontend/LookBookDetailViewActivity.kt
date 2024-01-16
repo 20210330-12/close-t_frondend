@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.closetfrontend.RetrofitInterface.Companion.create
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -83,7 +85,7 @@ class LookBookDetailViewActivity : AppCompatActivity() {
             updateHashtags(codiData.getAsJsonArray("styles"))
 
             val comment: String = codiData.get("comment").asString
-            commentText.text = comment
+            commentText.setText(comment)
 
             val likeType: String = codiData.get("like").asString
             updateLikeIcon(likeType)
@@ -94,22 +96,22 @@ class LookBookDetailViewActivity : AppCompatActivity() {
 
     private fun updateHashtags(stylesArray: JsonArray) {
         if (stylesArray.size() >= 3) {
-            firstHashtag.text = stylesArray[0].asString
-            secondHashtag.text = stylesArray[1].asString
-            thirdHashtag.text = stylesArray[2].asString
+            firstHashtag.text = "# " + stylesArray[0].asString
+            secondHashtag.text = "# " + stylesArray[1].asString
+            thirdHashtag.text = "# " + stylesArray[2].asString
         } else {
             if (stylesArray.size() >= 1) {
-                firstHashtag.text = stylesArray[0].asString
+                firstHashtag.text = "# " + stylesArray[0].asString
                 secondHashtag.visibility = View.INVISIBLE
                 thirdHashtag.visibility = View.INVISIBLE
             }
             if (stylesArray.size() >= 2) {
-                secondHashtag.text = stylesArray[1].asString
+                secondHashtag.text = "# " + stylesArray[1].asString
                 secondHashtag.visibility = View.VISIBLE
                 thirdHashtag.visibility = View.INVISIBLE
             }
             if (stylesArray.size() >= 3) {
-                thirdHashtag.text = stylesArray[2].asString
+                thirdHashtag.text = "# " + stylesArray[2].asString
                 thirdHashtag.visibility = View.VISIBLE
             }
         }
@@ -122,19 +124,30 @@ class LookBookDetailViewActivity : AppCompatActivity() {
     }
 
     private fun updateClothesImages(clothesImagesArray: JsonArray) {
-        if (clothesImagesArray.size() >= 6) {
-            lookbookTop.setImageBitmap(displayProcessedImage(clothesImagesArray[0].asString))
-            lookbookBottom.setImageBitmap(displayProcessedImage(clothesImagesArray[1].asString))
-            lookbookOuter.setImageBitmap(displayProcessedImage(clothesImagesArray[2].asString))
-            lookbookOnepiece.setImageBitmap(displayProcessedImage(clothesImagesArray[3].asString))
-            lookbookShoes.setImageBitmap(displayProcessedImage(clothesImagesArray[4].asString))
-            lookbookBag.setImageBitmap(displayProcessedImage(clothesImagesArray[5].asString))
-        }
+        Log.e("update clothes images", "working")
+        Picasso.get().load("http://172.10.7.44:80/images/${clothesImagesArray[0]}").into(lookbookTop)
+        Picasso.get().load("http://172.10.7.44:80/images/${clothesImagesArray[1]}").into(lookbookBottom)
+        Picasso.get().load("http://172.10.7.44:80/images/${clothesImagesArray[2]}").into(lookbookOuter)
+        Picasso.get().load("http://172.10.7.44:80/images/${clothesImagesArray[3]}").into(lookbookOnepiece)
+        Picasso.get().load("http://172.10.7.44:80/images/${clothesImagesArray[4]}").into(lookbookShoes)
+        Picasso.get().load("http://172.10.7.44:80/images/${clothesImagesArray[5]}").into(lookbookBag)
+        //if (clothesImagesArray.size() >= 6) {
+
+//            lookbookTop.setImageBitmap(displayProcessedImage(clothesImagesArray[0].asString))
+//            lookbookBottom.setImageBitmap(displayProcessedImage(clothesImagesArray[1].asString))
+//            lookbookOuter.setImageBitmap(displayProcessedImage(clothesImagesArray[2].asString))
+//            lookbookOnepiece.setImageBitmap(displayProcessedImage(clothesImagesArray[3].asString))
+//            lookbookShoes.setImageBitmap(displayProcessedImage(clothesImagesArray[4].asString))
+//            lookbookBag.setImageBitmap(displayProcessedImage(clothesImagesArray[5].asString))
+        //}
     }
 
+    /*
     private fun displayProcessedImage(base64Image: String): Bitmap {
         val decodedBytes =
             Base64.decode(base64Image, Base64.DEFAULT)
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     }
+
+     */
 }
