@@ -4,6 +4,8 @@ import android.content.ContentValues
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -101,13 +103,21 @@ class TrashActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener 
         rvTab1Shoes.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         rvTab1Bag.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 
+        // recyclerView와 adapter 연결 - 실제 서버에서 data 가져왔을 때 용
+        rvTab1Top.adapter = topAdapter
+        rvTab1Bottom.adapter = bottomAdapter
+        rvTab1Outer.adapter = outerAdapter
+        rvTab1Onepiece.adapter = onepieceAdapter
+        rvTab1Shoes.adapter = shoesAdapter
+        rvTab1Bag.adapter = bagAdapter
+
         // backButton
         backButton = findViewById(R.id.backBtn)
 
         // 서버 DB에서 각 리스트에 배당해주기
         // 서버에서 옷 가져오는 거 해야함
         for (category in category) {
-            api.getTagCategoryClothes(userId, "trash", category).enqueue(object :
+            api.getTrash(userId, category).enqueue(object :
                 Callback<ClothesResponse> {
                 override fun onResponse(
                     call: Call<ClothesResponse>,
@@ -142,22 +152,25 @@ class TrashActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener 
             "신발" -> { shoeList.clear() }
             "가방" -> { bagList.clear() }
         }
-        for (cloth in data.clothes) {
-            when (category) {
-                "상의" -> { topList.add(cloth) }
-                "하의" -> { bottomList.add(cloth) }
-                "아우터" -> { outerList.add(cloth) }
-                "원피스" -> { onepieceList.add(cloth) }
-                "신발" -> { shoeList.add(cloth) }
-                "가방" -> { bagList.add(cloth) }
+        Handler(Looper.getMainLooper()).postDelayed({
+            for (cloth in data.clothes) {
+                Log.d("TrashActivity", "$cloth")
+                when (category) {
+                    "상의" -> { topList.add(cloth) }
+                    "하의" -> { bottomList.add(cloth) }
+                    "아우터" -> { outerList.add(cloth) }
+                    "원피스" -> { onepieceList.add(cloth) }
+                    "신발" -> { shoeList.add(cloth) }
+                    "가방" -> { bagList.add(cloth) }
+                }
             }
-        }
-        topAdapter.notifyDataSetChanged()
-        bottomAdapter.notifyDataSetChanged()
-        outerAdapter.notifyDataSetChanged()
-        onepieceAdapter.notifyDataSetChanged()
-        shoesAdapter.notifyDataSetChanged()
-        bagAdapter.notifyDataSetChanged()
+            topAdapter.notifyDataSetChanged()
+            bottomAdapter.notifyDataSetChanged()
+            outerAdapter.notifyDataSetChanged()
+            onepieceAdapter.notifyDataSetChanged()
+            shoesAdapter.notifyDataSetChanged()
+            bagAdapter.notifyDataSetChanged()
+        }, 400)
     }
 
 

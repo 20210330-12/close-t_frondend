@@ -29,6 +29,8 @@ class LikeAdapter (private var clothesList: ArrayList<Clothes>) :
     val api = RetrofitInterface.create()
     // userId 불러오기
     private lateinit var userId: String
+    // like 여부 저장하는 boolean
+    private var ifLike = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LikeAdapter.clothesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.my_closet_recyclerview, parent, false)
@@ -44,17 +46,27 @@ class LikeAdapter (private var clothesList: ArrayList<Clothes>) :
 
         // 하트 버튼 누르면 like tag 추가 / 삭제
         holder.myClosetLikeBtn.setOnClickListener {
-            val currentTopLikeImage = holder.myClosetLikeBtn.tag as? Int ?: R.drawable.empty_heart
-            val newTopLikeImage = if (currentTopLikeImage == R.drawable.empty_heart) {
-                R.drawable.full_heart
-            } else { R.drawable.empty_heart }
+//            if (ifLike) {
+//                // true 였던 걸 누른 거니까 false가 되고, like는 none이 되어야 하는거지.
+//                // ifLike = false
+//                holder.myClosetLikeBtn.setImageResource(R.drawable.empty_heart)
+//            } else {
+//                // false였던걸 누른 거니까 true가 되고, 하트는 칠해져야 하는거지.
+//                // ifLike = true
+//                holder.myClosetLikeBtn.setImageResource(R.drawable.full_heart)
+//            }
+//            ifLike = !ifLike
 
-            Log.e("ClothesAdapter", "current: $currentTopLikeImage")
-            Log.e("ClothesAdapter", "new: $newTopLikeImage")
-            Log.e("ClothesAdapter", "empty_heart: ${R.drawable.empty_heart}")
-            Log.e("ClothesAdapter", "full_heart: ${R.drawable.full_heart}")
-            holder.myClosetLikeBtn.setImageResource(newTopLikeImage)
-            holder.myClosetLikeBtn.tag = newTopLikeImage
+            if (clothesList[position].like.contains("Like")) {
+                // 이때는 이제 none이 되는거니까
+                clothesList[position].like = "None"
+                holder.myClosetLikeBtn.setImageResource(R.drawable.empty_heart)
+            } else {
+                // false였던걸 누른 거니까 true가 되고, 하트는 칠해져야 하는거지.
+                clothesList[position].like = "Like"
+                holder.myClosetLikeBtn.setImageResource(R.drawable.full_heart)
+            }
+            notifyItemChanged(position)
 
             // 서버에 like 여부 저장
             // 이건 그냥 보내만 두면 -> like 되어있으면 해제해주고, 안 되어있으면 like해줌
@@ -73,7 +85,7 @@ class LikeAdapter (private var clothesList: ArrayList<Clothes>) :
                     Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
                 }
             })
-//            notifyDataSetChanged()
+            //notifyDataSetChanged()
         }
 
 

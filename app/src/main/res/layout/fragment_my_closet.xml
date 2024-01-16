@@ -362,7 +362,6 @@
                                 android:scaleType="centerInside"
                                 android:src="@drawable/empty_heart"
                                 android:background="@android:color/transparent"
-                                android:tag="@drawable/empty_heart"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
@@ -445,7 +444,7 @@
                     android:layout_marginTop="50dp"
                     android:layout_marginEnd="-60dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/outer_dummy"
+                    android:src="@android:color/transparent"
                     app:layout_constraintEnd_toStartOf="@+id/lookbookTop"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
@@ -468,7 +467,7 @@
                     android:layout_height="150dp"
                     android:layout_marginTop="-100dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/top_dummy"
+                    android:src="@android:color/transparent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -493,7 +492,7 @@
                     android:layout_marginStart="-100dp"
                     android:layout_marginTop="-100dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/bottom_dummy"
+                    android:src="@android:color/transparent"
                     app:layout_constraintStart_toEndOf="@+id/lookbookTop"
                     app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
 
@@ -515,7 +514,7 @@
                     android:layout_marginStart="-20dp"
                     android:layout_marginTop="-50dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/onepiece_dummy"
+                    android:src="@android:color/transparent"
                     app:layout_constraintStart_toStartOf="@+id/lookbookTop"
                     app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
 
@@ -537,7 +536,7 @@
                     android:layout_marginStart="-10dp"
                     android:layout_marginTop="10dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/shoes_dummy"
+                    android:src="@android:color/transparent"
                     app:layout_constraintStart_toEndOf="@+id/lookbookTop"
                     app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
 
@@ -558,7 +557,7 @@
                     android:layout_height="150dp"
                     android:layout_marginStart="-45dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/bag_dummy"
+                    android:src="@android:color/transparent"
                     app:layout_constraintStart_toEndOf="@+id/lookbookTop"
                     app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
 

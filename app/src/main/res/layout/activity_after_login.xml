@@ -22,8 +22,8 @@
 
                 <ImageView
                     android:id="@+id/tapLogo"
-                    android:layout_width="130dp"
-                    android:layout_height="48dp"
+                    android:layout_width="110dp"
+                    android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:scaleType="centerInside"
                     android:src="@drawable/tool_bar_logo" />
