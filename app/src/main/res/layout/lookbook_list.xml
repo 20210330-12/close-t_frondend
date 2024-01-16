@@ -104,6 +104,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:scaleType="centerInside"
+            android:background="@android:color/transparent"
             android:src="@drawable/empty_heart"
             android:clickable="true"  />
 
