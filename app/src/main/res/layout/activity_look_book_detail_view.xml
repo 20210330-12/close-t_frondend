@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    tools:context=".LookBookDetailViewActivity">
+
+    <ImageView
+        android:id="@+id/idPopupView"
+        android:layout_width="300dp"
+        android:layout_height="350dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
+        android:elevation="0dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/idDetailImage"
+        android:layout_width="280dp"
+        android:layout_height="210dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="44dp"
+        android:scaleType="centerCrop"
+        android:background="#FD81AE" >
+
+        <ImageView
+            android:id="@+id/lookbookOuter"
+            android:layout_width="131dp"
+            android:layout_height="131dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="-60dp"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toStartOf="@+id/lookbookTop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
+
+        <ImageView
+            android:id="@+id/lookbookTop"
+            android:layout_width="131dp"
+            android:layout_height="131dp"
+            android:layout_marginTop="-95dp"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/lookbookBottom"
+            android:layout_width="131dp"
+            android:layout_height="131dp"
+            android:layout_marginStart="-100dp"
+            android:layout_marginTop="-100dp"
+            android:scaleType="centerInside"
+            app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+            app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+        <ImageView
+            android:id="@+id/lookbookOnepiece"
+            android:layout_width="131dp"
+            android:layout_height="131dp"
+            android:layout_marginStart="-20dp"
+            android:layout_marginTop="-50dp"
+            android:scaleType="centerInside"
+            app:layout_constraintStart_toStartOf="@+id/lookbookTop"
+            app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+        <ImageView
+            android:id="@+id/lookbookShoes"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="0dp"
+            android:scaleType="centerInside"
+            app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+            app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+
+        <ImageView
+            android:id="@+id/lookbookBag"
+            android:layout_width="131dp"
+            android:layout_height="131dp"
+            android:layout_marginStart="-50dp"
+            android:scaleType="centerInside"
+            app:layout_constraintStart_toEndOf="@+id/lookbookTop"
+            app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    
+    <ImageView
+        android:id="@+id/idHeartIcon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/heart_icon"
+        android:background="@android:color/transparent" />
+
+    <ImageView
+        android:id="@+id/idExitIcon"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/idPopupView"
+        android:scaleType="centerInside"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="9dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/exit_icon" />
+
+    <TextView
+        android:id="@+id/idCommentText"
+        android:layout_width="262dp"
+        android:layout_height="27dp"
+        app:layout_constraintStart_toStartOf="@id/idPopupView"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/idDetailImage"
+        android:textSize="12sp"
+        android:background="@android:color/transparent"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/idFirstHashtag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintTop_toBottomOf="@id/idCommentText"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/hashtag_rectangle"
+        android:textSize="12sp"
+        android:gravity="center_horizontal|center" />
+
+    <TextView
+        android:id="@+id/idSecondHashtag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/idFirstHashtag"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintTop_toBottomOf="@id/idCommentText"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/hashtag_rectangle"
+        android:textSize="12sp"
+        android:gravity="center_horizontal|center" />
+
+    <TextView
+        android:id="@+id/idThirdHashtag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/idSecondHashtag"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintTop_toBottomOf="@id/idCommentText"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/hashtag_rectangle"
+        android:textSize="12sp"
+        android:gravity="center_horizontal|center" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

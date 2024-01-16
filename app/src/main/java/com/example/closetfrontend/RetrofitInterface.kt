@@ -1,10 +1,13 @@
 package com.example.closetfrontend
 
-import androidx.browser.customtabs.CustomTabsService.FilePurpose
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -14,17 +17,32 @@ import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
+import retrofit2.http.Streaming
 
 interface RetrofitInterface {
 
 
     @GET("/user/{userId}/check")
     fun getUserCheck(@Path("userId") userId: String): Call<JsonObject>
+
+    @FormUrlEncoded
+    @POST("/{userId}/clothes/add")
+    fun postAddClothes(
+        @Path("userId") userId: String,
+        @Field("category") category: String,
+        @Field("styles") styles: List<String>,
+        @Field("like") like: String,
+        @Field("trash") trash: String,
+        @Field("wish") wish: String,
+        @Field("imageUrl") imageUrl: String,
+        @Field("link") link: String?,
+    ): Call<JsonObject>
 
     @FormUrlEncoded
     @POST("/user/create")
@@ -92,6 +110,7 @@ interface RetrofitInterface {
         @Field("comment") comment: String?
     ): Call<JsonObject>
 
+
     //@FormUrlEncoded
     @PATCH("/user/{userId}/add-information")
     fun addUserInfo(@Path("userId") userId: String, @Body userProfileUpdate: UserProfileUpdate): Call<JsonObject>
@@ -100,6 +119,23 @@ interface RetrofitInterface {
     @GET("/{userId}/openai/generateOOTD")
     fun dalle(@Path("userId") userId: String, @Query("stylePick") stylePick: String): Call<JsonObject>
 
+
+
+    @GET("/{userId}/codi")
+    fun getAllCodies(@Path("userId") userId: String): Call<JsonObject>
+
+    @GET("/{userId}/codi/{codiId}/view")
+    fun getSelectedCodi(@Path("userId") userId: String, @Path("codiId") codiId: String): Call<JsonObject>
+
+    @GET("/{userId}/codi/liked")
+    fun getLikedCodies(@Path("userId") userId: String): Call<JsonObject>
+
+    @POST("removebg")
+    @Headers("Accept: application/json")
+    fun removeBackground(
+        @Query("api_key") apiKey: String,
+        @Body body: RequestBody
+    ): Call<ResponseBody>
 
 //    // 전 주에 했었던 예시들 보여줄겡
 //    // 만약 위에처럼 path에 parameter이 들어가는게 아니라, 그냥 parameter만 전달하는 거라면 이런 식으로!
@@ -141,7 +177,7 @@ interface RetrofitInterface {
         // -> 호스트의 127.0.0.1에 직접 접근하는게 불가능
         // -> 에뮬레이터가 호스트와 통신하려면 호스트 IP를 사용해야하며,
         // 일반적으로 10.0.2.2가 호스트의 IP임
-        private const val BASE_URL = "http://10.0.2.2:8888/"
+        private const val BASE_URL = "http://172.10.7.44:80/"
 
 
         fun create(): RetrofitInterface {
