@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trashSwipeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatOotdActivity">
+
+    <FrameLayout
+        android:id="@+id/tab1FrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ImageButton
+                    android:id="@+id/backBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@android:color/transparent"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/previous_2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="15dp"
+                    android:src="@drawable/tool_bar_logo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/backBtn"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="오늘의 추천 OOTD"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/profile_line_middle"
+                android:layout_marginTop="3dp"/>
+
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
+
+
+                    <LinearLayout
+                        android:id="@+id/tab1WholeLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/dallePic"
+                            android:layout_width="360dp"
+                            android:layout_height="360dp"
+                            android:layout_gravity="center"
+                            android:background="#D9D9D9"/>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginHorizontal="30dp">
+
+                            <ImageView
+                                android:id="@+id/profilePic"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/profile_example"
+                                app:layout_constraintBottom_toBottomOf="@+id/profileHole"
+                                app:layout_constraintEnd_toEndOf="@+id/profileHole"
+                                app:layout_constraintStart_toStartOf="@+id/profileHole"
+                                app:layout_constraintTop_toTopOf="@+id/profileHole" />
+
+                            <ImageView
+                                android:id="@+id/profileHole"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:src="@drawable/profile_image_hole_4"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/profileName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginBottom="20dp"
+                                android:text="송한이"
+                                android:textAlignment="center"
+                                android:textSize="18sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/profileHole"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/profileGender"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginStart="10dp"
+                                android:src="@drawable/femenine"
+                                app:layout_constraintBottom_toBottomOf="@+id/profileName"
+                                app:layout_constraintStart_toEndOf="@+id/profileName"
+                                app:layout_constraintTop_toTopOf="@+id/profileName" />
+
+                            <TextView
+                                android:id="@+id/profileEmail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="15dp"
+                                android:text="hanis1946@daum.net"
+                                android:textAlignment="center"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toEndOf="@+id/profileHole"
+                                app:layout_constraintTop_toBottomOf="@+id/profileName" />
+
+                            <Button
+                                android:id="@+id/goDalleBtn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="OOTD 만들기"
+                                android:minHeight="0dp"
+                                android:minWidth="0dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:id="@+id/styles"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="6dp"
+                                android:text="오늘의 룩 스타일"
+                                android:textSize="20sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginBottom="3dp"
+                                android:text="하나만 골라주세요 :)"
+                                android:textColor="#888888"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toBottomOf="@+id/styles"
+                                app:layout_constraintStart_toEndOf="@+id/styles" />
+
+                            <LinearLayout
+                                android:id="@+id/linearLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/styles">
+
+                                <ImageButton
+                                    android:id="@+id/casualBtn"
+                                    android:layout_width="75.83dp"
+                                    android:layout_height="28dp"
+                                    android:background="@android:color/transparent"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/tag_casual_button"
+                                    android:onClick="casualImageButton"/>
+
+                                <ImageButton
+                                    android:id="@+id/lovelyBtn"
+                                    android:layout_width="75.83dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="5dp"
+                                    android:background="@android:color/transparent"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/tag_lovely_button"
+                                    android:onClick="lovelyImageButton"/>
+
+                                <ImageButton
+                                    android:id="@+id/chicBtn"
+                                    android:layout_width="84dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="5dp"
+                                    android:background="@android:color/transparent"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/tag_chic_button"
+                                    android:onClick="chicImageButton"/>
+
+                                <ImageButton
+                                    android:id="@+id/formalBtn"
+                                    android:layout_width="121.33dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="5dp"
+                                    android:background="@android:color/transparent"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/tag_formal_button"
+                                    android:onClick="formalImageButton"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                                <ImageButton
+                                    android:id="@+id/sportyBtn"
+                                    android:layout_width="75.83dp"
+                                    android:layout_height="28dp"
+                                    android:background="@android:color/transparent"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/tag_sporty_button"
+                                    android:onClick="sportyImageButton"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent" />
+
+                                <ImageButton
+                                    android:id="@+id/basicBtn"
+                                    android:layout_width="100.33dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="5dp"
+                                    android:background="@android:color/transparent"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/tag_basic_button"
+                                    android:onClick="basicImageButton"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/sportyBtn" />
+
+                                <ImageButton
+                                    android:id="@+id/romanticBtn"
+                                    android:layout_width="107.33dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="5dp"
+                                    android:background="@android:color/transparent"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/tag_romantic_button"
+                                    android:onClick="romanticImageButton"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/basicBtn" />
+
+                                <ImageButton
+                                    android:id="@+id/naturalBtn"
+                                    android:layout_width="75.83dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginStart="5dp"
+                                    android:background="@android:color/transparent"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/tag_natural_button"
+                                    android:onClick="naturalImageButton"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/romanticBtn" />
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:text="선택 입력 사항을 모두 입력하셔야 OOTD 추천 서비스를 이용하실 수 있습니다."
+                            android:textAlignment="center"
+                            android:textColor="#888888"
+                            android:textSize="11sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="10dp"
+                            android:animateLayoutChanges="true">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/parent_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/textView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="30dp"
+                                    android:text="선택 입력 사항"
+                                    android:textSize="20sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <ImageButton
+                                    android:id="@+id/parentBtn"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginEnd="30dp"
+                                    android:background="@android:color/transparent"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/downside"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <ImageView
+                                android:layout_width="360dp"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/profile_line_middle"
+                                android:layout_gravity="center"/>
+
+                            <LinearLayout
+                                android:id="@+id/expand_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="30dp"
+                                        android:text="나이"
+                                        android:textSize="20sp"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <ImageView
+                                        android:id="@+id/lineAge"
+                                        android:layout_width="70dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="30dp"
+                                        android:src="@drawable/line_age_height"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent" />
+
+                                    <EditText
+                                        android:id="@+id/userAge"
+                                        android:layout_width="70dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:inputType="number"
+                                        android:background="@android:color/transparent"
+                                        app:layout_constraintBottom_toTopOf="@+id/lineAge"
+                                        app:layout_constraintEnd_toEndOf="@+id/lineAge"
+                                        app:layout_constraintStart_toStartOf="@+id/lineAge"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="30dp"
+                                        android:text="키"
+                                        android:textSize="20sp"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <ImageView
+                                        android:id="@+id/lineHeight"
+                                        android:layout_width="70dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="30dp"
+                                        android:src="@drawable/line_age_height"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent" />
+
+                                    <EditText
+                                        android:id="@+id/userHeight"
+                                        android:layout_width="70dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:inputType="number"
+                                        android:background="@android:color/transparent"
+                                        app:layout_constraintBottom_toTopOf="@+id/lineHeight"
+                                        app:layout_constraintEnd_toEndOf="@+id/lineHeight"
+                                        app:layout_constraintStart_toStartOf="@+id/lineHeight"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="30dp"
+                                        android:layout_marginTop="6dp"
+                                        android:text="체형"
+                                        android:textSize="20sp"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                    <ImageButton
+                                        android:id="@+id/natureBtn"
+                                        android:layout_width="62.63dp"
+                                        android:layout_height="140dp"
+                                        android:layout_marginEnd="5dp"
+                                        android:background="@android:color/transparent"
+                                        android:scaleType="centerInside"
+                                        android:src="@drawable/natural"
+                                        android:onClick="natureImageButton"
+                                        app:layout_constraintBottom_toBottomOf="@+id/waveBtn"
+                                        app:layout_constraintEnd_toStartOf="@+id/waveBtn"
+                                        app:layout_constraintTop_toTopOf="@+id/waveBtn" />
+
+                                    <ImageButton
+                                        android:id="@+id/waveBtn"
+                                        android:layout_width="65.39dp"
+                                        android:layout_height="140dp"
+                                        android:layout_marginEnd="5dp"
+                                        android:background="@android:color/transparent"
+                                        android:scaleType="centerInside"
+                                        android:src="@drawable/wave"
+                                        android:onClick="waveImageButton"
+                                        app:layout_constraintBottom_toBottomOf="@+id/hourglassBtn"
+                                        app:layout_constraintEnd_toStartOf="@+id/hourglassBtn"
+                                        app:layout_constraintTop_toTopOf="@+id/hourglassBtn" />
+
+                                    <ImageButton
+                                        android:id="@+id/hourglassBtn"
+                                        android:layout_width="48.7dp"
+                                        android:layout_height="140dp"
+                                        android:layout_marginEnd="5dp"
+                                        android:background="@android:color/transparent"
+                                        android:scaleType="centerInside"
+                                        android:src="@drawable/hourglass"
+                                        android:onClick="hourglassImageButton"
+                                        app:layout_constraintBottom_toBottomOf="@+id/straightBtn"
+                                        app:layout_constraintEnd_toStartOf="@+id/straightBtn"
+                                        app:layout_constraintTop_toTopOf="@+id/straightBtn" />
+
+                                    <ImageButton
+                                        android:id="@+id/straightBtn"
+                                        android:layout_width="56dp"
+                                        android:layout_height="140dp"
+                                        android:layout_marginEnd="30dp"
+                                        android:background="@android:color/transparent"
+                                        android:scaleType="centerInside"
+                                        android:src="@drawable/straight"
+                                        android:onClick="straightImageButton"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginBottom="30dp">
+
+                                    <ImageButton
+                                        android:id="@+id/gotoActivity"
+                                        android:layout_width="70.4dp"
+                                        android:layout_height="33dp"
+                                        android:layout_gravity="center"
+                                        android:background="@android:color/transparent"
+                                        android:scaleType="centerInside"
+                                        android:src="@drawable/save_button_inmycloset"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </FrameLayout>
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+    </FrameLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

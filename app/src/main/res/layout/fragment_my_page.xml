@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="즐겨 찾는 옷"
+                android:text="즐겨 찾는 옷 보관함"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -160,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="사고 싶은 옷"
+                android:text="사고 싶은 옷 보관함"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -184,6 +184,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/profile_line_middle"/>
+        
+        <ImageButton
+            android:id="@+id/goOotdBtn"
+            android:layout_width="360dp"
+            android:layout_height="55.71dp"
+            android:src="@drawable/go_ootd"
+            android:scaleType="centerInside"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"/>
 
         <Button
             android:layout_width="wrap_content"

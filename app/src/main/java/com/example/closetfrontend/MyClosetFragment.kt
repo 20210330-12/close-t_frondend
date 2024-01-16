@@ -10,8 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.closetfrontend.databinding.FragmentMyClosetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -21,11 +23,15 @@ import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
-class MyClosetFragment : BottomSheetDialogFragment() {
+class MyClosetFragment : BottomSheetDialogFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var userId: String // userId
     lateinit var binding: FragmentMyClosetBinding // binding
+    // 스와이프해서 새로고침 구현
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     // recyclerView들
     private lateinit var rvTab1Top: RecyclerView
@@ -75,8 +81,24 @@ class MyClosetFragment : BottomSheetDialogFragment() {
     private lateinit var tab1ShoesLike: ImageButton
     private lateinit var tab1BagLike: ImageButton
 
+    // heart 버튼들 눌렸는지 판단하는 boolean -> true면 눌려있는, false면 안 눌려있는
+    private var ifTopLike = false
+    private var ifBottomLike = false
+    private var ifOuterLike = false
+    private var ifOnepieceLike = false
+    private var ifShoesLike = false
+    private var ifBagLike = false
+
     // 코디 save 버튼
     private lateinit var codiSaveBtn: ImageButton
+
+    // 코디로 선택된 옷들의 실제 cloth
+    private lateinit var clothTop: ImageView
+    private lateinit var clothBottom: ImageView
+    private lateinit var clothOuter: ImageView
+    private lateinit var clothOnepiece: ImageView
+    private lateinit var clothShoes: ImageView
+    private lateinit var clothBag: ImageView
 
     // 코디로 선택한 옷들의 clothId
     private lateinit var clothIdTop: String
@@ -89,7 +111,8 @@ class MyClosetFragment : BottomSheetDialogFragment() {
     // add clothes 버튼
     private lateinit var goAddClothes: FloatingActionButton
 
-
+//    // context
+//    private lateinit var context: Context
 
     // 서버에서 불러오기
     private val api = RetrofitInterface.create()
@@ -114,9 +137,26 @@ class MyClosetFragment : BottomSheetDialogFragment() {
         // Inflate the layout for this fragment
         binding = FragmentMyClosetBinding.inflate(inflater, container, false)
 
+//        // context
+//        context = requireContext()
+
+        // 새로고침
+        swipeRefreshLayout = binding.tab1SwipeLayout
+        swipeRefreshLayout.setOnRefreshListener(this)
+
         initiation() // 모든 view들 정의
         getClothes() // 서버에서 모든 옷들 가져오기
-        showOnlyLikes() // 하트 누르면 like된 애들만 빼오기
+
+
+        // 지금 버그가, 처음에 실행시키고 바로 한 번 누르면 그때는 작동이 안 된다. 그 뒤부터 작동됨.
+        tab1TopLike.setOnClickListener { topLikeButton(it) }
+        tab1BottomLike.setOnClickListener { bottomLikeButton(it) }
+        tab1OuterLike.setOnClickListener { outerLikeButton(it) }
+        tab1OnepieceLike.setOnClickListener { onepieceLikeButton(it) }
+        tab1ShoesLike.setOnClickListener { shoesLikeButton(it) }
+        tab1BagLike.setOnClickListener { bagLikeButton(it) }
+
+//        showOnlyLikes() // 하트 누르면 like된 애들만 빼오기
         // clickHeart() // 각 항목 하트 누르면 like-unlike 실행 -> 이건 adapter에서 함
         // goTrash() // 길게 누르면 trash 항목으로 이동 -> 이건 adapter에서 함
         // makeLookbook() // Make a New Lookbook 버튼 누르면 각 옷 선택됨 + 같은 카테고리의 다른 옷들 선택 못하게 됨 + lookbook에 사진 띄워짐 -> 이건 adapter에서 함
@@ -184,6 +224,22 @@ class MyClosetFragment : BottomSheetDialogFragment() {
         tab1ShoesLike = binding.tab1ShoesLike
         tab1BagLike = binding.tab1BagLike
 
+        // heart 버튼들 모두 맨 처음에는 empty heart로
+        tab1TopLike.setImageResource(R.drawable.empty_heart)
+        tab1BottomLike.setImageResource(R.drawable.empty_heart)
+        tab1OuterLike.setImageResource(R.drawable.empty_heart)
+        tab1OnepieceLike.setImageResource(R.drawable.empty_heart)
+        tab1ShoesLike.setImageResource(R.drawable.empty_heart)
+        tab1BagLike.setImageResource(R.drawable.empty_heart)
+
+        // 룩북 사진들
+        clothTop = binding.lookbookTop
+        clothBottom = binding.lookbookBottom
+        clothOuter = binding.lookbookOuter
+        clothOnepiece = binding.lookbookOnepiece
+        clothShoes = binding.lookbookShoes
+        clothBag = binding.lookbookBag
+
         // 코디 save 버튼
         codiSaveBtn = binding.saveCodiBtn
 
@@ -231,8 +287,19 @@ class MyClosetFragment : BottomSheetDialogFragment() {
 //        shoesItemAdapter.notifyDataSetChanged()
 //        bagItemAdapter.notifyDataSetChanged()
         
+        // 한 번 쭉 비워줘야 하긴 함 다른 탭 갔다가 다시돌아오니까 계속 생기네
+        topList.clear()
+        bottomList.clear()
+        outerList.clear()
+        onepieceList.clear()
+        shoeList.clear()
+        bagList.clear()
+
+
         for (category in category) {
             // 서버에서 옷 가져오는 거 해야함
+            Log.e(ContentValues.TAG, "$category")
+//            val encodedCategory = URLEncoder.encode(category, StandardCharsets.UTF_8.toString())
             api.getCategoryClothes(userId, category).enqueue(object: Callback<ClothesResponse> {
                 override fun onResponse(call: Call<ClothesResponse>, response: Response<ClothesResponse>) {
                     if (response.isSuccessful) {
@@ -250,12 +317,12 @@ class MyClosetFragment : BottomSheetDialogFragment() {
                 }
             })
         }
-        topList.add(Clothes("1", "상의", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
-        bottomList.add(Clothes("2", "하의", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
-        outerList.add(Clothes("3", "아우터", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
-        onepieceList.add(Clothes("4", "원피스", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
-        shoeList.add(Clothes("5", "신발", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
-        bagList.add(Clothes("6", "가방", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+//        topList.add(Clothes("1", "상의", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+//        bottomList.add(Clothes("2", "하의", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+//        outerList.add(Clothes("3", "아우터", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+//        onepieceList.add(Clothes("4", "원피스", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+//        shoeList.add(Clothes("5", "신발", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
+//        bagList.add(Clothes("6", "가방", listOf("꾸안꾸"), listOf("like"), "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg", null, "송한이", "3283120333"))
 
         topAdapter.notifyDataSetChanged()
         bottomAdapter.notifyDataSetChanged()
@@ -267,28 +334,39 @@ class MyClosetFragment : BottomSheetDialogFragment() {
 
     private fun showOnlyLikes() {
         // 하트 누르면 like된 애들만 빼오기
-        clickLikeButton(tab1TopLike, "상의")
-        clickLikeButton(tab1BottomLike, "하의")
-        clickLikeButton(tab1OuterLike, "아우터")
-        clickLikeButton(tab1OnepieceLike, "원피스")
-        clickLikeButton(tab1ShoesLike, "신발")
-        clickLikeButton(tab1BagLike, "가방")
+//        ifTopLike = clickLikeButton(ifTopLike, tab1TopLike, "상의")
+//        ifBottomLike = clickLikeButton(ifBottomLike, tab1BottomLike, "하의")
+//        ifOuterLike = clickLikeButton(ifOuterLike, tab1OuterLike, "아우터")
+//        ifOnepieceLike = clickLikeButton(ifOnepieceLike, tab1OnepieceLike, "원피스")
+//        ifShoesLike = clickLikeButton(ifShoesLike, tab1ShoesLike, "신발")
+//        ifBagLike = clickLikeButton(ifBagLike, tab1BagLike, "가방")
     }
 
-    private fun clickLikeButton(likeButton: ImageButton, category: String) {
-        likeButton.setOnClickListener {
-            val currentTopLikeImage = likeButton.tag as? Int ?: R.drawable.empty_heart
-            val newTopLikeImage = if (currentTopLikeImage == R.drawable.empty_heart) {
-                R.drawable.full_heart
-            } else { R.drawable.empty_heart }
+    private fun clickLikeButton(ifLike: Boolean, likeButton: ImageButton, category: String) {
+        // 각 list clear은 handleGetClothes에서 했음
+        if (ifLike) {
+            // 이미 눌려있는 상황이면, 다시 눌렀을 때 false가 되는거지
+            likeButton.setImageResource(R.drawable.empty_heart)
+            api.getCategoryClothes(userId, category).enqueue(object: Callback<ClothesResponse> {
+                override fun onResponse(call: Call<ClothesResponse>, response: Response<ClothesResponse>) {
+                    if (response.isSuccessful) {
+                        val result = response.body()
+                        Log.e(ContentValues.TAG, "result: $result")
+                        result?.let{ handleGetClothes(category, it) }
+                    } else {
+                        // HTTP 요청이 실패한 경우의 처리
+                        Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
+                    }
+                }
 
-            likeButton.setImageResource(newTopLikeImage)
-            likeButton.tag = newTopLikeImage
-            
-            // 각 list clear은 handleGetClothes에서 했음
-
+                override fun onFailure(call: Call<ClothesResponse>, t: Throwable) {
+                    Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
+                }
+            })
+        } else {
+            likeButton.setImageResource(R.drawable.full_heart)
             // 서버에서 옷 가져오는 거 해야함
-            api.getTagCategoryClothes(userId, "Like", category).enqueue(object: Callback<ClothesResponse> {
+            api.getLike(userId, category).enqueue(object: Callback<ClothesResponse> {
                 override fun onResponse(call: Call<ClothesResponse>, response: Response<ClothesResponse>) {
                     if (response.isSuccessful) {
                         val result = response.body()
@@ -307,11 +385,11 @@ class MyClosetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun handleGetClothes(category: String, data: ClothesResponse) {
+    fun handleGetClothes(category: String, data: ClothesResponse) {
         // 처음에 topList를 Reset하는게 필요하지 않을까?
         when (category) {
             "상의" -> { topList.clear() }
-            "하의" -> { topList.clear() }
+            "하의" -> { bottomList.clear() }
             "아우터" -> { outerList.clear() }
             "원피스" -> { onepieceList.clear() }
             "신발" -> { shoeList.clear() }
@@ -386,6 +464,8 @@ class MyClosetFragment : BottomSheetDialogFragment() {
             clothesIdsArray.add(clothIdShoes)
             clothesIdsArray.add(clothIdBag)
 
+            Log.e("MyClosetFragment", clothesIdsArray.toString())
+
             val clothesImagesArray = ArrayList<String>()
             clothesImagesArray.add(codiTop.imageUrl)
             clothesImagesArray.add(codiBottom.imageUrl)
@@ -419,9 +499,23 @@ class MyClosetFragment : BottomSheetDialogFragment() {
             })
             
             // 다 보내고 나서 리셋하는 과정 필요함
-            // list들 모두 reset,
+            // list들 모두 reset, -> 은 save 버튼 누를때마다 reset되니까 ㅇㅇ 상관없
             // 이미지 뷰들 모두 reset,
+            clothTop.setImageResource(android.R.color.transparent)
+            clothBottom.setImageResource(android.R.color.transparent)
+            clothOuter.setImageResource(android.R.color.transparent)
+            clothOnepiece.setImageResource(android.R.color.transparent)
+            clothShoes.setImageResource(android.R.color.transparent)
+            clothBag.setImageResource(android.R.color.transparent)
+            // text 뷰들도 모두 reset,
+            binding.textLookbookTop.text = ""
+            binding.textLookbookBottom.text = ""
+            binding.textLookbookOuter.text = ""
+            binding.textLookbookOnepiece.text = ""
+            binding.textLookbookShoes.text = ""
+            binding.textLookbookBag.text = ""
             // comment도 reset
+            binding.comment.setText("")
         }
     }
 
@@ -434,6 +528,134 @@ class MyClosetFragment : BottomSheetDialogFragment() {
             }
         }
         return clothesList[position]
+    }
+
+    private fun topLikeButton(view: View) {
+        val topLikeButton = view as ImageButton
+        // 이미지 토글
+        if (ifTopLike) {
+            // true였으면, 눌렸을 때 false가 되는거고, empty heart가 되는거지.
+            topLikeButton.setImageResource(R.drawable.empty_heart)
+        } else {
+            topLikeButton.setImageResource(R.drawable.full_heart)
+        }
+        ifTopLike = !ifTopLike
+
+        clickLikeButton(ifTopLike, topLikeButton, "상의")
+    }
+
+
+    private fun bottomLikeButton(view: View) {
+        val bottomLikeButton = view as ImageButton
+        // 이미지 토글
+        if (ifBottomLike) {
+            // true였으면, 눌렸을 때 false가 되는거고, empty heart가 되는거지.
+            bottomLikeButton.setImageResource(R.drawable.empty_heart)
+        } else {
+            bottomLikeButton.setImageResource(R.drawable.full_heart)
+        }
+        ifBottomLike = !ifBottomLike
+
+        clickLikeButton(ifBottomLike, bottomLikeButton, "하의")
+    }
+    
+    private fun outerLikeButton(view: View) {
+        val outerLikeButton = view as ImageButton
+        // 이미지 토글
+        if (ifOuterLike) {
+            // true였으면, 눌렸을 때 false가 되는거고, empty heart가 되는거지.
+            outerLikeButton.setImageResource(R.drawable.empty_heart)
+        } else {
+            outerLikeButton.setImageResource(R.drawable.full_heart)
+        }
+        ifOuterLike = !ifOuterLike
+
+        clickLikeButton(ifOuterLike, outerLikeButton, "아우터")
+    }
+
+    private fun onepieceLikeButton(view: View) {
+        val onepieceLikeButton = view as ImageButton
+        // 이미지 토글
+        if (ifOnepieceLike) {
+            // true였으면, 눌렸을 때 false가 되는거고, empty heart가 되는거지.
+            onepieceLikeButton.setImageResource(R.drawable.empty_heart)
+        } else {
+            onepieceLikeButton.setImageResource(R.drawable.full_heart)
+        }
+        ifOnepieceLike = !ifOnepieceLike
+
+        clickLikeButton(ifOnepieceLike, onepieceLikeButton, "원피스")
+    }
+
+    private fun shoesLikeButton(view: View) {
+        val shoesLikeButton = view as ImageButton
+        // 이미지 토글
+        if (ifShoesLike) {
+            // true였으면, 눌렸을 때 false가 되는거고, empty heart가 되는거지.
+            shoesLikeButton.setImageResource(R.drawable.empty_heart)
+        } else {
+            shoesLikeButton.setImageResource(R.drawable.full_heart)
+        }
+        ifShoesLike = !ifShoesLike
+
+        clickLikeButton(ifShoesLike, shoesLikeButton, "신발")
+    }
+
+    private fun bagLikeButton(view: View) {
+        val bagLikeButton = view as ImageButton
+        // 이미지 토글
+        if (ifBagLike) {
+            // true였으면, 눌렸을 때 false가 되는거고, empty heart가 되는거지.
+            bagLikeButton.setImageResource(R.drawable.empty_heart)
+        } else {
+            bagLikeButton.setImageResource(R.drawable.full_heart)
+        }
+        ifBagLike = !ifBagLike
+
+        clickLikeButton(ifBagLike, bagLikeButton, "가방")
+    }
+
+
+
+
+    // 새로고침 로직
+    override fun onRefresh() {
+
+        // list 모두 클리어
+        topList.clear()
+        bottomList.clear()
+        outerList.clear()
+        onepieceList.clear()
+        shoeList.clear()
+        bagList.clear()
+
+        // lookbook도 모두 클리어
+        // 이미지 뷰들 모두 reset,
+        clothTop.setImageResource(android.R.color.transparent)
+        clothBottom.setImageResource(android.R.color.transparent)
+        clothOuter.setImageResource(android.R.color.transparent)
+        clothOnepiece.setImageResource(android.R.color.transparent)
+        clothShoes.setImageResource(android.R.color.transparent)
+        clothBag.setImageResource(android.R.color.transparent)
+        // text 뷰들도 모두 reset,
+        binding.textLookbookTop.text = ""
+        binding.textLookbookBottom.text = ""
+        binding.textLookbookOuter.text = ""
+        binding.textLookbookOnepiece.text = ""
+        binding.textLookbookShoes.text = ""
+        binding.textLookbookBag.text = ""
+        // comment도 reset
+        binding.comment.setText("")
+
+        initiation() // 모든 view들 정의
+        getClothes() // 서버에서 모든 옷들 가져오기
+        showOnlyLikes() // 하트 누르면 like된 애들만 빼오기
+        // clickHeart() // 각 항목 하트 누르면 like-unlike 실행 -> 이건 adapter에서 함
+        // goTrash() // 길게 누르면 trash 항목으로 이동 -> 이건 adapter에서 함
+        // makeLookbook() // Make a New Lookbook 버튼 누르면 각 옷 선택됨 + 같은 카테고리의 다른 옷들 선택 못하게 됨 + lookbook에 사진 띄워짐 -> 이건 adapter에서 함
+        addNewCloth() // +버튼 누르면 add하는 activity로 넘어감
+        addNewCodi() // save 버튼 누르면 코디 저장됨
+        swipeRefreshLayout.isRefreshing = false
     }
 
     companion object {}

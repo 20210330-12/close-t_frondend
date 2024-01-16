@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -29,6 +30,11 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
     val api = RetrofitInterface.create()
     // userId 불러오기
     private lateinit var userId: String
+    // 이미지 url 저장하는 애
+    private var imageUrl = ""
+
+    // like 여부 저장하는 boolean
+    private var ifLike = false
 
     // myClosetFragment의 binding 불러오기
     private val bindingMyCloset = myClosetFragment.binding
@@ -44,7 +50,7 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
         val sharedPref = holder.itemView.context.getSharedPreferences("userId", Context.MODE_PRIVATE)
         userId = sharedPref.getString("userId", "")!!
 
-        Log.e("ClothesAdapter", "${bindingMyCloset == null}")
+//        Log.e("ClothesAdapter", "${bindingMyCloset == null}")
 
         // 사진을 길게 누르는 것만 ㄱㄱ하고 짧게 누르는 건 막아두기
         // 이 코드에서 ACTION_DOWN은 뷰를 누르는 순간을 나타내고,
@@ -64,17 +70,28 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
 
         // 하트 버튼 누르면 like tag 추가 / 삭제
         holder.myClosetLikeBtn.setOnClickListener {
-            val currentTopLikeImage = holder.myClosetLikeBtn.tag as? Int ?: R.drawable.empty_heart
-            val newTopLikeImage = if (currentTopLikeImage == R.drawable.empty_heart) {
-                R.drawable.full_heart
-            } else { R.drawable.empty_heart }
+//            val currentTopLikeImage = holder.myClosetLikeBtn.tag as? Int ?: R.drawable.empty_heart
+//            val newTopLikeImage = if (currentTopLikeImage == R.drawable.empty_heart) {
+//                R.drawable.full_heart
+//            } else { R.drawable.empty_heart }
+//
+//            Log.e("ClothesAdapter", "current: $currentTopLikeImage")
+//            Log.e("ClothesAdapter", "new: $newTopLikeImage")
+//            Log.e("ClothesAdapter", "empty_heart: ${R.drawable.empty_heart}")
+//            Log.e("ClothesAdapter", "full_heart: ${R.drawable.full_heart}")
+//            holder.myClosetLikeBtn.setImageResource(newTopLikeImage)
+//            holder.myClosetLikeBtn.tag = newTopLikeImage
 
-            Log.e("ClothesAdapter", "current: $currentTopLikeImage")
-            Log.e("ClothesAdapter", "new: $newTopLikeImage")
-            Log.e("ClothesAdapter", "empty_heart: ${R.drawable.empty_heart}")
-            Log.e("ClothesAdapter", "full_heart: ${R.drawable.full_heart}")
-            holder.myClosetLikeBtn.setImageResource(newTopLikeImage)
-            holder.myClosetLikeBtn.tag = newTopLikeImage
+            if (ifLike) {
+                // true 였던 걸 누른 거니까 false가 되고, like는 none이 되어야 하는거지.
+                // ifLike = false
+                holder.myClosetLikeBtn.setImageResource(R.drawable.empty_heart)
+            } else {
+                // false였던걸 누른 거니까 true가 되고, 하트는 칠해져야 하는거지.
+                // ifLike = true
+                holder.myClosetLikeBtn.setImageResource(R.drawable.full_heart)
+            }
+            ifLike = !ifLike
 
             // 서버에 like 여부 저장
             // 이건 그냥 보내만 두면 -> like 되어있으면 해제해주고, 안 되어있으면 like해줌
@@ -134,62 +151,81 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
 
         // 그리고, 각 버튼을 누르면 그 이미지가 Lookbook에 나타나야함
         holder.myClosetPic.setOnClickListener {
-            val clothImage = clothesList[position].imageUrl // 해당 이미지
+//            val clothImage = clothesList[position].imageUrl // 해당 이미지
+            imageUrl = clothesList[position].imageUrl
             val clothTag = clothesList[position].category // 해당 이미지 카테고리
             val clothId = clothesList[position].id // 해당 이미지 id
 
-            Log.e("imageURL", "$clothImage")
-            Picasso.get().load(clothImage)
-                .placeholder(R.drawable.full_heart)
-                .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
-                .into(bindingMyCloset.lookbookTop)
+            Log.e("imageURL", "$imageUrl")
+//            Picasso.get().load(clothImage)
+//                .placeholder(R.drawable.full_heart)
+//                .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                .into(bindingMyCloset.lookbookTop)
 
             when (clothTag) {
                 "상의" -> {
                     // displayProcessedImage(bindingMyCloset.lookbookTop, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                    Picasso.get().load(clothImage)
+//                        .placeholder(R.drawable.full_heart)
+//                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                        .into(bindingMyCloset.lookbookTop)
+                    Glide.with(myClosetFragment)
+                        .load(imageUrl)
                         .into(bindingMyCloset.lookbookTop)
                     bindingMyCloset.textLookbookTop.text = clothId
                 }
                 "하의" -> {
                     // displayProcessedImage(bindingMyCloset.lookbookBottom, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                    Picasso.get().load(clothImage)
+//                        .placeholder(R.drawable.full_heart)
+//                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                        .into(bindingMyCloset.lookbookBottom)
+                    Glide.with(myClosetFragment)
+                        .load(imageUrl)
                         .into(bindingMyCloset.lookbookBottom)
                     bindingMyCloset.textLookbookBottom.text = clothId
                 }
                 "아우터" -> {
                     // displayProcessedImage(bindingMyCloset.lookbookOuter, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                    Picasso.get().load(clothImage)
+//                        .placeholder(R.drawable.full_heart)
+//                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                        .into(bindingMyCloset.lookbookOuter)
+                    Glide.with(myClosetFragment)
+                        .load(imageUrl)
                         .into(bindingMyCloset.lookbookOuter)
                     bindingMyCloset.textLookbookOuter.text = clothId
                 }
                 "원피스" -> {
                     // displayProcessedImage(bindingMyCloset.lookbookOnepiece, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                    Picasso.get().load(clothImage)
+//                        .placeholder(R.drawable.full_heart)
+//                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                        .into(bindingMyCloset.lookbookOnepiece)
+                    Glide.with(myClosetFragment)
+                        .load(imageUrl)
                         .into(bindingMyCloset.lookbookOnepiece)
                     bindingMyCloset.textLookbookOnepiece.text = clothId
                 }
                 "신발" -> {
                     // displayProcessedImage(bindingMyCloset.lookbookShoes, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                    Picasso.get().load(clothImage)
+//                        .placeholder(R.drawable.full_heart)
+//                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                        .into(bindingMyCloset.lookbookShoes)
+                    Glide.with(myClosetFragment)
+                        .load(imageUrl)
                         .into(bindingMyCloset.lookbookShoes)
                     bindingMyCloset.textLookbookShoes.text = clothId
                 }
                 "가방" -> {
                     // displayProcessedImage(bindingMyCloset.lookbookBag, clothImage)
-                    Picasso.get().load(clothImage)
-                        .placeholder(R.drawable.full_heart)
-                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                    Picasso.get().load(clothImage)
+//                        .placeholder(R.drawable.full_heart)
+//                        .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                        .into(bindingMyCloset.lookbookBag)
+                    Glide.with(myClosetFragment)
+                        .load(imageUrl)
                         .into(bindingMyCloset.lookbookBag)
                     bindingMyCloset.textLookbookBag.text = clothId
                 }
@@ -198,12 +234,6 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
         
         // 상세정보 뜨는건 할 필요가 없지 않을까
 
-    }
-
-    private fun displayProcessedImage(imageView: ImageView, base64Image: String) {
-        val decodedBytes: ByteArray = Base64.decode(base64Image, Base64.DEFAULT)
-        val decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-        imageView.setImageBitmap(decodedBitmap)
     }
 
     override fun getItemCount(): Int {
@@ -216,6 +246,7 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
         notifyItemRangeChanged(position, itemCount)
     }
 
+
     inner class clothesViewHolder(myClosetItemView: View) : RecyclerView.ViewHolder(myClosetItemView) {
         val myClosetLikeBtn = myClosetItemView.findViewById<ImageButton>(R.id.myClosetlikeBtn)
         val myClosetPic = myClosetItemView.findViewById<ImageView>(R.id.myClosetPic)
@@ -223,18 +254,44 @@ class ClothesAdapter (private val myClosetFragment: MyClosetFragment, private va
         fun bind(item: Clothes) {
             
             // tag에 like가 있으면 좋아요 눌러놓기
-            if(item.tag?.contains("like") == true) {
+            if(item.like.contains("Like")) {
+                ifLike = true
                 myClosetLikeBtn.setImageResource(R.drawable.full_heart)
-            } else { myClosetLikeBtn.setImageResource(R.drawable.empty_heart) }
+            } else {
+                ifLike = false
+                myClosetLikeBtn.setImageResource(R.drawable.empty_heart)
+            }
 
 
             // 이미지 URL이 있는지 확인하고 Picasso를 사용하여 ImageView에 로드합니다.
             val imageUrl = item.imageUrl // 실제 이미지 URL을 저장하는 myClosetItem 클래스의 필드로 교체하세요.
             //Log.e("imageURL", "$imageUrl")
-            Picasso.get().load(imageUrl)
-                .placeholder(R.drawable.full_heart)
-                .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
-                .into(myClosetPic)
+//            Picasso.get().load(imageUrl)
+//                .placeholder(R.drawable.full_heart)
+//                .error(R.drawable.empty_heart) // 에러 발생 시 로딩될 이미지
+//                .into(myClosetPic)
+//            Glide.with(itemView.context)
+//                .load(imageUrl)
+//                .into(myClosetPic)
+
+            val byteArrayString = "iVBORw0KGgoAAAANSUhEUgAABDgAAAjoCAYAAAA5jhrUAAABBmlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGCSYAACJgEGhty8kqIgdyeFiMgoBQYkkJhcXMCAGzAyMHy7BiIZGC7r4lGHC3CmpBYnA+kPQFxSBLQcaGQKkC2SDmFXgNhJEHYPiF0UEuQMZC8AsjXSkdhJSOzykoISIPsESH1yQRGIfQfItsnNKU1GuJuBJzUvNBhIRwCxDEMxQxCDO4MTGX7ACxDhmb+IgcHiKwMD8wSEWNJMBobtrQwMErcQYipAP/C3MDBsO1+QWJQIFmIBYqa0NAaGT8sZGHgjGRiELzAwcEVj2oGICxx+VQD71Z0hHwjTGXIYUoEingx5DMkMekCWEYMBgyGDGQBMpUCRBqmilgAAAAlwSFlzAAALEwAACxMBAJqcGAABAABJREFUeF7s3duCG7mStucvQFaV1D3LPvDYt+sL8LFv9PeMuiUVET4IBIBEZpIsSd2z1sz7qKtJ5gabAHIHJkkJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+
+            // Convert the string representation to an actual byte array
+            val byteArray = Base64.decode(byteArrayString, Base64.DEFAULT)
+
+            // Create a Bitmap from the byte array
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+            // val bitmap = "android.graphics.Bitmap@ca6faba"
+            // Now you can use 'bitmap' to display the image
+            Log.d("bitmap 확인", bitmap.toString())
+            myClosetPic.setImageBitmap(bitmap)
+
+//            itemView.context.openFileInput(imageUrl).use { inputStream ->
+//                val byteArray = inputStream.readBytes()
+//                val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+//                myClosetPic.setImageBitmap(bitmap)
+//            }
+
         }
 
     }

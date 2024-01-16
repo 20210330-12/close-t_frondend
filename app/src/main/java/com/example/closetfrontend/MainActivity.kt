@@ -83,10 +83,11 @@ class MainActivity : AppCompatActivity() {
                     // 값이 들어가지 못한 채 getUserCheck()가 실행됨을 방지
                     Handler(Looper.getMainLooper()).postDelayed({
                         getUserCheck()
+                        putDummyData()
                         val intent = Intent(context, EnterProfile::class.java)
                         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                         finish()
-                    }, 1000)
+                    }, 2000)
                 } catch (error: Throwable) {
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                         Log.d("MainActivity", "사용자가 명시적으로 취소")
@@ -132,6 +133,49 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
         //Log.e(ContentValues.TAG, "기존 유저인가요?: $oldUser")
+    }
+
+    private fun putDummyData() {
+        val dummyStyleArrayList = ArrayList<String>()
+        dummyStyleArrayList.add("캐주얼")
+        dummyStyleArrayList.add("꾸안꾸")
+
+        // 그냥 dummy로 createUser 시켜볼게
+//        val dummycall = api.createUser(
+//            "2",
+//            "한송이",
+//            "Female",
+//            "hanis@kaist.ac.kr",
+//            "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg",
+//            22,
+//            165,
+//            "모래시계형",
+//            dummyStyleArrayList)
+//        val dummycall = api.createUser(
+//            "1234",
+//            "송송이",
+//            "Female",
+//            "songsong@gmail.com",
+//            "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg",
+//            25,
+//            170,
+//            "모래시계형",
+//            dummyStyleArrayList)
+//        dummycall.enqueue(object: Callback<JsonObject> {
+//            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+//                if (response.isSuccessful) {
+//                    val result = response.body()
+//                    Log.e("dummydata", "$result")
+//                    Log.e("dummydata", "success!! good!!")
+//                } else {
+//                    Log.e("dummydata", "$response")
+//                    Log.e("dummydata", "what's wrong...")
+//                }
+//            }
+//            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+//                Log.e("dummydata", "so sad plz")
+//            }
+//        })
     }
 
 }

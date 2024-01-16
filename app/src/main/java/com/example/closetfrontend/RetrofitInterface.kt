@@ -22,9 +22,11 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.concurrent.TimeUnit
 import retrofit2.http.Streaming
 
 interface RetrofitInterface {
+
 
     @GET("/user/{userId}/check")
     fun getUserCheck(@Path("userId") userId: String): Call<JsonObject>
@@ -54,19 +56,32 @@ interface RetrofitInterface {
         @Field("height") height: Int?,
         @Field("bodyType") bodyType: String?,
         @Field("styles") styles: ArrayList<String>?
-    ): Call<Void>
+    ): Call<JsonObject>
+
 
     @GET("/user/{userId}/profile")
     fun getUser(@Path("userId") userId: String): Call<JsonObject>
 
-    @GET("/user/{userId}/clothes")
+
+    @GET("/{userId}/clothes")
     fun getCategoryClothes(@Path("userId") userId: String, @Query("category") category: String): Call<ClothesResponse>
+
 
     @GET("/user/{userId}/clothes/filter/{tag}")
     fun getTagCategoryClothes(@Path("userId") userId: String, @Path("tag") tag: String, @Query("category") category: String): Call<ClothesResponse>
 
+    @GET("{userId}/clothes/liked")
+    fun getLike(@Path("userId") userId: String, @Query("category") category: String): Call<ClothesResponse>
+
+    @GET("{userId}/clothes/trashed")
+    fun getTrash(@Path("userId") userId: String, @Query("category") category: String): Call<ClothesResponse>
+
+    @GET("{userId}/clothes/wished")
+    fun getWish(@Path("userId") userId: String, @Query("category") category: String): Call<ClothesResponse>
+
     @GET("{userId}/clothes/{clothesId}")
     fun getCloth(@Path("userId") userId: String, @Path("clothesId") clothesId: String): Call<Clothes>
+
 
     //@FormUrlEncoded
     @PATCH("/{userId}/clothes/{clothesId}/changeLike")
@@ -79,6 +94,7 @@ interface RetrofitInterface {
     //@FormUrlEncoded
     @PATCH("/{userId}/clothes/{clothesId}/removeFromWish")
     fun removeWish(@Path("userId") userId: String, @Path("clothesId") clothesId: String): Call<JsonObject>
+
 
     @DELETE("/{userId}/clothes/{clothesId}/remove")
     fun deleteCloth(@Path("userId") userId: String, @Path("clothesId") clothesId: String): Call<JsonObject>
@@ -93,6 +109,17 @@ interface RetrofitInterface {
         @Field("clothesImages") clothesImages: ArrayList<String>,
         @Field("comment") comment: String?
     ): Call<JsonObject>
+
+
+    //@FormUrlEncoded
+    @PATCH("/user/{userId}/add-information")
+    fun addUserInfo(@Path("userId") userId: String, @Body userProfileUpdate: UserProfileUpdate): Call<JsonObject>
+
+
+    @GET("/{userId}/openai/generateOOTD")
+    fun dalle(@Path("userId") userId: String, @Query("stylePick") stylePick: String): Call<JsonObject>
+
+
 
     @GET("/{userId}/codi")
     fun getAllCodies(@Path("userId") userId: String): Call<JsonObject>
@@ -109,6 +136,7 @@ interface RetrofitInterface {
         @Query("api_key") apiKey: String,
         @Body body: RequestBody
     ): Call<ResponseBody>
+
 //    // 전 주에 했었던 예시들 보여줄겡
 //    // 만약 위에처럼 path에 parameter이 들어가는게 아니라, 그냥 parameter만 전달하는 거라면 이런 식으로!
 //    @GET("/myCustom")
@@ -157,6 +185,9 @@ interface RetrofitInterface {
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .connectTimeout(60, TimeUnit.SECONDS) // 연결 timeout
+                .readTimeout(60, TimeUnit.SECONDS)    // 읽기 timeout
+                .writeTimeout(60, TimeUnit.SECONDS)   // 쓰기 timeout
                 .build()
 
             return Retrofit.Builder()

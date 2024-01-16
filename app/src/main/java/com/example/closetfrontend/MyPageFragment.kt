@@ -2,6 +2,7 @@ package com.example.closetfrontend
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -32,6 +33,7 @@ class MyPageFragment : Fragment() {
     private lateinit var goTrashBtn: ImageButton
     private lateinit var goLikeBtn: ImageButton
     private lateinit var goWishBtn: ImageButton
+    private lateinit var goOotdBtn: ImageButton
 
     // 프로필 정보 나타낼 것들
     private lateinit var profileImageText: String
@@ -66,6 +68,7 @@ class MyPageFragment : Fragment() {
             // user 정보 불러오는데 시간 걸릴 것 같아서 이렇게 해줬다
             setProfile()
         }, 1000)
+        goActivity()
 
 
         return binding.root
@@ -76,6 +79,7 @@ class MyPageFragment : Fragment() {
         goTrashBtn = binding.TrashBtn
         goLikeBtn = binding.likeClothesBtn
         goWishBtn = binding.wishClothesBtn
+        goOotdBtn = binding.goOotdBtn
 
         // View들 초기화
         profileImage = binding.profilePic
@@ -103,6 +107,13 @@ class MyPageFragment : Fragment() {
                 Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
             }
         })
+
+        // 일단 dummy data로
+        profileNameText = "송한이"
+        profileGenderText = "Female"
+        profileEmailText = "hanis@kaist.ac.kr"
+        profileImageText = "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg"
+
     }
 
     private fun setProfile() {
@@ -124,6 +135,25 @@ class MyPageFragment : Fragment() {
 
         // 이메일 세팅
         profileEmail.text = profileEmailText
+    }
+
+    private fun goActivity() {
+        goTrashBtn.setOnClickListener {
+            val intent1 = Intent(context, TrashActivity::class.java)
+            startActivity(intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        }
+        goLikeBtn.setOnClickListener {
+            val intent2 = Intent(context, LikeActivity::class.java)
+            startActivity(intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        }
+        goWishBtn.setOnClickListener {
+            val intent3 = Intent(context, WishActivity::class.java)
+            startActivity(intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        }
+        goOotdBtn.setOnClickListener {
+            val intent4 = Intent(context, ChatOotdActivity::class.java)
+            startActivity(intent4.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        }
     }
 
     companion object {    }

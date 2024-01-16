@@ -68,8 +68,13 @@ dependencies {
     // 이미지 url을 위한 implementation
     implementation ("com.squareup.picasso:picasso:2.71828")
 
-    // FloatingActionButton을 위한 implimentation
+    // FloatingActionButton을 위한 implementation
 //    implementation ("com.android.support:design:28.0.0")
     implementation ("com.google.android.material:material:1.11.0")
+
+    // 파일 경로로 된 이미지를 띄우기 위한 implementation
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
 
 }
