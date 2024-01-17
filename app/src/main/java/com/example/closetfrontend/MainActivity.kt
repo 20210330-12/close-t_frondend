@@ -8,9 +8,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.closetfrontend.databinding.ActivityMainBinding
 import com.google.gson.JsonObject
 import com.kakao.sdk.auth.model.OAuthToken
@@ -36,6 +39,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userId: String
     // 유저 이름
     private lateinit var userName: String
+    // 로딩뷰
+    private lateinit var loadingView: ImageView
+    private lateinit var logo: ImageView
 
     // 서버에서 불러오기
     val api = RetrofitInterface.create()
@@ -43,6 +49,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        loadingView = findViewById(R.id.gif_image)
+        logo = findViewById(R.id.logo)
 
         kakaoLoginButton = findViewById(R.id.kakaotalkBtn)
         context = this
@@ -52,6 +61,11 @@ class MainActivity : AppCompatActivity() {
                     // 서비스 코드에서는 간단하게 로그인 요청하고 oAuthToken을 받아올 수 있다.
                     val oAuthToken = UserApiClient.loginWithKakao(context)
                     Log.d("MainActivity", "beanbean > $oAuthToken")
+                    // 로딩 화면
+                    Glide.with(context).load(R.drawable.splash_activity_1by1).into(loadingView)
+                    loadingView.visibility = View.VISIBLE
+                    kakaoLoginButton.visibility = View.INVISIBLE
+                    logo.visibility = View.INVISIBLE
                     UserApiClient.instance.me { user, error ->
                         if (error != null) {
                             Log.e(Constants.TAG, "사용자 정보 요청 실패 $error")
@@ -83,12 +97,6 @@ class MainActivity : AppCompatActivity() {
                     // 값이 들어가지 못한 채 getUserCheck()가 실행됨을 방지
                     Handler(Looper.getMainLooper()).postDelayed({
                         getUserCheck()
-                        putDummyData()
-
-//                        // 이걸 내가 왜 한거야 ㅋㅋ
-//                        val intent = Intent(context, EnterProfile::class.java)
-//                        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-//                        finish()
                     }, 2000)
                 } catch (error: Throwable) {
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
@@ -134,50 +142,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
             finish()
         }
+//        loadingView.visibility = View.GONE
+//        kakaoLoginButton.visibility = View.VISIBLE
+//        logo.visibility = View.VISIBLE
+
         //Log.e(ContentValues.TAG, "기존 유저인가요?: $oldUser")
-    }
-
-    private fun putDummyData() {
-        val dummyStyleArrayList = ArrayList<String>()
-        dummyStyleArrayList.add("캐주얼")
-        dummyStyleArrayList.add("꾸안꾸")
-
-        // 그냥 dummy로 createUser 시켜볼게
-//        val dummycall = api.createUser(
-//            "2",
-//            "한송이",
-//            "Female",
-//            "hanis@kaist.ac.kr",
-//            "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg",
-//            22,
-//            165,
-//            "모래시계형",
-//            dummyStyleArrayList)
-//        val dummycall = api.createUser(
-//            "1234",
-//            "송송이",
-//            "Female",
-//            "songsong@gmail.com",
-//            "https://k.kakaocdn.net/dn/iiHzE/btsCnFefcFe/csRhbfOvNWQKsumvxRXkA1/img_640x640.jpg",
-//            25,
-//            170,
-//            "모래시계형",
-//            dummyStyleArrayList)
-//        dummycall.enqueue(object: Callback<JsonObject> {
-//            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-//                if (response.isSuccessful) {
-//                    val result = response.body()
-//                    Log.e("dummydata", "$result")
-//                    Log.e("dummydata", "success!! good!!")
-//                } else {
-//                    Log.e("dummydata", "$response")
-//                    Log.e("dummydata", "what's wrong...")
-//                }
-//            }
-//            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-//                Log.e("dummydata", "so sad plz")
-//            }
-//        })
     }
 
 }

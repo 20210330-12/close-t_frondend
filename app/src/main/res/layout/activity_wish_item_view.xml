@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutPopup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="#00FFFFFF"
+    tools:context=".WishItemViewActivity">
+
+    <ImageView
+        android:id="@+id/popupView"
+        android:layout_width="300dp"
+        android:layout_height="320dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/popupCircle"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="40dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/outer_dummy"
+        app:layout_constraintEnd_toEndOf="@+id/popupView"
+        app:layout_constraintStart_toStartOf="@+id/popupView"
+        app:layout_constraintTop_toTopOf="@+id/popupView" />
+
+    <ImageButton
+        android:id="@+id/popupCloseBtn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/exit_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/popupLike"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/empty_heart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/popupLinkTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        android:text="LINK"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/popupView"
+        app:layout_constraintStart_toStartOf="@+id/popupView"
+        app:layout_constraintTop_toBottomOf="@+id/popupCircle" />
+
+    <TextView
+        android:id="@+id/popupLink"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:text="www.musinsa.com/outer/"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        app:layout_constraintEnd_toEndOf="@+id/popupView"
+        app:layout_constraintStart_toStartOf="@+id/popupView"
+        app:layout_constraintTop_toBottomOf="@+id/popupLinkTitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

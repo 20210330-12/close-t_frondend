@@ -8,6 +8,18 @@
     android:background="#FFFFFF"
     tools:context=".MainActivity">
 
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="#3B3D3A"-->
+<!--        android:visibility="invisible"/>-->
+    <ImageView
+        android:id="@+id/gif_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3B3D3A"
+        android:visibility="invisible"/>
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="300dp"
