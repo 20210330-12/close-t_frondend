@@ -99,7 +99,7 @@
 
 |Save Lookbook|Show Lookbook|
 |------|-----|
-|![tab1_lookbook_save](https://github.com/20210330-12/close-t_frontend/assets/112535704/1c7a52b7-b8a2-403e-ac5f-4940698fadc3)|----|
+|![tab1_lookbook_save](https://github.com/20210330-12/close-t_frontend/assets/112535704/1c7a52b7-b8a2-403e-ac5f-4940698fadc3)|![tab2-min](https://github.com/20210330-12/close-t_frontend/assets/112535704/47d9ee98-534d-4f2a-8a7a-63555fc0b4c9)|
 
 ---
 
