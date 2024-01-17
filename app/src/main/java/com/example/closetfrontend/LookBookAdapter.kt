@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.closetfrontend.LookBookAdapter.LookBookViewHolder
 import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
+import org.apache.commons.lang3.mutable.Mutable
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -87,6 +88,7 @@ class LookBookAdapter(
                     val updatedStatus = response.body()?.getAsJsonPrimitive("result").toString().subSequence(30, 34)
                     Log.e("likeCodi", updatedStatus.toString())
                     updatedLike[position] = updatedStatus.toString()
+
                     //notifyDataSetChanged()
                 } else {
                     Log.e("likeCodi", "failed to like codi")
@@ -131,12 +133,12 @@ class LookBookAdapter(
             lookbookBag = constraintLayout.findViewById(R.id.lookbookBag)
         }
 
-//        fun bind(item: String) {
-//            if (item == "like") {
-//                emptyHeart.setImageResource(R.drawable.full_heart)
-//            } else {
-//                emptyHeart.setImageResource(R.drawable.empty_heart)
-//            }
-//        }
+        fun bind(item: String) {
+            if (item == "like") {
+                emptyHeart.setImageResource(R.drawable.full_heart)
+            } else {
+                emptyHeart.setImageResource(R.drawable.empty_heart)
+            }
+        }
     }
 }

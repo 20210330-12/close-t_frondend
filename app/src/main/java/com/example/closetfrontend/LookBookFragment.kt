@@ -56,9 +56,10 @@ class LookBookFragment : Fragment() {
         heartButton = view.findViewById(R.id.idHeartButton)
         heartButton.setOnClickListener {
             if (emptyHeart) {
-                heartButton.setBackgroundResource(R.drawable.heart_filled)
                 codiIds.clear()
                 getLikedCodies()
+                heartButton.setBackgroundResource(R.drawable.heart_filled)
+                Log.d("likes", likes.toString())
                 emptyHeart = !emptyHeart
             } else {
                 heartButton.setBackgroundResource(R.drawable.empty_heart)
@@ -98,6 +99,10 @@ class LookBookFragment : Fragment() {
     }
 
     private fun parseResponse(response: JsonObject?) {
+        codiIds.clear()
+        likes.clear()
+        clothesImageUrls.clear()
+
         val codiIdsArray = response?.getAsJsonArray("codiIds")
         val likesArray = response?.getAsJsonArray("likes")
         val clothesImageUrlsArray = response?.getAsJsonArray("clothesImageUrls")
@@ -105,7 +110,8 @@ class LookBookFragment : Fragment() {
         codiIdsArray?.let {
             for (i in 0 until it.size()) {
                 codiIds.add(it[i].asString)
-                likes.add(likesArray?.get(i)?.asString ?: "")
+                likes.add(likesArray?.get(i)?.asString ?: "like")
+                Log.d("likes after getLikes", "${i}: " + likes.toString())
 
                 val clothesImages = ArrayList<String?>()
                 val clothesImagesArray = clothesImageUrlsArray?.get(i)
