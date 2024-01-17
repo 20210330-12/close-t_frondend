@@ -118,7 +118,7 @@
 
 
 ## 📁 Resources
-- APK file : https://drive.google.com/file/d/1J1PQ0fvIpA3LQc9COHur7n9mD5tEZmQB/view?usp=sharing
+- APK file : https://drive.google.com/file/d/1EUar1K2QcTziJLPwcTxwlnBRU-BCvEXY/view?usp=sharing
 
 
 
