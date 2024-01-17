@@ -90,41 +90,47 @@ class WishAdapter (private var clothesList: ArrayList<Clothes>) :
         
         
         
-        // 길게 누르면 완전히 삭제
-        holder.myClosetPic.setOnLongClickListener {
-            
-            // 완전히 삭제된다는 이미지를 0.5초간 보여주기
-            holder.myClosetPic.setImageResource(R.drawable.remove_real)
-            
-            // 완전히 삭제하기
-            api.deleteCloth(userId, clothesList[position].id).enqueue(object:
-                Callback<JsonObject> {
-                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                    if (response.isSuccessful) {
-                        val result = response.body()
-                        Log.e(ContentValues.TAG, "result: $result")
-                    } else {
-                        // HTTP 요청이 실패한 경우의 처리
-                        Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
-                    }
-                }
-                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
-                }
-            })
-            
-            // 0.5초 뒤에 list에서 완전히 제거함
-            Handler(Looper.getMainLooper()).postDelayed({
-                removeMyClosetItem(position)
-                notifyDataSetChanged()
-                true
-            }, 500)
+//        // 길게 누르면 완전히 삭제 -> 팝업 띄우려고 이 기능은 삭제함
+//        holder.myClosetPic.setOnLongClickListener {
+//
+//            // 완전히 삭제된다는 이미지를 0.5초간 보여주기
+//            holder.myClosetPic.setImageResource(R.drawable.remove_real)
+//
+//            // 완전히 삭제하기
+//            api.deleteCloth(userId, clothesList[position].id).enqueue(object:
+//                Callback<JsonObject> {
+//                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+//                    if (response.isSuccessful) {
+//                        val result = response.body()
+//                        Log.e(ContentValues.TAG, "result: $result")
+//                    } else {
+//                        // HTTP 요청이 실패한 경우의 처리
+//                        Log.e(ContentValues.TAG, "HTTP 요청 실패: ${response.code()}")
+//                    }
+//                }
+//                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+//                    Log.e(ContentValues.TAG, "네트워크 오류: ${t.message}")
+//                }
+//            })
+//
+//            // 0.5초 뒤에 list에서 완전히 제거함
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                removeMyClosetItem(position)
+//                notifyDataSetChanged()
+//                true
+//            }, 500)
+//        }
+
+        holder.myClosetPic.setOnClickListener {
+            showWishItemViewActivity(holder.itemView.context, clothesList[position])
         }
 
 
 
         // 그리고, 그냥 짧게 누르면 wish 테그 삭제 (샀다는 의미)
-        holder.myClosetPic.setOnClickListener {
+        // holder.myClosetPic.setOnClickListener {
+        // 길게 누르면 wish 테그 삭제 (샀다는 의미)
+        holder.myClosetPic.setOnLongClickListener {
             // trash 없어진다는 이미지를 0.5초간 보여주기
             holder.myClosetPic.setImageResource(R.drawable.buy_wish)
 
@@ -187,6 +193,19 @@ class WishAdapter (private var clothesList: ArrayList<Clothes>) :
             //Log.e("imageURL", "$imageUrl")
             Picasso.get().load("http://172.10.7.44:80/images/${imageUrl}").into(myClosetPic)
         }
+
+//        init {
+//            itemView.setOnClickListener(this)
+//        }
+//
+//        override fun onClick(view: View) {
+//            // RecyclerView의 아이템을 클릭했을 때의 동작 정의
+//            val position: Int = adapterPosition
+//            val selectedItem: Clothes = clothesList[position]
+//
+//            // AlertDialog를 통해 WishItemViewActivity 띄우기
+//            showWishItemViewActivity(itemView.context, selectedItem)
+//        }
 
     }
 }
