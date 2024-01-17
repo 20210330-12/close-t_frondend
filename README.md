@@ -37,7 +37,8 @@
 - 카카오 api에서 제공하는 userID를 이용하여 회원을 식별하고, 회원가입 시 기입한 정보들과 함께 DB에 저장됩니다.
 
 |Kakao Login|Enter Profile|
-|------|![kakaoLogin](https://github.com/20210330-12/close-t_frontend/assets/112535704/0936bcde-2ee8-44b9-8d46-378e455a7b26)|
+|------|-----|
+|![kakaoLogin](https://github.com/20210330-12/close-t_frontend/assets/112535704/0936bcde-2ee8-44b9-8d46-378e455a7b26)|    |
 
 ---
 
