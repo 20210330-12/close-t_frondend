@@ -266,8 +266,8 @@
 
             <ImageButton
                 android:id="@+id/casualBtn"
-                android:layout_width="75.83dp"
-                android:layout_height="28dp"
+                android:layout_width="70.42dp"
+                android:layout_height="26dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_casual_button"
@@ -275,9 +275,9 @@
 
             <ImageButton
                 android:id="@+id/lovelyBtn"
-                android:layout_width="75.83dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="5dp"
+                android:layout_width="70.42dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="3dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_lovely_button"
@@ -285,9 +285,9 @@
 
             <ImageButton
                 android:id="@+id/chicBtn"
-                android:layout_width="84dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="5dp"
+                android:layout_width="78dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="3dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_chic_button"
@@ -295,9 +295,9 @@
 
             <ImageButton
                 android:id="@+id/formalBtn"
-                android:layout_width="121.33dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="5dp"
+                android:layout_width="112.67dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="3dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_formal_button"
@@ -315,8 +315,8 @@
 
             <ImageButton
                 android:id="@+id/sportyBtn"
-                android:layout_width="75.83dp"
-                android:layout_height="28dp"
+                android:layout_width="70.42dp"
+                android:layout_height="26dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_sporty_button"
@@ -326,9 +326,9 @@
 
             <ImageButton
                 android:id="@+id/basicBtn"
-                android:layout_width="100.33dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="5dp"
+                android:layout_width="93.17dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="3dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_basic_button"
@@ -338,9 +338,9 @@
 
             <ImageButton
                 android:id="@+id/romanticBtn"
-                android:layout_width="107.33dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="5dp"
+                android:layout_width="99.67dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="3dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_romantic_button"
@@ -350,9 +350,9 @@
 
             <ImageButton
                 android:id="@+id/naturalBtn"
-                android:layout_width="75.83dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="5dp"
+                android:layout_width="70.42dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="3dp"
                 android:background="@android:color/transparent"
                 android:scaleType="centerInside"
                 android:src="@drawable/tag_natural_button"
