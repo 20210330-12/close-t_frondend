@@ -1,9 +1,9 @@
 <img src="https://capsule-render.vercel.app/api?type=soft&color=FFFFFF&height=80&section=header&text=🧥Close-T🧣&fontSize=50&fontColor=000000"/>
 
 
-# close-t_frondend
+# close-t_frontend
 
-📌 BackEnd와 관련된 내용은 https://github.com/MadCamp-2ndWeek-BrewStar/BrewStar_backEnd 로‼️
+📌 BackEnd와 관련된 내용은 https://github.com/hchaejeong/close-t_backend 로‼️
 
 ### 👥 Developers
 - 현채정: KAIST 전산학부 21학번
