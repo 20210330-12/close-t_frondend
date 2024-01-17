@@ -74,24 +74,46 @@
 
 ---
 
-### 🤩 TAP2: All Customs
+### 🤩 TAP2: LookBook
 ![Tab2](https://github.com/MadCamp-2ndWeek-BrewStar/BrewStar_FrontEnd/assets/112535704/fb4de4d5-9e67-4372-bf7d-10e98e932c0a)
 ***Main Features***
-- Category별로 나누어서, Coffee, Non-Coffee, Frappuccino 별로 나누어 custom한 item들을 볼 수 있습니다.
-  각 Category를 누르면, 새로운 Activity가 뜨면서 item들이 나열됩니다.
-- 모든 custom들을 나타낸 Activity에서는, 화면 오른쪽에 All/Coffee/Non-Coffee/Frappuccino를 선택하여 필터링할 수 있도록 했습니다.
-  또한, item 검색도 가능합니다.
-- 각 item 항목에는 Category에 따른 사진, custom의 이름, 실제 메뉴, 커스텀한 내용, 좋아요 수를 나타냈습니다.
-- 하나의 item을 누르면 팝업이 뜨면서 상세정보가 나타납니다. 추가적으로 설명, 만든 사람의 이름도 볼 수 있습니다.
-- 팝업의 오른쪽 상단에는 별 모양으로 되어있는 "좋아요" 버튼이 있습니다. 별을 눌러 좋아요 선택 및 해제를 할 수 있습니다.
-- 또한, "좋아요" 순으로 현재 순위 Top 10을 보여줍니다. 각 item을 누르면 마찬가지로 상세정보를 볼 수 있습니다.
-- Tap1과 마찬가지로, 모든 업데이트 상황은 전체 화면을 스와이프하여 새로고침을 하면 반영됩니다.
+- TAB1에서 저장했던 LOOKBOOK을 볼 수 있는 탭입니다.
+- 화면 우상단의 큰 하트를 누르면 즐겨 찾는 LOOKBOOK만 모아볼 수 있습니다.
+- 각 LOOKBOOK 항목의 하트를 누르면, 즐겨찾기 설정이 가능합니다.
+- LOOKBOOK 항목 중 하나를 누르면, 폴라로이드 감성으로 LOOKBOOK이 나타납니다.
+- 입력했던 comment와, 처음 옷을 등록할 때 입력했던 style들 중 3개를 볼 수 있습니다.
+- LOOKBOOK 화면을 터치하면 사고 싶은 옷을 등록할 때 입력했던 Link가 나타나며, 그 Link를 클릭하면 브라우저와 연결되어 해당 옷을 살 수 있는 사이트로 접속할 수 있습니다.
 
 ***Technical Description***
-- API와 안드로이드 스튜디오를 연결하여, 전체 custom item을 볼 수 있도록 했습니다.
-- "좋아요"를 누르게 되면 자동적으로 자신의 Favorite Customs DB에 저장됩니다. 마찬가지로 "좋아요"를 해제하면 DB에서 제거됩니다.
-- SwipeRefreshLayout을 통해 스와이프하면 새로고침을 할 수 있습니다.
+- API와 안드로이드 스튜디오를 연결하여, LOOKBOOK을 모두 볼 수 있도록 했습니다.
+- 즐겨찾기 버튼을 누르면 서버에 자동으로 저장됩니다.
 - 각 항목은 모두 recyclerView로 구현하였습니다.
+- Dialog를 사용하여 Popup창을 구현하였습니다.
+- Intent를 이용해 인터넷에 연결할 수 있도록 했습니다.
+
+---
+
+### 🤩 TAP3: My Page
+![Tab2](https://github.com/MadCamp-2ndWeek-BrewStar/BrewStar_FrontEnd/assets/112535704/fb4de4d5-9e67-4372-bf7d-10e98e932c0a)
+***Main Features***
+- My Page에서는, 자신의 카카오톡 프로필 사진 및 이름, 성별, 메일을 모두 볼 수 있습니다.
+- 하단의 LOGOUT 버튼을 누르면 로그아웃 할 수 있습니다. 
+- 안 입는 옷 보관함, 즐겨 찾는 옷 보관함, 사고 싶은 옷 보관함에 접근할 수 있습니다.
+- 안 입는 옷 보관함에서는, TAB1에서 길게 눌러 보관함으로 보냈던 항목들을 Category별로 볼 수 있습니다. 항목을 짧게 누르면 옷을 TAB1으로 다시 꺼낼 수 있고, 길게 누르면 완전히 삭제됩니다.
+- 즐겨 찾는 옷 보관함 또한 Category별로 볼 수 있습니다. 길게 누르면 안 입는 옷 보관함으로 보낼 수 있습니다.
+- 사고 싶은 옷 보관함도 Category별로 옷이 정렬되어 있습니다. 짧게 누르면, 해당 옷을 구매할 수 있는 Link가 팝업으로 나타납니다. 해당 Link를 누르면 바로 접속할 수 있습니다. 또한, 길게 누르면 완전히 삭제됩니다.
+
+- OOTD를 추천해주는 Activitiy로 넘어갈 수 있습니다.
+- OOTD 추천 Activity에도, 사용자의 카카오톡 프로필, 이름, 성별, 메일이 나타납니다.
+- 가입 시 입력했던 선택 입력 사항 또한 수정할 수 있습니다. SAVE 버튼을 누르면 저장이 완료되며, OOTD 추천을 받기 위해서는 모두 입력해야 합니다.
+- 오늘의 룩 스타일 중 하나를 선택한 뒤, "GET OOTD" 버튼을 클릭하면 Dalle가 추천해주는 OOTD가 화면에 나타납니다.
+
+***Technical Description***
+- API와 안드로이드 스튜디오를 연결하여, 각 보관함의 옷들을 모두 볼 수 있도록 했으며 사용자의 정보를 불러왔습니다.
+- AlertDialog를 이용하여 Popup Activity를 처리했습니다.
+- 각 항목은 모두 recyclerView로 구현하였습니다.
+- Intent를 이용해 인터넷에 연결할 수 있도록 했습니다.
+- OpenAI API를 이용해서, Dalle를 이용했습니다.
 
 
 
