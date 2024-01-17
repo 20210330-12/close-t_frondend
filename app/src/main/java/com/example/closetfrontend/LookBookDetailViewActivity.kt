@@ -1,8 +1,12 @@
 package com.example.closetfrontend
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Base64
 import android.util.Log
 import android.view.View
@@ -11,6 +15,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.example.closetfrontend.RetrofitInterface.Companion.create
 import com.google.gson.JsonArray
@@ -39,6 +44,7 @@ class LookBookDetailViewActivity : AppCompatActivity() {
     private lateinit var lookbookOnepiece: ImageView
     private lateinit var lookbookShoes: ImageView
     private lateinit var lookbookBag: ImageView
+    private lateinit var wholeBackground: ConstraintLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         //window.requestFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
@@ -52,6 +58,9 @@ class LookBookDetailViewActivity : AppCompatActivity() {
         exitIcon.setOnClickListener {
             finish()
         }
+
+        wholeBackground = findViewById(R.id.idDetailImage)
+
         commentText = findViewById(R.id.idCommentText)
         firstHashtag = findViewById(R.id.idFirstHashtag)
         secondHashtag = findViewById(R.id.idSecondHashtag)
@@ -105,6 +114,7 @@ class LookBookDetailViewActivity : AppCompatActivity() {
 
     private fun updateUI(codiData: JsonObject?) {
         if (codiData != null) {
+
             updateHashtags(codiData.getAsJsonArray("styles"))
 
             val comment: String = codiData.get("comment").asString
@@ -120,6 +130,7 @@ class LookBookDetailViewActivity : AppCompatActivity() {
         }
     }
 
+
     private fun updateClothesLinks(links: JsonArray) {
         if (links.size() >= 6) {
             // Check for JsonNull before accessing elements
@@ -130,12 +141,14 @@ class LookBookDetailViewActivity : AppCompatActivity() {
             val shoesImageLink = links[4].takeIf { !it.isJsonNull }?.asString
             val bagImageLink = links[5].takeIf { !it.isJsonNull }?.asString
 
-            updateLinkTextView(topImageLink, firstLink)
-            updateLinkTextView(bottomImageLink, secondLink)
-            updateLinkTextView(outerImageLink, thirdLink)
-            updateLinkTextView(onepieceImageLink, fourthLink)
-            updateLinkTextView(shoesImageLink, fifthLink)
-            updateLinkTextView(bagImageLink, lastLink)
+            wholeBackground.setOnClickListener {
+                updateLinkTextView(topImageLink, firstLink)
+                updateLinkTextView(bottomImageLink, secondLink)
+                updateLinkTextView(outerImageLink, thirdLink)
+                updateLinkTextView(onepieceImageLink, fourthLink)
+                updateLinkTextView(shoesImageLink, fifthLink)
+                updateLinkTextView(bagImageLink, lastLink)
+            }
         }
     }
 
@@ -143,6 +156,10 @@ class LookBookDetailViewActivity : AppCompatActivity() {
         if (link != null) {
             textView.visibility = View.VISIBLE
             textView.text = link
+            textView.setOnClickListener {
+                val intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("$link"))
+                startActivity(intent)
+            }
         } else {
             textView.visibility = View.INVISIBLE
         }
