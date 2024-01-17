@@ -6,7 +6,7 @@
 📌 BackEnd와 관련된 내용은 https://github.com/MadCamp-2ndWeek-BrewStar/BrewStar_backEnd 로‼️
 
 ### 👥 Developers
-- 안희웅: 고려대학교 컴퓨터학과 19학번
+- 현채정: KAIST 전산학부 21학번
 - 송한이: KAIST 전산학부 21학번
 
 ### 💻 Tech Stacks
