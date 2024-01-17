@@ -51,7 +51,7 @@
             android:exported="false" />
         <activity
             android:name=".LookBookDetailViewActivity"
-            android:theme="@style/Theme.AppCompat.Dialog"
+            android:theme="@style/Theme.CloseTFrontEnd.Popup"
             android:exported="false"
             />
         <activity

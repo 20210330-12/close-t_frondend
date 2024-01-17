@@ -30,19 +30,42 @@
         android:scaleType="centerCrop"
         android:background="#EAD8C8" >
 
-        <ImageView
-            android:id="@+id/lookbookOuter"
+        <FrameLayout
+            android:id="@+id/frameLookbookOuter"
             android:layout_width="131dp"
             android:layout_height="131dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:layout_marginLeft="55dp"
             android:scaleType="centerInside"
             app:layout_constraintEnd_toStartOf="@+id/lookbookTop"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
+            app:layout_constraintTop_toTopOf="@+id/lookbookTop">
 
-        <ImageView
-            android:id="@+id/lookbookTop"
+            <!-- ImageView for the actual image -->
+            <ImageView
+                android:id="@+id/lookbookOuter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside" />
+
+            <!-- TextView for the clickable link -->
+            <TextView
+                android:id="@+id/linkLookbookOuter"
+                android:layout_width="114dp"
+                android:layout_height="18dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="80dp"
+                android:background="@drawable/link_background"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Hello"
+                android:textColor="@android:color/white"
+                android:textSize="7sp"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frameLookbookTop"
             android:layout_width="131dp"
             android:layout_height="131dp"
             android:layout_marginTop="-85dp"
@@ -50,7 +73,30 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <!-- ImageView for the actual image -->
+            <ImageView
+                android:id="@+id/lookbookTop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside" />
+
+            <!-- TextView for the clickable link -->
+            <TextView
+                android:id="@+id/linkLookbookTop"
+                android:layout_width="114dp"
+                android:layout_height="18dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="90dp"
+                android:background="@drawable/link_background"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Hello"
+                android:textColor="@android:color/white"
+                android:textSize="7sp" />
+
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/lookbookBottom"
@@ -76,8 +122,8 @@
             android:id="@+id/lookbookShoes"
             android:layout_width="88dp"
             android:layout_height="88dp"
-            android:layout_marginStart="-10dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginStart="-20dp"
+            android:layout_marginTop="-10dp"
             android:scaleType="centerInside"
             app:layout_constraintStart_toEndOf="@+id/lookbookTop"
             app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
