@@ -32,111 +32,218 @@
 
         <FrameLayout
             android:id="@+id/frameLookbookOuter"
-            android:layout_width="131dp"
-            android:layout_height="131dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="55dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:scaleType="centerInside"
-            app:layout_constraintEnd_toStartOf="@+id/lookbookTop"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/lookbookTop">
+            app:layout_constraintTop_toTopOf="parent">
 
             <!-- ImageView for the actual image -->
             <ImageView
                 android:id="@+id/lookbookOuter"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside" />
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/outer_dummy" />
 
             <!-- TextView for the clickable link -->
             <TextView
                 android:id="@+id/linkLookbookOuter"
-                android:layout_width="114dp"
-                android:layout_height="18dp"
+                android:layout_width="100dp"
+                android:layout_height="15dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="80dp"
-                android:background="@drawable/link_background"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/speech_bubble"
+                android:ellipsize="end"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="Hello"
+                android:maxLines="1"
+                android:text="www.musinsa.com/outer"
                 android:textColor="@android:color/white"
-                android:textSize="7sp"
-                android:visibility="invisible" />
+                android:textSize="6sp"
+                android:visibility="visible" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/frameLookbookTop"
-            android:layout_width="131dp"
-            android:layout_height="131dp"
-            android:layout_marginTop="-85dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:scaleType="centerInside"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent">
 
             <!-- ImageView for the actual image -->
             <ImageView
                 android:id="@+id/lookbookTop"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerInside" />
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/top_dummy" />
 
             <!-- TextView for the clickable link -->
             <TextView
                 android:id="@+id/linkLookbookTop"
-                android:layout_width="114dp"
-                android:layout_height="18dp"
+                android:layout_width="100dp"
+                android:layout_height="15dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="90dp"
-                android:background="@drawable/link_background"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/speech_bubble"
+                android:ellipsize="end"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="Hello"
+                android:maxLines="1"
+                android:scaleType="centerInside"
+                android:text="www.musinsa.com/top"
                 android:textColor="@android:color/white"
-                android:textSize="7sp" />
+                android:textSize="6sp" />
 
         </FrameLayout>
 
-        <ImageView
-            android:id="@+id/lookbookBottom"
-            android:layout_width="131dp"
-            android:layout_height="131dp"
-            android:layout_marginStart="-100dp"
-            android:layout_marginTop="-50dp"
+        <FrameLayout
+            android:id="@+id/frameLookbookBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="40dp"
             android:scaleType="centerInside"
-            app:layout_constraintStart_toEndOf="@+id/lookbookTop"
-            app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/lookbookOnepiece"
-            android:layout_width="131dp"
-            android:layout_height="131dp"
-            android:layout_marginStart="-20dp"
-            android:layout_marginTop="-50dp"
-            android:scaleType="centerInside"
-            app:layout_constraintStart_toStartOf="@+id/lookbookTop"
-            app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+            <!-- ImageView for the actual image -->
+            <ImageView
+                android:id="@+id/lookbookBottom"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/bottom_dummy" />
 
-        <ImageView
-            android:id="@+id/lookbookShoes"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:layout_marginStart="-20dp"
-            android:layout_marginTop="-10dp"
-            android:scaleType="centerInside"
-            app:layout_constraintStart_toEndOf="@+id/lookbookTop"
-            app:layout_constraintTop_toBottomOf="@+id/lookbookTop" />
+            <!-- TextView for the clickable link -->
+            <TextView
+                android:id="@+id/linkLookbookBottom"
+                android:layout_width="100dp"
+                android:layout_height="15dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/speech_bubble"
+                android:ellipsize="end"
+                android:gravity="center_horizontal|center_vertical"
+                android:maxLines="1"
+                android:text="www.musinsa.com/bottom"
+                android:textColor="@android:color/white"
+                android:textSize="6sp" />
 
-        <ImageView
-            android:id="@+id/lookbookBag"
-            android:layout_width="131dp"
-            android:layout_height="131dp"
-            android:layout_marginStart="-60dp"
-            android:layout_marginTop="20dp"
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frameLookbookOnepiece"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="20dp"
             android:scaleType="centerInside"
-            app:layout_constraintStart_toEndOf="@+id/lookbookTop"
-            app:layout_constraintTop_toTopOf="@+id/lookbookTop" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <!-- ImageView for the actual image -->
+            <ImageView
+                android:id="@+id/lookbookOnepiece"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/onepiece_dummy" />
+
+            <!-- TextView for the clickable link -->
+            <TextView
+                android:id="@+id/linkLookbookOnepiece"
+                android:layout_width="100dp"
+                android:layout_height="15dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/speech_bubble"
+                android:ellipsize="end"
+                android:gravity="center_horizontal|center_vertical"
+                android:maxLines="1"
+                android:text="www.musinsa.com/onepiece"
+                android:textColor="@android:color/white"
+                android:textSize="6sp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frameLookbookShoes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- ImageView for the actual image -->
+            <ImageView
+                android:id="@+id/lookbookShoes"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:src="@drawable/shoes_dummy" />
+
+            <!-- TextView for the clickable link -->
+            <TextView
+                android:id="@+id/linkLookbookShoes"
+                android:layout_width="100dp"
+                android:layout_height="15dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/speech_bubble"
+                android:ellipsize="end"
+                android:gravity="center_horizontal|center_vertical"
+                android:maxLines="1"
+                android:text="www.musinsa.com/shoes"
+                android:textColor="@android:color/white"
+                android:textSize="6sp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frameLookbookBag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- ImageView for the actual image -->
+            <ImageView
+                android:id="@+id/lookbookBag"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:src="@drawable/bag_dummy" />
+
+            <!-- TextView for the clickable link -->
+            <TextView
+                android:id="@+id/linkLookbookBag"
+                android:layout_width="100dp"
+                android:layout_height="15dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/speech_bubble"
+                android:ellipsize="end"
+                android:gravity="center_horizontal|center_vertical"
+                android:maxLines="1"
+                android:text="www.musinsa.com/bag"
+                android:textColor="@android:color/white"
+                android:textSize="6sp" />
+
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     
