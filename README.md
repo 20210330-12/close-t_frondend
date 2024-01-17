@@ -38,7 +38,7 @@
 
 |Kakao Login|Enter Profile|
 |------|-----|
-|![kakaoLogin](https://github.com/20210330-12/close-t_frontend/assets/112535704/0936bcde-2ee8-44b9-8d46-378e455a7b26)|    |
+||![kakaoLogin](https://github.com/20210330-12/close-t_frontend/assets/112535704/0936bcde-2ee8-44b9-8d46-378e455a7b26)|
 
 ---
 
@@ -76,6 +76,7 @@
 - 각 항목은 모두 recyclerView로 구현하였습니다.
 
 |View Clothes|Add New Clothes|Preview Lookbook|
+|------|-----|
 |![tab1_click_heart](https://github.com/20210330-12/close-t_frontend/assets/112535704/0ad9f36c-922a-49a4-9117-80602eaa3001)|----|----|
 
 ---
@@ -97,6 +98,7 @@
 - Intent를 이용해 인터넷에 연결할 수 있도록 했습니다.
 
 |Save Lookbook|Show Lookbook|
+|------|-----|
 |![tab1_lookbook_save](https://github.com/20210330-12/close-t_frontend/assets/112535704/1c7a52b7-b8a2-403e-ac5f-4940698fadc3)|----|
 
 ---
@@ -123,6 +125,7 @@
 - OpenAI API를 이용해서, Dalle를 이용했습니다.
 
 |Trash Recover|Trash Remove|
+|------|-----|
 |![tab3_trash_recover](https://github.com/20210330-12/close-t_frontend/assets/112535704/cf4405b2-bc24-413f-8328-9e233fb1e9a0)|![tab3_trash_remove](https://github.com/20210330-12/close-t_frontend/assets/112535704/f3bdec33-bb68-4f72-a22e-d57dd938877b)|
 
 |Check wish|DALLE OOTD|
