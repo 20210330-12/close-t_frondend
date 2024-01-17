@@ -27,6 +27,12 @@ class LookBookDetailViewActivity : AppCompatActivity() {
     private lateinit var firstHashtag: TextView
     private lateinit var secondHashtag: TextView
     private lateinit var thirdHashtag: TextView
+    private lateinit var firstLink: TextView
+    private lateinit var secondLink: TextView
+    private lateinit var thirdLink: TextView
+    private lateinit var fourthLink: TextView
+    private lateinit var fifthLink: TextView
+    private lateinit var lastLink: TextView
     private lateinit var lookbookTop: ImageView
     private lateinit var lookbookBottom: ImageView
     private lateinit var lookbookOuter: ImageView
@@ -50,6 +56,13 @@ class LookBookDetailViewActivity : AppCompatActivity() {
         firstHashtag = findViewById(R.id.idFirstHashtag)
         secondHashtag = findViewById(R.id.idSecondHashtag)
         thirdHashtag = findViewById(R.id.idThirdHashtag)
+
+        firstLink = findViewById(R.id.linkLookbookTop)
+        secondLink = findViewById(R.id.linkLookbookBottom)
+        thirdLink = findViewById(R.id.linkLookbookOuter)
+        fourthLink = findViewById(R.id.linkLookbookOnepiece)
+        fifthLink = findViewById(R.id.linkLookbookShoes)
+        lastLink = findViewById(R.id.linkLookbookBag)
 
         lookbookTop = findViewById(R.id.lookbookTop)
         lookbookBottom = findViewById(R.id.lookbookBottom)
@@ -108,7 +121,31 @@ class LookBookDetailViewActivity : AppCompatActivity() {
     }
 
     private fun updateClothesLinks(links: JsonArray) {
+        if (links.size() >= 6) {
+            // Check for JsonNull before accessing elements
+            val topImageLink = links[0].takeIf { !it.isJsonNull }?.asString
+            val bottomImageLink = links[1].takeIf { !it.isJsonNull }?.asString
+            val outerImageLink = links[2].takeIf { !it.isJsonNull }?.asString
+            val onepieceImageLink = links[3].takeIf { !it.isJsonNull }?.asString
+            val shoesImageLink = links[4].takeIf { !it.isJsonNull }?.asString
+            val bagImageLink = links[5].takeIf { !it.isJsonNull }?.asString
 
+            updateLinkTextView(topImageLink, firstLink)
+            updateLinkTextView(bottomImageLink, secondLink)
+            updateLinkTextView(outerImageLink, thirdLink)
+            updateLinkTextView(onepieceImageLink, fourthLink)
+            updateLinkTextView(shoesImageLink, fifthLink)
+            updateLinkTextView(bagImageLink, lastLink)
+        }
+    }
+
+    private fun updateLinkTextView(link: String?, textView: TextView) {
+        if (link != null) {
+            textView.visibility = View.VISIBLE
+            textView.text = link
+        } else {
+            textView.visibility = View.INVISIBLE
+        }
     }
 
     private fun updateHashtags(stylesArray: JsonArray) {
