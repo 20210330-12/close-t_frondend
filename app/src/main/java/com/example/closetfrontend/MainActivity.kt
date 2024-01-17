@@ -58,14 +58,14 @@ class MainActivity : AppCompatActivity() {
         kakaoLoginButton.setOnClickListener {
             lifecycleScope.launch {
                 try {
-                    // 서비스 코드에서는 간단하게 로그인 요청하고 oAuthToken을 받아올 수 있다.
-                    val oAuthToken = UserApiClient.loginWithKakao(context)
-                    Log.d("MainActivity", "beanbean > $oAuthToken")
                     // 로딩 화면
                     Glide.with(context).load(R.drawable.splash_activity_1by1).into(loadingView)
                     loadingView.visibility = View.VISIBLE
                     kakaoLoginButton.visibility = View.INVISIBLE
                     logo.visibility = View.INVISIBLE
+                    // 서비스 코드에서는 간단하게 로그인 요청하고 oAuthToken을 받아올 수 있다.
+                    val oAuthToken = UserApiClient.loginWithKakao(context)
+                    Log.d("MainActivity", "beanbean > $oAuthToken")
                     UserApiClient.instance.me { user, error ->
                         if (error != null) {
                             Log.e(Constants.TAG, "사용자 정보 요청 실패 $error")
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                     // 값이 들어가지 못한 채 getUserCheck()가 실행됨을 방지
                     Handler(Looper.getMainLooper()).postDelayed({
                         getUserCheck()
-                    }, 2000)
+                    }, 2500)
                 } catch (error: Throwable) {
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
                         Log.d("MainActivity", "사용자가 명시적으로 취소")
