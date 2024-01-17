@@ -23,7 +23,7 @@
 ---
 
 ### 📱 MainActivity
-![MainActivity](https://github.com/MadCamp-2ndWeek-BrewStar/BrewStar_FrontEnd/assets/112535704/1e6d4c5c-1ac2-428f-b74d-08bb938b8f16)
+
 ***Main Features***
 - gif를 이용해 은은한 스플레시 화면을 만들었습니다.
 - "Start By Using KakaoTalk"을 눌러 카카오톡으로 로그인합니다.
@@ -36,10 +36,13 @@
 - 카카오톡이 설치되어 있으면 카카오톡 앱으로 로그인, 아니면 카카오계정으로 로그인하도록 구현했습니다.
 - 카카오 api에서 제공하는 userID를 이용하여 회원을 식별하고, 회원가입 시 기입한 정보들과 함께 DB에 저장됩니다.
 
+|Kakao Login|Enter Profile|
+|------|----|
+|![](https://github.com/hchaejeong/My-Santa/assets/154505487/dc99ef99-c342-41fc-97a3-61d58295e200.gif)|![](https://github.com/hchaejeong/My-Santa/assets/154505487/f7217017-e339-4d8c-a9f8-a9541d12cd44.gif)|
+
 ---
 
 ### ✌️ TAP1: My Closet
-![Tab1](https://github.com/MadCamp-2ndWeek-BrewStar/BrewStar_FrontEnd/assets/112535704/63a67328-1d2c-443b-a955-e1dd5fd73553)
 ***Main Features***
 
 ***Main***
@@ -72,10 +75,12 @@
 - SwipeRefreshLayout을 통해 스와이프하면 새로고침을 할 수 있습니다.
 - 각 항목은 모두 recyclerView로 구현하였습니다.
 
+|View Clothes|Add New Clothes|Preview Lookbook|
+|------|----|----|
+
 ---
 
 ### 🤩 TAP2: LookBook
-![Tab2](https://github.com/MadCamp-2ndWeek-BrewStar/BrewStar_FrontEnd/assets/112535704/fb4de4d5-9e67-4372-bf7d-10e98e932c0a)
 ***Main Features***
 - TAB1에서 저장했던 LOOKBOOK을 볼 수 있는 탭입니다.
 - 화면 우상단의 큰 하트를 누르면 즐겨 찾는 LOOKBOOK만 모아볼 수 있습니다.
@@ -91,10 +96,12 @@
 - Dialog를 사용하여 Popup창을 구현하였습니다.
 - Intent를 이용해 인터넷에 연결할 수 있도록 했습니다.
 
+|Save Lookbook|Show Lookbook|
+|------|----|
+
 ---
 
 ### 🤩 TAP3: My Page
-![Tab2](https://github.com/MadCamp-2ndWeek-BrewStar/BrewStar_FrontEnd/assets/112535704/fb4de4d5-9e67-4372-bf7d-10e98e932c0a)
 ***Main Features***
 - My Page에서는, 자신의 카카오톡 프로필 사진 및 이름, 성별, 메일을 모두 볼 수 있습니다.
 - 하단의 LOGOUT 버튼을 누르면 로그아웃 할 수 있습니다. 
@@ -115,6 +122,11 @@
 - Intent를 이용해 인터넷에 연결할 수 있도록 했습니다.
 - OpenAI API를 이용해서, Dalle를 이용했습니다.
 
+|Trash Recover|Trash Remove|
+|------|----|
+
+|Check wish|DALLE OOTD|
+|------|----|
 
 
 ## 📁 Resources
