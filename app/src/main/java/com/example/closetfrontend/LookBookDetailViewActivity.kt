@@ -101,7 +101,14 @@ class LookBookDetailViewActivity : AppCompatActivity() {
             updateLikeIcon(likeType)
 
             updateClothesImages(codiData.getAsJsonArray("clothesImages"))
+
+            val links: JsonArray = codiData.getAsJsonArray("links")
+            updateClothesLinks(links)
         }
+    }
+
+    private fun updateClothesLinks(links: JsonArray) {
+
     }
 
     private fun updateHashtags(stylesArray: JsonArray) {
