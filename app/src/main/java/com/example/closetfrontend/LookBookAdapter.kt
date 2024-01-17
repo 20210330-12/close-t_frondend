@@ -12,6 +12,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.example.closetfrontend.LookBookAdapter.LookBookViewHolder
@@ -32,6 +33,8 @@ class LookBookAdapter(
         fun onItemClick(position: Int)
     }
 
+    private lateinit var updatedLike: Array<String>
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LookBookViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.lookbook_list, parent, false)
         return LookBookViewHolder(view)
@@ -50,32 +53,21 @@ class LookBookAdapter(
             Picasso.get().load("http://172.10.7.44:80/images/${clothesImages[5]}").into(holder.lookbookBag)
 //
         }
-        holder.itemView.setOnClickListener { view: View? -> itemClickListener.onItemClick(position) }
-        if ("like" == like) {
-            holder.emptyHeart.setImageResource(R.drawable.full_heart)
-//            holder.emptyHeart.visibility = View.INVISIBLE
-//            holder.filledHeart.visibility = View.VISIBLE
-        } else {
-            holder.emptyHeart.setImageResource(R.drawable.empty_heart)
-//            holder.emptyHeart.visibility = View.VISIBLE
-//            holder.filledHeart.visibility = View.INVISIBLE
-        }
 
         val sharedPreferences = holder.itemView.context.getSharedPreferences("userId", AppCompatActivity.MODE_PRIVATE)
         val userId = sharedPreferences.getString("userId", "")!!
-//        holder.emptyHeart.setOnClickListener {
-//            likeCodi(userId, codiId)
-//            if (likes[position] == "none") {
-//                holder.emptyHeart.visibility = View.GONE
-//                holder.filledHeart.visibility = View.VISIBLE
-//            } else {
-//                holder.emptyHeart.visibility = View.VISIBLE
-//                holder.filledHeart.visibility = View.GONE
-//            }
-//        }
 
+        updatedLike = likes.toTypedArray()
+        if (updatedLike[position] == "like") {
+            holder.emptyHeart.setImageResource(R.drawable.heart_filled)
+        } else {
+            holder.emptyHeart.setImageResource(R.drawable.empty_heart)
+        }
+        Log.e("updatedLIke", updatedLike.toString())
         holder.emptyHeart.setOnClickListener {
-            if (likes[position] == "none") {
+            likeCodi(userId, codiId, position)
+            Log.e("like", like)
+            if (updatedLike[position] == "none") {
                 // false였던 걸 누른거니까 true가 되고, 하트는 칠해져야.
                 holder.emptyHeart.setImageResource(R.drawable.full_heart)
 //                holder.filledHeart.visibility = View.VISIBLE
@@ -84,17 +76,18 @@ class LookBookAdapter(
                 holder.emptyHeart.setImageResource(R.drawable.empty_heart)
 //                holder.filledHeart.visibility = View.INVISIBLE
             }
-            notifyItemChanged(position)
-            likeCodi(userId, codiId)
         }
     }
 
-    private fun likeCodi(userId: String, codiId: String) {
+    private fun likeCodi(userId: String, codiId: String, position: Int) {
         RetrofitInterface.create().likeCodi(userId, codiId).enqueue(object :
             Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 if (response.isSuccessful) {
-                    Log.e("likeCodi", response.body().toString())
+                    val updatedStatus = response.body()?.getAsJsonPrimitive("result").toString().subSequence(30, 34)
+                    Log.e("likeCodi", updatedStatus.toString())
+                    updatedLike[position] = updatedStatus.toString()
+                    //notifyDataSetChanged()
                 } else {
                     Log.e("likeCodi", "failed to like codi")
                 }
@@ -106,14 +99,6 @@ class LookBookAdapter(
         })
     }
 
-    /*
-    private fun displayProcessedImage(base64Image: String): Bitmap {
-        val decodedBytes =
-            Base64.decode(base64Image, Base64.DEFAULT)
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-    }
-
-     */
 
     override fun getItemCount(): Int {
         return codiIds.size
@@ -134,20 +119,24 @@ class LookBookAdapter(
             //imageIV = itemView.findViewById(R.id.idIVImage)
             emptyHeart = itemView.findViewById(R.id.idEmptyHeart)
 //            filledHeart = itemView.findViewById(R.id.idHeartFilled)
-            lookbookTop = itemView.findViewById(R.id.lookbookTop)
-            lookbookBottom = itemView.findViewById(R.id.lookbookBottom)
-            lookbookOuter = itemView.findViewById(R.id.lookbookOuter)
-            lookbookOnepiece = itemView.findViewById(R.id.lookbookOnepiece)
-            lookbookShoes = itemView.findViewById(R.id.lookbookShoes)
-            lookbookBag = itemView.findViewById(R.id.lookbookBag)
+            itemView.setOnClickListener {
+                itemClickListener.onItemClick(adapterPosition)
+            }
+            val constraintLayout = itemView.findViewById<ConstraintLayout>(R.id.idIVImage)
+            lookbookTop = constraintLayout.findViewById(R.id.lookbookTop)
+            lookbookBottom = constraintLayout.findViewById(R.id.lookbookBottom)
+            lookbookOuter = constraintLayout.findViewById(R.id.lookbookOuter)
+            lookbookOnepiece = constraintLayout.findViewById(R.id.lookbookOnepiece)
+            lookbookShoes = constraintLayout.findViewById(R.id.lookbookShoes)
+            lookbookBag = constraintLayout.findViewById(R.id.lookbookBag)
         }
 
-        fun bind(item: String) {
-            if (item == "like") {
-                emptyHeart.setImageResource(R.drawable.full_heart)
-            } else {
-                emptyHeart.setImageResource(R.drawable.empty_heart)
-            }
-        }
+//        fun bind(item: String) {
+//            if (item == "like") {
+//                emptyHeart.setImageResource(R.drawable.full_heart)
+//            } else {
+//                emptyHeart.setImageResource(R.drawable.empty_heart)
+//            }
+//        }
     }
 }

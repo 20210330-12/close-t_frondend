@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -21,6 +22,7 @@ import retrofit2.Response
 
 class LookBookDetailViewActivity : AppCompatActivity() {
     private lateinit var heartIcon: ImageView
+    private lateinit var exitIcon: ImageView
     private lateinit var commentText: TextView
     private lateinit var firstHashtag: TextView
     private lateinit var secondHashtag: TextView
@@ -32,11 +34,18 @@ class LookBookDetailViewActivity : AppCompatActivity() {
     private lateinit var lookbookShoes: ImageView
     private lateinit var lookbookBag: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
+        //window.requestFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_look_book_detail_view)
+
         val codiId = intent.getStringExtra("codiId")
         //맞는지 확인
         heartIcon = findViewById(R.id.idHeartIcon)
+        exitIcon = findViewById(R.id.idExitIcon)
+
+        exitIcon.setOnClickListener {
+            finish()
+        }
         commentText = findViewById(R.id.idCommentText)
         firstHashtag = findViewById(R.id.idFirstHashtag)
         secondHashtag = findViewById(R.id.idSecondHashtag)
@@ -167,12 +176,4 @@ class LookBookDetailViewActivity : AppCompatActivity() {
         //}
     }
 
-    /*
-    private fun displayProcessedImage(base64Image: String): Bitmap {
-        val decodedBytes =
-            Base64.decode(base64Image, Base64.DEFAULT)
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-    }
-
-     */
 }

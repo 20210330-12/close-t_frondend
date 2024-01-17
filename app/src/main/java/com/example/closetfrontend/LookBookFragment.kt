@@ -3,6 +3,7 @@ package com.example.closetfrontend
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,7 @@ class LookBookFragment : Fragment() {
             clothesImageUrls,
             object : LookBookAdapter.OnItemClickListener {
                 override fun onItemClick(position: Int) {
+                    Log.d("LookBookAdapter", "item is being clicked")
                     onCodiItemClick(position)
                 }
             })
@@ -55,10 +57,12 @@ class LookBookFragment : Fragment() {
         heartButton.setOnClickListener {
             if (emptyHeart) {
                 heartButton.setBackgroundResource(R.drawable.heart_filled)
+                codiIds.clear()
                 getLikedCodies()
                 emptyHeart = !emptyHeart
             } else {
                 heartButton.setBackgroundResource(R.drawable.empty_heart)
+                codiIds.clear()
                 getAllCodies()
                 emptyHeart = !emptyHeart
             }
@@ -147,6 +151,8 @@ class LookBookFragment : Fragment() {
     }
 
     private fun onCodiItemClick(position: Int) {
+        Log.d("LookBookFragment", "Item clicked at position $position")
+
         val selectedCodiId = codiIds[position]
         val intent = Intent(requireContext(), LookBookDetailViewActivity::class.java)
         intent.putExtra("codiId", selectedCodiId)
